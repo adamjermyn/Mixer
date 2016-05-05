@@ -21,16 +21,16 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	Matrix7d I = Matrix7d::Zero(7,7);
 
-	double k,tK,tP;
+	double k,tK,pK;
 
 	if (ndim == 2) {
 		k = 1;
 		tK = x[0];
-		tP = x[1];
+		pK = x[1];
 	} else if (ndim == 3) {
 		k = x[0];
 		tK = x[1];
-		tP = x[2];
+		pK = x[2];
 	}
 
 	f.set_k(k,tK,pK); // TODO: Make the integration go over the proper range (k=1 to infinity)
