@@ -6,7 +6,8 @@
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 
-#include "physics.hpp" // Includes linalg.hpp internally
+#include "physics.hpp"
+#include "linalg.hpp"
 
 // -------------------------------------
 

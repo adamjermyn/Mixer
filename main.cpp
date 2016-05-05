@@ -24,7 +24,6 @@ using namespace std;
 
 const int minLevel = 5;
 const int maxLevel = 15;
-const double pi = 3.141592653589;
 
 // -------------------------------------
 
