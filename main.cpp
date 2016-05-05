@@ -8,10 +8,9 @@
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 
-
-//#include "physics.hpp"
-
-#include "integrator.cpp"
+#include "linalg.hpp"
+#include "physics.hpp"
+#include "integrator.hpp"
 
 #include "cubature.h"
 

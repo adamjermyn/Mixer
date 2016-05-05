@@ -3,20 +3,13 @@
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 
+#include "linalg.hpp"
 #include "physics.hpp"
-
-#include <iostream>
+#include "integrator.hpp"
 
 // -------------------------------------
 
 using namespace Eigen;
-using namespace std;
-
-// -------------------------------------
-// Constants
-
-const double pi = 3.141592653589;
-const double fourierCoeff = 1/pow(2*pi,3);
 
 // -------------------------------------
 

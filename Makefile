@@ -6,23 +6,26 @@ IEGN = -I ~/eigen/
 LIBCUB = ~/cubature-1.0.2/hcubature.o
 ICUB = -I ~/cubature-1.0.2/
 OMPENABLE = -fopenmp
+TOTALINC = integrator.o linalg.o physics.o
 
-all: main debug profile
+all: main debug test profile
 
-main: main.cpp linalg.o physics.o
-	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o main    $(LIBCUB) 
+main: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o main    $(LIBCUB) 
 
-debug: main.cpp linalg.o physics.o
-	$(CC) $(DEBUG) $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o debug   $(LIBCUB)
+debug: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(DEBUG) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o debug   $(LIBCUB)
 
-test: test.cpp linalg.o physics.o
-	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o test.cpp -o test    $(LIBCUB)
+test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) test.cpp -o test    $(LIBCUB)
 
-profile: main.cpp linalg.o physics.o
-	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o profile $(LIBCUB)
+profile: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o profile $(LIBCUB)
 
+integrator: integrator.cpp integrator.hpp linalg.hpp physics.hpp
+	$(CC) $(OPTC) $(IEGN) $(OMPENABLE) -c integrator.cpp -o integrator.o		
 
-physics: physics.cpp physics.hpp
+physics: physics.cpp physics.hpp linalg.hpp
 	$(CC) $(OPTC) $(IEGN) $(OMPENABLE) -c physics.cpp -o physics.o	
 
 linalg: linalg.cpp linalg.hpp
