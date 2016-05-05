@@ -197,7 +197,7 @@ TEST_CASE("Turbulent Matrix Initialisation","[flmatrixInit]") {
 	double chii = 0.01;
 	double omegaa = 1;
 
-	flmatrix f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 	f.set_k(1,1,1);
 
@@ -308,7 +308,7 @@ TEST_CASE("Turbulent Matrix Crossover Wavevector","[TransK]") {
 	double chii = 0.01;
 	double omegaa = 1;
 
-	flmatrix f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 	REQUIRE(abs(f.transK-1) <= tol);
 
@@ -318,7 +318,7 @@ TEST_CASE("Turbulent Matrix Crossover Wavevector","[TransK]") {
 
 	B = 10;
 	
-	f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 	REQUIRE(abs(f.transK-1) <= tol);
 
@@ -329,9 +329,7 @@ TEST_CASE("Turbulent Matrix Crossover Wavevector","[TransK]") {
 	for (int i=0;i<100;i++) {
 		B = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
 
-		f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
-
-		cout << B << endl;
+		f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 		REQUIRE(abs(f.transK-1/B) <= 4*pow(B,-3)*tol);
 
@@ -352,15 +350,15 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 	double tol = 3*eps;
 	double pi = 3.14159265358979;
 
-	// B = z-hat
-	double B = 1;
+	// B is along z-hat
+	double B;
 	double tB = 0;
 	double pB = 0;
 
 	// gradW = -3*omega/2
-	double omegaa = 1;
+	double omegaa;
+	double w;
 	double tW = pi/2;
-	double w = -3*omegaa/2;
 
 	// Entropy gradient and pressure gradient along z-hat, stable
 	double tS = 0;
@@ -370,16 +368,26 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 	// No thermal diffusion
 	double chii = 0;
 
-	// Construct matrix
-	flmatrix f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	for (int j=0;j<100;j++) {
+		B = 10*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+		omegaa = 10*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+		w = -3*omegaa/2;
 
-	// Align k with z
-	f.set_k(1,0,0);
+		// Construct matrix
+		flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
-	for (int i=0;i<5;i++) {
-		std::complex<double> x = f.eigvals(i,i);
-		REQUIRE(abs(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)) <=tol);
+		// Align k with z
+		f.set_k(1,0,0);
+
+		for (int i=0;i<5;i++) {
+			std::complex<double> x = f.eigvals(i,i);
+			REQUIRE(abs(x*(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)))
+			 <=2*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
+		}
+
 	}
+
+
 
 }
 
@@ -406,7 +414,7 @@ TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
 	double chii = 0;
 
 	// Construct matrix
-	flmatrix f = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 	double kappa = 4*pow(omegaa,2) + 2*omegaa*w;
 
@@ -422,7 +430,7 @@ TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
 	// Anti-Keplerian case
 	w = 3*omegaa/2;
 
-	flmatrix g = flmatrix(B,tB,pB,tW,w,tS,tP,N22,chii,omegaa);
+	flmatrix g = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
 
 	kappa = 4*pow(omegaa,2) + 2*omegaa*w;
 
