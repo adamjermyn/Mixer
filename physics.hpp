@@ -17,13 +17,20 @@ using namespace std;
 EigenSolver<Matrix5d> es;
 
 // -------------------------------------
-
+// Constants
 
 double zhat[3] = {0,0,1};
+const double inf = 1.0/0.0;
 
 // -------------------------------------
+// Spectral indices (v ~ k^(-n))
 
+const double nKolmogorov = 11./6;
+const double nMHD = 8./3;
+const double pow1 = 3-2*nKolmogorov;
+const double pow2 = 3-2*nMHD;
 
+// -------------------------------------
 
 class flmatrix
 {
@@ -54,6 +61,7 @@ public:
 	double N2;
 	double chi;
 	double omega;
+	double transK;
 
 	// Intended outputs
 	Matrix5d m;
@@ -63,7 +71,7 @@ public:
 	Matrix5d correlator;
 
 	// Constructor
-	flmatrix(double tB, double pB, double B, double tW, double w, double tS, double tP
+	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
 		, double N22, double chii, double omegaa) {
 
 		// Put vectors in cartesian coordinates with x-hat = R-hat, y-hat = phi-hat, and z-hat = z-hat
@@ -77,6 +85,13 @@ public:
 		N2 = N22;
 		chi = chii;
 		omega = omegaa;
+
+		// Set the k-value at which the spectrum switches from Kolmogorov to MHD
+		double compFactor = max(max(omega,wmag),sqrt(abs(N2)));
+		transK = max(1.0,compFactor / sqrt(dot(va,va)+eps));
+		if (transK > compFactor/(2*eps)) {
+			transK = inf;
+		}
 
 		// Set known matrix elements
 
@@ -157,6 +172,17 @@ public:
 
 		correlator *= 0;
 		correlator += ret.real();
+	}
+
+	double computeKfromKA(double ka) {
+		if (ka < 10*eps) {
+			return inf;
+		}
+		double kk = pow(ka,1/pow1);
+		if (kk > transK) {
+			kk = transK*pow(ka/pow(transK,pow1),1/pow2);
+		}
+		return kk;
 	}
 
 	// Set wavevector in spherical coordinates

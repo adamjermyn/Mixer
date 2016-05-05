@@ -29,7 +29,10 @@ const double pi = 3.141592653589;
 // -------------------------------------
 
 int main(int argc, char* argv[]) {
-	if (argc==1) {
+	if (argc==3) {
+		double tolr = (double)(atof(argv[1]));
+		double tola = (double)(atof(argv[2]));
+
 		// Assuming you want tS, tP, omega sweep
 		double B = 0;
 		double tB = 0;
@@ -53,9 +56,9 @@ int main(int argc, char* argv[]) {
 				for (double lw=-3;lw<=3;lw+=0.1) {
 					omega = pow(10,lw);
 					
-					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+					flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
-					hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+					hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,tolr,tola,ERROR_INDIVIDUAL,
 								ret,err);
 					cout << tS << " " << tP << " " << lw << endl << endl;
 					int counter = 0;
@@ -94,7 +97,7 @@ int main(int argc, char* argv[]) {
 
 		int level = atoi(argv[11]);
 
-		flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+		flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
 		const unsigned intDim = 3;
 		const double transform_aa[3] = {0,0,0};

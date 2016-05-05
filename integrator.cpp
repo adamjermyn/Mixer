@@ -7,13 +7,19 @@
 
 #include <iostream>
 
-
 // -------------------------------------
 
 using namespace Eigen;
 using namespace std;
 
 // -------------------------------------
+// Constants
+
+const double pi = 3.141592653589;
+const double fourierCoeff = 1/pow(2*pi,3);
+
+// -------------------------------------
+
 
 int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) {
 
@@ -21,19 +27,26 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	Matrix7d I = Matrix7d::Zero(7,7);
 
-	double k,tK,pK;
+	double k,tK,pK,pref;
 
 	if (ndim == 2) {
 		k = 1;
 		tK = x[0];
 		pK = x[1];
+		pref = sin(tK)*fourierCoeff/(3-2*nKolmogorov);
 	} else if (ndim == 3) {
-		k = x[0];
 		tK = x[1];
 		pK = x[2];
+		k = f.computeKfromKA(x[0]);
+		pref = sin(tK)*fourierCoeff;
+		if (k <= f.transK) {
+			pref /= (3-2*nKolmogorov);
+		} else {
+			pref /= (3-2*nMHD);
+		}
 	}
 
-	f.set_k(k,tK,pK); // TODO: Make the integration go over the proper range (k=1 to infinity)
+	f.set_k(k,tK,pK);
 
 	Matrix57d transform = MatrixXd::Zero(5,7);
 	for (int j=0;j<3;j++) {
@@ -44,7 +57,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	}
 	transform(2,3) = 1; // Density perturbation doesn't change under rotation
 
-	I = sin(tK)*transform.transpose()*f.correlator*transform;
+	I = pref*transform.transpose()*f.correlator*transform;
 
 	int counter = 0;
 	for (int j=0;j<7;j++) {
