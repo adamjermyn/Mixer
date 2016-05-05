@@ -1,0 +1,312 @@
+// -------------------------------------
+
+#include <iostream>
+#include <fstream>
+
+#include <stdlib.h>     /* strtod */
+
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
+
+
+//#include "physics.hpp"
+
+#include "integrator.cpp"
+
+#include "cubature.h"
+
+// -------------------------------------
+
+using namespace Eigen;
+using namespace std;
+
+// -------------------------------------
+
+const int minLevel = 5;
+const int maxLevel = 15;
+const double pi = 3.141592653589;
+
+// -------------------------------------
+
+int main(int argc, char* argv[]) {
+	if (argc==1) {
+		// Assuming you want tS, tP, omega sweep
+		double B = 0;
+		double tB = 0;
+		double pB = 0;
+
+		double tW = 0;
+		double w = 0;
+		double N2 = -1;
+		double chi = 0;
+
+		double omega;
+
+		int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		const double transform_aa[3] = {0,0};
+		const double transform_bb[3] = {pi,2*pi};
+		double ret[49];
+		double err[49];
+
+		for (double tS=0;tS<=pi;tS+=pi/30){
+			for (double tP=0;tP<=2*pi;tP+=pi/30) {
+				for (double lw=-3;lw<=3;lw+=0.1) {
+					omega = pow(10,lw);
+					
+					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+
+					hcubature(49,&F,&f,2,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+								ret,err);
+					cout << tS << " " << tP << " " << lw << endl << endl;
+					int counter = 0;
+					for (int i=0;i<7;i++) {
+						for (int j=0;j<7;j++) {
+							cout << ret[7*i+j] << " ";
+						}
+						cout << endl;
+					}
+					cout << endl;
+					for (int i=0;i<7;i++) {
+						for (int j=0;j<7;j++) {
+							cout << err[7*i+j] << " ";
+						}
+						cout << endl << endl;
+					}
+				}
+			}
+		}
+	}
+
+	if (argc==3) {
+		// Tolerances
+		double tolr = (double)atof(argv[1]);
+		double tola = (double)atof(argv[2]);
+
+		// Assuming you want tS, tP, omega sweep
+		double B = 0;
+		double tB = 0;
+		double pB = 0;
+
+		double tW = 0;
+		double w = 0;
+		double N2 = -1;
+		double chi = 0;
+
+		int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		double transform_aa[3] = {0,0};
+		double transform_bb[3] = {pi,2*pi};
+
+		TasGrid::TasmanianSparseGrid intGrid[maxLevel-minLevel];
+		double npts[maxLevel - minLevel];
+		double *pts[maxLevel-minLevel];
+		double *weights[maxLevel-minLevel];
+		for (int i=0;i<maxLevel-minLevel;i++) {
+			intGrid[i].makeGlobalGrid(intDim,0,minLevel+i,TasGrid::type_level,TasGrid::rule_clenshawcurtis);
+			intGrid[i].setDomainTransform(transform_aa,transform_bb);
+			npts[i] = intGrid[i].getNumPoints();
+			pts[i] = intGrid[i].getPoints();
+			weights[i] = intGrid[i].getQuadratureWeights();
+		}
+
+		Matrix7d ret0;
+		Matrix7d ret1;
+		Array7d ret0A;
+		Array7d ret1A;
+		Array7d err;
+		int index;
+		double omega;
+
+		for (double tS=0;tS<=pi;tS+=pi/30){
+			for (double tP=0;tP<=2*pi;tP+=pi/30) {
+				for (double lw=-3;lw<=3;lw+=0.1) {
+					omega = pow(10,lw);
+					
+					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+					
+					index = 0;
+					ret0 = integrate(f,intDim,npts[index],pts[index],weights[index]);
+					index += 1;
+					ret1 = integrate(f,intDim,npts[index],pts[index],weights[index]);
+
+					ret0A = ret0.array();
+					ret1A = ret1.array();
+
+
+					err = ((ret1A - ret0A).abs()-tola)/(tolr*ret1A.abs());
+
+					while ((err.maxCoeff() > 1) && (index < maxLevel-minLevel-1)) {
+						index += 1;
+						ret0A = ret1A;
+
+						ret1 = integrate(f,intDim,npts[index],pts[index],weights[index]);
+						ret1A = ret1.array();
+
+						err = ((ret1A - ret0A).abs()-tola)/(tolr*ret1A.abs());
+					}
+					cout << tS << " " << tP << " " << lw << " " << maxLevel-minLevel-1-index << " " << err.maxCoeff() << endl << endl;
+					cout << ret1A << endl << endl;
+				}
+			}
+		}
+
+
+		return 0;
+	}
+
+	/*if (argc==2) {
+		int level = atoi(argv[1]);
+
+		// Assuming you want tS, tP, omega sweep
+		double B = 0;
+		double tB = 0;
+		double pB = 0;
+
+		double tW = 0;
+		double w = 0;
+		double N2 = -1;
+		double chi = 0;
+
+		int intDim = 3;
+		double transform_aa[3] = {0,0,0};
+		double transform_bb[3] = {1,pi,2*pi};
+
+		TasGrid::TasmanianSparseGrid intGrid;
+	
+		intGrid.makeGlobalGrid(intDim, 0, level, TasGrid::type_level,TasGrid::rule_clenshawcurtis );
+		intGrid.setDomainTransform( transform_aa, transform_bb );
+		double* points = intGrid.getPoints();
+		double* weights = intGrid.getQuadratureWeights();
+		int num_points = intGrid.getNumPoints();
+
+		for (double tS=0;tS<2*pi;tS+=pi/10){
+			for (double tP=0;tP<2*pi;tP+=pi/10) {
+				for (double lw=-3;lw<=3;lw+=0.1) {
+					double omega = pow(10,lw);
+					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+					MatrixXd ret = integrate(f,intDim,num_points,points,weights);
+					cout << tS << " " << tP << " " << lw << endl << endl;
+					cout << ret << endl << endl;
+				}
+			}
+		}
+
+
+		double omega = 1;
+	}*/
+
+
+	if (argc==12) {
+		double B = (double)atof(argv[1]);
+		double tB = (double)atof(argv[2]);
+		double pB = (double)atof(argv[3]);
+
+		double omega = (double)atof(argv[4]);
+		double tW = (double)atof(argv[5]);
+		double w = (double)atof(argv[6]);
+
+		double tS = (double)atof(argv[7]);
+		double tP = (double)atof(argv[8]);
+		double N2 = (double)atof(argv[9]);
+
+		double chi = (double)atof(argv[10]);
+
+		int level = atoi(argv[11]);
+
+		flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
+
+		int intDim = 3;
+		double transform_aa[3] = {0,0,0};
+		double transform_bb[3] = {1,pi,2*pi};
+
+		TasGrid::TasmanianSparseGrid intGrid;
+	
+		intGrid.makeGlobalGrid(intDim, 0, level, TasGrid::type_level,TasGrid::rule_clenshawcurtis );
+		intGrid.setDomainTransform( transform_aa, transform_bb );
+		double* points = intGrid.getPoints();
+		double* weights = intGrid.getQuadratureWeights();
+		int num_points = intGrid.getNumPoints();
+
+		MatrixXd ret = integrate(f,intDim,num_points,points,weights);
+
+		cout << ret << endl;
+
+		return 0;
+	}
+	else {
+		cout << "Incorrect argument count." << endl;
+		return 1;
+	}
+
+}
+
+/*
+MatrixXd correlator(MatrixXd m, MatrixXd mdot) {
+	MatrixXcd ret = MatrixXcd::Zero(5,5);
+
+	es.compute(m);
+
+	// Construct diagonal eigenvalues matrix
+	MatrixXcd eigvals = MatrixXcd::Zero(5,5);
+	eigvals.diagonal() = es.eigenvalues();
+	MatrixXcd reEigvals(eigvals);
+	reEigvals.imag() *= 0;
+
+	// Filter out negative eigenvalues
+	for (int i=0;i<dim;i++) {
+		if (reEigvals(i,i).real() < 0) {
+			reEigvals(i,i) *= 0;
+		}
+	}
+
+	// Square eigenvalues	
+	reEigvals *= reEigvals;
+
+	// Make eigenvector matrices
+	MatrixXcd vec = es.eigenvectors();
+	MatrixXcd vecT = es.eigenvectors().transpose();
+	MatrixXcd normedV = normalizeV(vec,1e-5);
+	MatrixXcd normedVT(normedV.transpose());
+
+	// Construct correlator (0th)
+	ret += normedV.conjugate()*reEigvals*normedVT;
+
+//	cout << vec << endl;
+//	cout << eigvals << endl;
+
+//	cout << "-------------------" << endl;
+//	cout << m << endl << endl << normedV << endl << endl << reEigvals.diagonal() << endl << endl << ret << endl << endl;
+
+
+/*
+	// Construct correction term
+	MatrixXcd inv = es.eigenvectors().inverse();
+
+	cout << inv << endl;
+
+	MatrixXcd corr(5,5);
+	for (int i=0;i<dim;i++) {
+		for (int j=0;j<dim;j++) { // Check the sign on this
+			corr(i,j) = inv.row(i)*mdot*vec.col(j);
+			corr(i,j) /= reEigvals(j,j)+(eigvals(i,i)-eigvals(j,j))*(eigvals(i,i)-eigvals(j,j));
+		}
+		corr(i,i) = 0;
+	}
+	MatrixXcd net(5,5);
+	MatrixXcd netA(5,5);
+
+	cout << corr << endl;
+
+	net = normedV.conjugate()*corr*normedVT;
+	netA = net.adjoint();
+
+	// Add correction term to matrix
+	ret += net;
+	ret += netA;
+	// Need to expand back into proper three-coordinates
+
+	MatrixXd rett(ret.real());
+
+	return rett;
+}
+
+*/
