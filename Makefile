@@ -9,16 +9,16 @@ OMPENABLE = -fopenmp
 
 all: main debug profile
 
-main: main.cpp linalg physics
+main: main.cpp linalg.o physics.o
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o main    $(LIBCUB) 
 
-debug: main.cpp linalg physics
+debug: main.cpp linalg.o physics.o
 	$(CC) $(DEBUG) $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o debug   $(LIBCUB)
 
-test: test.cpp linalg physics
+test: test.cpp linalg.o physics.o
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o test.cpp -o test    $(LIBCUB)
 
-profile: main.cpp linalg physics
+profile: main.cpp linalg.o physics.o
 	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) linalg.o physics.o main.cpp -o profile $(LIBCUB)
 
 
