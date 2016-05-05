@@ -75,126 +75,8 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
-	}
-
-	if (argc==3) {
-		// Tolerances
-		double tolr = (double)atof(argv[1]);
-		double tola = (double)atof(argv[2]);
-
-		// Assuming you want tS, tP, omega sweep
-		double B = 0;
-		double tB = 0;
-		double pB = 0;
-
-		double tW = 0;
-		double w = 0;
-		double N2 = -1;
-		double chi = 0;
-
-		int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
-		double transform_aa[3] = {0,0};
-		double transform_bb[3] = {pi,2*pi};
-
-		TasGrid::TasmanianSparseGrid intGrid[maxLevel-minLevel];
-		double npts[maxLevel - minLevel];
-		double *pts[maxLevel-minLevel];
-		double *weights[maxLevel-minLevel];
-		for (int i=0;i<maxLevel-minLevel;i++) {
-			intGrid[i].makeGlobalGrid(intDim,0,minLevel+i,TasGrid::type_level,TasGrid::rule_clenshawcurtis);
-			intGrid[i].setDomainTransform(transform_aa,transform_bb);
-			npts[i] = intGrid[i].getNumPoints();
-			pts[i] = intGrid[i].getPoints();
-			weights[i] = intGrid[i].getQuadratureWeights();
-		}
-
-		Matrix7d ret0;
-		Matrix7d ret1;
-		Array7d ret0A;
-		Array7d ret1A;
-		Array7d err;
-		int index;
-		double omega;
-
-		for (double tS=0;tS<=pi;tS+=pi/30){
-			for (double tP=0;tP<=2*pi;tP+=pi/30) {
-				for (double lw=-3;lw<=3;lw+=0.1) {
-					omega = pow(10,lw);
-					
-					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
-					
-					index = 0;
-					ret0 = integrate(f,intDim,npts[index],pts[index],weights[index]);
-					index += 1;
-					ret1 = integrate(f,intDim,npts[index],pts[index],weights[index]);
-
-					ret0A = ret0.array();
-					ret1A = ret1.array();
-
-
-					err = ((ret1A - ret0A).abs()-tola)/(tolr*ret1A.abs());
-
-					while ((err.maxCoeff() > 1) && (index < maxLevel-minLevel-1)) {
-						index += 1;
-						ret0A = ret1A;
-
-						ret1 = integrate(f,intDim,npts[index],pts[index],weights[index]);
-						ret1A = ret1.array();
-
-						err = ((ret1A - ret0A).abs()-tola)/(tolr*ret1A.abs());
-					}
-					cout << tS << " " << tP << " " << lw << " " << maxLevel-minLevel-1-index << " " << err.maxCoeff() << endl << endl;
-					cout << ret1A << endl << endl;
-				}
-			}
-		}
-
-
 		return 0;
 	}
-
-	/*if (argc==2) {
-		int level = atoi(argv[1]);
-
-		// Assuming you want tS, tP, omega sweep
-		double B = 0;
-		double tB = 0;
-		double pB = 0;
-
-		double tW = 0;
-		double w = 0;
-		double N2 = -1;
-		double chi = 0;
-
-		int intDim = 3;
-		double transform_aa[3] = {0,0,0};
-		double transform_bb[3] = {1,pi,2*pi};
-
-		TasGrid::TasmanianSparseGrid intGrid;
-	
-		intGrid.makeGlobalGrid(intDim, 0, level, TasGrid::type_level,TasGrid::rule_clenshawcurtis );
-		intGrid.setDomainTransform( transform_aa, transform_bb );
-		double* points = intGrid.getPoints();
-		double* weights = intGrid.getQuadratureWeights();
-		int num_points = intGrid.getNumPoints();
-
-		for (double tS=0;tS<2*pi;tS+=pi/10){
-			for (double tP=0;tP<2*pi;tP+=pi/10) {
-				for (double lw=-3;lw<=3;lw+=0.1) {
-					double omega = pow(10,lw);
-					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
-					MatrixXd ret = integrate(f,intDim,num_points,points,weights);
-					cout << tS << " " << tP << " " << lw << endl << endl;
-					cout << ret << endl << endl;
-				}
-			}
-		}
-
-
-		double omega = 1;
-	}*/
-
-
 	if (argc==12) {
 		double B = (double)atof(argv[1]);
 		double tB = (double)atof(argv[2]);
@@ -218,17 +100,26 @@ int main(int argc, char* argv[]) {
 		double transform_aa[3] = {0,0,0};
 		double transform_bb[3] = {1,pi,2*pi};
 
-		TasGrid::TasmanianSparseGrid intGrid;
-	
-		intGrid.makeGlobalGrid(intDim, 0, level, TasGrid::type_level,TasGrid::rule_clenshawcurtis );
-		intGrid.setDomainTransform( transform_aa, transform_bb );
-		double* points = intGrid.getPoints();
-		double* weights = intGrid.getQuadratureWeights();
-		int num_points = intGrid.getNumPoints();
+		double ret[49];
+		double err[49];
 
-		MatrixXd ret = integrate(f,intDim,num_points,points,weights);
+		hcubature(49,&F,&f,2,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+					ret,err);
 
-		cout << ret << endl;
+		int counter = 0;
+		for (int i=0;i<7;i++) {
+			for (int j=0;j<7;j++) {
+				cout << ret[7*i+j] << " ";
+			}
+				cout << endl;
+		}
+		cout << endl;
+		for (int i=0;i<7;i++) {
+			for (int j=0;j<7;j++) {
+				cout << err[7*i+j] << " ";
+			}
+			cout << endl << endl;
+		}
 
 		return 0;
 	}
