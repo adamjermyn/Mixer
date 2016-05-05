@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
 		double omega;
 
-		const int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		const unsigned intDim = 2; // If B!=0 or chi!=0 you need this to be 3
 		const double transform_aa[3] = {0,0};
 		const double transform_bb[3] = {pi,2*pi};
 		double ret[49];
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 
 		flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
 
-		const int intDim = 3;
+		const unsigned intDim = 3;
 		const double transform_aa[3] = {0,0,0};
 		const double transform_bb[3] = {1,pi,2*pi};
 
