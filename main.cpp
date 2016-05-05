@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
 		double omega;
 
-		int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		const int intDim = 2; // If B!=0 or chi!=0 you need this to be 3
 		const double transform_aa[3] = {0,0};
 		const double transform_bb[3] = {pi,2*pi};
 		double ret[49];
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 					
 					flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
 
-					hcubature(49,&F,&f,2,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+					hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
 								ret,err);
 					cout << tS << " " << tP << " " << lw << endl << endl;
 					int counter = 0;
@@ -96,14 +96,14 @@ int main(int argc, char* argv[]) {
 
 		flmatrix f(tB,pB,B,tW,w,tS,tP,N2,chi,omega);
 
-		int intDim = 3;
-		double transform_aa[3] = {0,0,0};
-		double transform_bb[3] = {1,pi,2*pi};
+		const int intDim = 3;
+		const double transform_aa[3] = {0,0,0};
+		const double transform_bb[3] = {1,pi,2*pi};
 
 		double ret[49];
 		double err[49];
 
-		hcubature(49,&F,&f,2,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
 					ret,err);
 
 		int counter = 0;
