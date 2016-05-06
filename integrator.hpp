@@ -8,7 +8,9 @@
 // Constants
 
 const double pi = 3.141592653589;
-const double fourierCoeff = 1/pow(2*pi,3);
+const double fourierCoeff = 1; 	// This puts things in units of the mixing length.
+								// If you want them in units of the mixing wavevector,
+								// use 1/pow(2*pi,3) instead.
 
 // -------------------------------------
 // Functions

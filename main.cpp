@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		for (double tS=0;tS<=pi;tS+=pi/30){
-			for (double tP=0;tP<=2*pi;tP+=pi/30) {
+		for (double tS=0;tS<=pi;tS+=pi/10){
+			for (double tP=0;tP<=2*pi;tP+=pi/10) {
 				for (double lw=-3;lw<=3;lw+=0.1) {
 					omega = pow(10,lw);
 					
