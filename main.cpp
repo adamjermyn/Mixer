@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 		double pB = 0;
 
 		double tW = 0;
-		double w = 0;
+		double w = 1.0;
 		double N2 = -1;
 		double chi = 0;
 

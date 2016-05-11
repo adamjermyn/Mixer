@@ -22,13 +22,13 @@ test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o 
 profile: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
 	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o profile $(LIBCUB)
 
-integrator: integrator.cpp integrator.hpp linalg.hpp physics.hpp
+integrator.o: integrator.cpp integrator.hpp linalg.hpp physics.hpp
 	$(CC) $(OPTC) $(IEGN) $(OMPENABLE) -c integrator.cpp -o integrator.o		
 
-physics: physics.cpp physics.hpp linalg.hpp
+physics.o: physics.cpp physics.hpp linalg.hpp
 	$(CC) $(OPTC) $(IEGN) $(OMPENABLE) -c physics.cpp -o physics.o	
 
-linalg: linalg.cpp linalg.hpp
+linalg.o: linalg.cpp linalg.hpp
 	$(CC) $(OPTC) $(IEGN) $(OMPENABLE) -c linalg.cpp -o linalg.o
 
 clean:

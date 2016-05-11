@@ -39,6 +39,11 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
 Matrix5cd normalizeV(Matrix5cd m, double eps);
 
+Matrix5d normalizeM(Matrix5d m, double eps);
+
+Matrix5cd normalizeM(Matrix5cd m, double eps);
+
+
 // -------------------------------------
 // End Header guard
 #endif

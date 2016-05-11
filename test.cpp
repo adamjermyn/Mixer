@@ -3,11 +3,17 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+#include <iostream>
+
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 
 #include "physics.hpp"
 #include "linalg.hpp"
+
+// -------------------------------------
+
+using namespace std;
 
 // -------------------------------------
 
@@ -174,6 +180,36 @@ TEST_CASE("Matrix velocity normalisation","[normalizeV]") {
 			onorm = abs(pow(m0(3,j),2))+abs(pow(m0(4,j),2));
 			REQUIRE(abs(abs(pow(m(3,j),2))+abs(pow(m(4,j),2))-1)<=tol/onorm);
 		}
+	}
+}
+
+TEST_CASE("Mode matrix velocity normalisation","[normalizeM]") {
+	double tol = 3*eps;
+
+	Matrix5d m0 = Matrix5d(5,5);
+	Matrix5d m = Matrix5d(5,5);
+
+	for (int i=0;i<100;i++) {
+		m0 = Matrix5d::Random(5,5);
+		m0 = m0.cwiseAbs();
+		m = normalizeM(m0,eps);
+
+		REQUIRE(abs(abs(m(3,3))+abs(m(4,4))-1) <= tol/(abs(m0(3,3))+abs(m0(4,4))));
+	}
+}
+
+TEST_CASE("Mode matrix velocity normalisation (complex)","[normalizeCM]") {
+	double tol = 3*eps;
+
+	Matrix5cd m0 = Matrix5cd(5,5);
+	Matrix5cd m = Matrix5cd(5,5);
+
+	for (int i=0;i<100;i++) {
+		m0 = Matrix5cd::Random(5,5);
+		m0 = m0.cwiseAbs();
+		m = normalizeM(m0,eps);
+
+		REQUIRE(abs(abs(m(3,3))+abs(m(4,4))-1) <= tol/(abs(m0(3,3))+abs(m0(4,4))));
 	}
 }
 
