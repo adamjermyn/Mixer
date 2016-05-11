@@ -1,0 +1,49 @@
+// -------------------------------------
+
+#include <Eigen/Dense>
+#include <Eigen/Eigenvalues>
+#include "linalg.hpp"
+
+// -------------------------------------
+
+using namespace Eigen;
+
+// -------------------------------------
+
+double dot(const double a[3], const double b[3]) {
+	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+}
+
+void cross(const double a[3], const double b[3], double ret[3]) {
+	ret[0] = a[1]*b[2]-a[2]*b[1];
+	ret[1] = a[2]*b[0]-a[0]*b[2];
+	ret[2] = a[0]*b[1]-a[1]*b[0];
+}
+
+void normalize(double* v, double eps) {
+	double norm = sqrt(dot(v,v)+eps);
+	v[0] /= norm;
+	v[1] /= norm;
+	v[2] /= norm;
+}
+
+void sphericalToCartesian(double r, double t, double p, double ret[3]) {
+	ret[0] = r*sin(t)*cos(p);
+	ret[1] = r*sin(t)*sin(p);
+	ret[2] = r*cos(t);
+}
+
+Matrix5cd normalizeV(Matrix5cd m, double eps) {
+	// This function takes as input a matrix with eigenvectors as columns
+	// and returns a copy with each column normalized such that
+	// the sum of the norm squares of the last two elements is unity.
+	Matrix5cd ret(m);
+	double net;
+	double elem;
+	//We've optimized dim for matrices of size five
+	for (int i=0;i<dim;i++) {
+		net = sqrt(eps+pow(abs(m(dim-1,i)),2) + pow(abs(m(dim-2,i)),2));
+		ret.col(i) /= net;
+	}
+	return ret;
+}

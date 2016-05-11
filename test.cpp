@@ -183,37 +183,6 @@ TEST_CASE("Matrix velocity normalisation","[normalizeV]") {
 	}
 }
 
-TEST_CASE("Mode matrix velocity normalisation","[normalizeM]") {
-	double tol = 3*eps;
-
-	Matrix5d m0 = Matrix5d(5,5);
-	Matrix5d m = Matrix5d(5,5);
-
-	for (int i=0;i<100;i++) {
-		m0 = Matrix5d::Random(5,5);
-		m0 = m0.cwiseAbs();
-		m = normalizeM(m0,eps);
-
-		REQUIRE(abs(abs(m(3,3))+abs(m(4,4))-1) <= tol/(abs(m0(3,3))+abs(m0(4,4))));
-	}
-}
-
-TEST_CASE("Mode matrix velocity normalisation (complex)","[normalizeCM]") {
-	double tol = 3*eps;
-
-	Matrix5cd m0 = Matrix5cd(5,5);
-	Matrix5cd m = Matrix5cd(5,5);
-
-	for (int i=0;i<100;i++) {
-		m0 = Matrix5cd::Random(5,5);
-		m0 = m0.cwiseAbs();
-		m = normalizeM(m0,eps);
-
-		REQUIRE(abs(abs(m(3,3))+abs(m(4,4))-1) <= tol/(abs(m0(3,3))+abs(m0(4,4))));
-	}
-}
-
-
 // -------------------------------------
 
 //			TURBULENT MATRIX
@@ -417,7 +386,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 		f.set_k(1,0,0);
 
 		for (int i=0;i<5;i++) {
-			std::complex<double> x = f.eigvals(i,i);
+			cdouble x = f.eigvals(i,i);
 			REQUIRE(abs(x*(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)))
 			 <=2*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
 		}
