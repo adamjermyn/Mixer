@@ -151,19 +151,47 @@ TEST_CASE("Spherical coordinates","[sphericalToCartesian]") {
 
 }
 
-TEST_CASE("Matrix velocity normalisation","[normalizeV]") {
+TEST_CASE("Velocity normalisation","[normalizeV]") {
 	double tol = 3*eps;
 
 	std::complex<double> z1 = 1+1i;
 
-	Matrix5cd m0 = Matrix5cd(5,5);
-	Matrix5cd m = Matrix5cd(5,5);
+	Vector5cd m0;
+	Vector5cd m;
+
+	double onorm;
+
+	for (int i=0;i<100;i++) {
+		m0 = Vector5cd::Random(5,1);
+		m = normalizeV(m0,eps);
+
+		// Accuracy guarantees drop for small vectors
+		onorm = abs(pow(m0(3,0),2))+abs(pow(m0(4,0),2));
+		REQUIRE(abs(abs(pow(m(3,0),2))+abs(pow(m(4,0),2))-1)<=tol/onorm);
+
+		m0 = Vector5cd::Random(5,1);
+		m0 = m0 * z1;
+		m = normalizeV(m0,eps);
+
+		// Accuracy guarantees drop for small vectors
+		onorm = abs(pow(m0(3,0),2))+abs(pow(m0(4,0),2));
+		REQUIRE(abs(abs(pow(m(3,0),2))+abs(pow(m(4,0),2))-1)<=tol/onorm);
+	}
+}
+
+TEST_CASE("Matrix velocity normalisation","[normalizeM]") {
+	double tol = 3*eps;
+
+	std::complex<double> z1 = 1+1i;
+
+	Matrix5cd m0;
+	Matrix5cd m;
 
 	double onorm;
 
 	for (int i=0;i<100;i++) {
 		m0 = Matrix5cd::Random(5,5);
-		m = normalizeV(m0,eps);
+		m = normalizeM(m0,eps);
 
 		for (int j=0;j<5;j++) {
 			// Accuracy guarantees drop for small vectors
@@ -173,7 +201,7 @@ TEST_CASE("Matrix velocity normalisation","[normalizeV]") {
 
 		m0 = Matrix5cd::Random(5,5);
 		m0 = m0 * z1;
-		m = normalizeV(m0,eps);
+		m = normalizeM(m0,eps);
 
 		for (int j=0;j<5;j++) {
 			// Accuracy guarantees drop for small vectors
@@ -447,4 +475,57 @@ TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
 
 }
 
+/* TODO: Write this test
+TEST_CASE("Turbulent Matrix Diagonalisation","[TransK]") {
+	double tol = 3*eps;
 
+	double B = 1;
+	double tB = 0;
+	double pB = 0;
+	double tW = 1;
+	double w = 1;
+	double tS = 1;
+	double tP = 1;
+	double N22 = -1;
+	double chii = 0.01;
+	double omegaa = 1;
+
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
+
+	REQUIRE(abs(f.transK-1) <= tol);
+
+	for (double k=0.001;k<=1;k+=0.001) {
+		REQUIRE(abs(f.computeKfromKA(k)-pow(k,1/pow2)) < tol*pow(k,1/pow2)/k);
+	}
+
+	B = 10;
+	
+	f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
+
+	REQUIRE(abs(f.transK-1) <= tol);
+
+	for (double k=0.001;k<=1;k+=0.001) {
+		REQUIRE(abs(f.computeKfromKA(k)-pow(k,1/pow2)) < tol*pow(k,1/pow2)/k);
+	}
+
+	for (int i=0;i<100;i++) {
+		B = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+
+		f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
+
+		REQUIRE(abs(f.transK-1/B) <= 4*pow(B,-3)*tol);
+
+		for (int i=0;i<100;i++) {
+			double x = 1+1000*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+			if (x < f.transK) {
+				REQUIRE(abs(f.computeKfromKA(pow(x,pow1))-x) < x*tol);
+			} else {
+				REQUIRE(abs(f.computeKfromKA(pow(f.transK,pow1)*pow(x/f.transK,pow2))-x)<2*f.transK*tol);
+			}
+		}
+
+	}
+	cout << (eigvecs*eigvals*leftvecs).real() - m << endl;
+
+}
+*/

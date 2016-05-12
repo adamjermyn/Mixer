@@ -33,7 +33,14 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 	ret[2] = r*cos(t);
 }
 
-Matrix5cd normalizeV(Matrix5cd m, double eps) {
+Vector5cd normalizeV(Vector5cd v, double eps) {
+	double net = sqrt(eps+pow(abs(v(dim-1,0)),2) + pow(abs(v(dim-2,0)),2));	
+	Vector5cd ret(v);
+	v /= net;
+	return v;
+}
+
+Matrix5cd normalizeM(Matrix5cd m, double eps) {
 	// This function takes as input a matrix with eigenvectors as columns
 	// and returns a copy with each column normalized such that
 	// the sum of the norm squares of the last two elements is unity.

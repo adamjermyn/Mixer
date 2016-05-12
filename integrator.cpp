@@ -7,6 +7,8 @@
 #include "physics.hpp"
 #include "integrator.hpp"
 
+#include <iostream>
+
 // -------------------------------------
 
 using namespace Eigen;
@@ -26,16 +28,16 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		k = 1;
 		tK = x[0];
 		pK = x[1];
-		pref = sin(tK)*fourierCoeff/(3-2*nKolmogorov);
+		pref = -sin(tK)*fourierCoeff/(3-2*nKolmogorov);
 	} else if (ndim == 3) {
 		tK = x[1];
 		pK = x[2];
 		k = f.computeKfromKA(x[0]);
 		pref = sin(tK)*fourierCoeff;
 		if (k <= f.transK) {
-			pref /= (3-2*nKolmogorov);
+			pref /= -(3-2*nKolmogorov);
 		} else {
-			pref /= (3-2*nMHD);
+			pref /= -(3-2*nMHD);
 		}
 	}
 
@@ -46,18 +48,56 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		transform(0,j) = f.a[j];
 		transform(1,j) = f.b[j];
 		transform(3,4+j) = f.a[j];
-		transform(4,4+j) = f.b[j]; // Check if the velocity handling needs a c term as well
+		transform(4,4+j) = f.b[j];
+		transform(1,4+j) = f.c[j]*f.wmag*f.omega*f.kHat[1]; // The velocity has an additional term due to the sheared coordinate system.
 	}
 	transform(2,3) = 1; // Density perturbation doesn't change under rotation
+	Matrix75d transformT = transform.transpose();
 
-	I = pref*transform.transpose()*f.correlator*transform;
+	// Apply transform to real-space coordinates
 
-	int counter = 0;
+	I = transformT*f.correlator*transform;
+
+	// Apply unit conversion
+
+	I *= unitConv;
+
+	// We now bound the position correlation functions to be at most 1.
+	// This means that the position correlations are never over more than
+	// a single mixing length (in practice correlations which exceed this length
+	// will be distorted by longer-scale processes, making our calculations invalid
+	// if we don't do this). The max is because failure of perturbation theory
+	// can cause negative terms on the diagonal which are unphysical, so we don't
+	// want these to impact the correction. These terms arise when the matrix is nearly
+	// degenerate, in which case the growth correction makes them small relative to the
+	// other contributions to the diagonal upon integration.
+
+	double net = sqrt(1 + fmax(0,I(0,0) + I(1,1) + I(2,2)));
+
+	I.row(0) /= net;
+	I.row(1) /= net;
+	I.row(2) /= net;
+	I.col(0) /= net;
+	I.col(1) /= net;
+	I.col(2) /= net;
+
+	// Apply integration prefactor
+
+	I *= pref;
+
+	// Place output in the output array
+
 	for (int j=0;j<7;j++) {
 		for (int q=0;q<7;q++) {
-			fval[counter] = I(j,q);
-			counter++;
+			fval[7*j+q] = I(j,q);
 		}
+	}
+
+	// The following corrects the units on the density correlator:
+
+	for (int j=0;j<7;j++) {
+		fval[7*j+3] /= unitConv;
+		fval[7*3+j] /= unitConv;
 	}
 
 	return 0;

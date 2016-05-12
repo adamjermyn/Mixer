@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 		double pB = 0;
 
 		double tW = 0;
-		double w = 1.0;
+		double w = 0.1;
 		double N2 = -1;
 		double chi = 0;
 
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
 		for (double tS=0;tS<=pi;tS+=pi/10){
 			for (double tP=0;tP<=2*pi;tP+=pi/10) {
 				for (double lw=-3;lw<=3;lw+=0.1) {
-					omega = pow(10,lw);
+					omega = pow(10.,lw);
 					
 					flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
@@ -63,16 +63,24 @@ int main(int argc, char* argv[]) {
 					for (int i=0;i<7;i++) {
 						for (int j=0;j<7;j++) {
 							cout << ret[7*i+j] << " ";
+							if ((i==j) && (ret[7*i+j] < -tola - abs(err[7*i+j]))) {
+								counter += 1;
+							}
 						}
 						cout << endl;
+					}
+					if (counter > 0) {
+						cout << endl << endl << "WARNING: NEGATIVE AUTOCORRELATOR!!!" << endl;
+						cout << counter << endl;
 					}
 					cout << endl;
 					for (int i=0;i<7;i++) {
 						for (int j=0;j<7;j++) {
 							cout << err[7*i+j] << " ";
 						}
-						cout << endl << endl;
+						cout << endl;
 					}
+					cout << "------------------" << endl;
 				}
 			}
 		}

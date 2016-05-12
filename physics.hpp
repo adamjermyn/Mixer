@@ -66,11 +66,11 @@ public:
 	Matrix5d mdot;
 	Matrix5cd eigvals;
 	Matrix5cd eigvecs;
+	Matrix5cd leftvecs;
 	Matrix5d correlator;
 
 	// Eigensolver
 	EigenSolver<Matrix5d> es;
-
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
