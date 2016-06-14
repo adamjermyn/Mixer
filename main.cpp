@@ -86,7 +86,51 @@ int main(int argc, char* argv[]) {
 		}
 		return 0;
 	}
-	if (argc==12) {
+	else if (argc==7) { // Shortcut for B=chi=0.
+		double B = 0;
+		double tB = 0;
+		double pB = 0;
+
+		double omega = (double)atof(argv[1]);
+		double tW = (double)atof(argv[2]);
+		double w = (double)atof(argv[3]);
+
+		double tS = (double)atof(argv[4]);
+		double tP = (double)atof(argv[5]);
+		double N2 = (double)atof(argv[6]);
+
+		double chi = 0;
+
+		flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
+
+		const unsigned intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		const double transform_aa[3] = {0,0};
+		const double transform_bb[3] = {pi,2*pi};
+
+		double ret[49];
+		double err[49];
+
+		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-3,1e-3,ERROR_INDIVIDUAL,
+					ret,err);
+
+		int counter = 0;
+		for (int i=0;i<7;i++) {
+			for (int j=0;j<7;j++) {
+				cout << ret[7*i+j] << " ";
+			}
+				cout << endl;
+		}
+		cout << endl;
+		for (int i=0;i<7;i++) {
+			for (int j=0;j<7;j++) {
+				cout << err[7*i+j] << " ";
+			}
+			cout << endl << endl;
+		}
+
+		return 0;		
+	}
+	else if (argc==11) {
 		double B = (double)atof(argv[1]);
 		double tB = (double)atof(argv[2]);
 		double pB = (double)atof(argv[3]);
@@ -101,8 +145,6 @@ int main(int argc, char* argv[]) {
 
 		double chi = (double)atof(argv[10]);
 
-		int level = atoi(argv[11]);
-
 		flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
 		const unsigned intDim = 3;
@@ -112,7 +154,7 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-4,1e-4,ERROR_INDIVIDUAL,
+		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-3,1e-3,ERROR_INDIVIDUAL,
 					ret,err);
 
 		int counter = 0;
