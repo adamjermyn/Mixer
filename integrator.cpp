@@ -60,7 +60,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	// Apply unit conversion
 
-	I *= unitConv;
+	I *= unitConv*unitConv; // Needs to have two factors because we have two length factors
 
 	// We now bound the position correlation functions to be at most 1.
 	// This means that the position correlations are never over more than
