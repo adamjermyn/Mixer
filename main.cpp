@@ -10,6 +10,7 @@
 
 #include "linalg.hpp"
 #include "physics.hpp"
+
 #include "integrator.hpp"
 
 #include "cubature.h"
@@ -56,8 +57,8 @@ int main(int argc, char* argv[]) {
 					
 					flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
-					hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,tolr,tola,ERROR_INDIVIDUAL,
-								ret,err);
+					integral(49,&F,&f,intDim,transform_aa,transform_bb,100,1e-3,1e-3,ERROR_INDIVIDUAL,
+						ret,err);
 					cout << tS << " " << tP << " " << lw << endl << endl;
 					int counter = 0;
 					for (int i=0;i<7;i++) {
@@ -110,11 +111,7 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		
-
-
-
-		pcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,3e-4,3e-4,ERROR_INDIVIDUAL,
+		integral(49,&F,&f,intDim,transform_aa,transform_bb,100,3e-4,3e-4,ERROR_INDIVIDUAL,
 					ret,err);
 
 		int counter = 0;
@@ -158,8 +155,8 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-3,1e-3,ERROR_INDIVIDUAL,
-					ret,err);
+		integral(49,&F,&f,intDim,transform_aa,transform_bb,100,3e-4,3e-4,ERROR_INDIVIDUAL,
+			ret,err);
 
 		int counter = 0;
 		for (int i=0;i<7;i++) {

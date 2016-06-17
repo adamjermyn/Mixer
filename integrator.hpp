@@ -1,6 +1,8 @@
 // -------------------------------------
 // Header guard
 
+#include "cubature.h"
+
 #ifndef integrator_h
 #define integrator_h
 
@@ -21,6 +23,12 @@ const double unitConv = 1/(2*pi);			// This puts things in units of the mixing l
 
 // -------------------------------------
 // Functions
+
+int integral(unsigned fdim, integrand f, void *fdata,
+              unsigned dim, const double *xmin, const double *xmax, 
+              size_t maxEval, double reqAbsError, double reqRelError, 
+              error_norm norm,
+              double *val, double *err);
 
 int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval);
 
