@@ -64,13 +64,14 @@ public:
 	// Intended outputs
 	Matrix5d m;
 	Matrix5d mdot;
-	Matrix5cd eigvals;
-	Matrix5cd eigvecs;
-	Matrix5cd leftvecs;
+	Matrix10cd eigvals;
+	Matrix10cd eigvecs;
+	Matrix5cd proj;
 	Matrix5d correlator;
 
 	// Eigensolver
 	EigenSolver<Matrix5d> es;
+	EigenSolver<Matrix10d> es10;
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP

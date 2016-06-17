@@ -110,7 +110,11 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		hcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,1e-3,1e-3,ERROR_INDIVIDUAL,
+		
+
+
+
+		pcubature(49,&F,&f,intDim,transform_aa,transform_bb,0,3e-4,3e-4,ERROR_INDIVIDUAL,
 					ret,err);
 
 		int counter = 0;

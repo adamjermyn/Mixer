@@ -3,7 +3,7 @@ OPTC = -O3 -fopenmp -ffast-math -mtune=native -fpermissive
 PROF = $(OPTC) -pg
 DEBUG = -O0
 IEGN = -I ~/eigen/
-LIBCUB = ~/cubature-1.0.2/hcubature.o
+LIBCUB = ~/cubature-1.0.2/hcubature.o ~/cubature-1.0.2/pcubature.o
 ICUB = -I ~/cubature-1.0.2/
 OMPENABLE = -fopenmp
 TOTALINC = integrator.o linalg.o physics.o

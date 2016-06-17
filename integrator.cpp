@@ -12,9 +12,9 @@
 // -------------------------------------
 
 using namespace Eigen;
+using namespace std;
 
 // -------------------------------------
-
 
 int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) {
 
