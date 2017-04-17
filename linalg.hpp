@@ -16,7 +16,7 @@ using namespace Eigen;
 // -------------------------------------
 // Constants
 const int dim = 5; // Correlator matrix dimension
-const double eps=1e-10; // Numerical smoothing factor
+const double eps=1e-15; // Numerical smoothing factor
 
 // -------------------------------------
 // Convenience typedef's
