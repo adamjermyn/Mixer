@@ -1,26 +1,20 @@
 CC = g++
-OPTC = -O3 -fopenmp -ffast-math -mtune=native -fpermissive
-PROF = $(OPTC) -pg
+OPTC = -O3 -fopenmp -ffast-math -mtune=native -fpermissive -fPIC -shared
+PROF = $(OPTC) -pg -g
 DEBUG = -O0
 IEGN = -I ~/eigen/
-LIBCUB = ~/cubature-1.0.2/hcubature.o ~/cubature-1.0.2/pcubature.o
+LIBCUB = ~/cubature-1.0.2/hcubature.so ~/cubature-1.0.2/pcubature.so
 ICUB = -I ~/cubature-1.0.2/
 OMPENABLE = -fopenmp
 TOTALINC = integrator.o linalg.o physics.o
 
-all: main debug test profile
-
-main: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
-	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o main $(LIBCUB)
-
-debug: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
-	$(CC) $(DEBUG) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o debug $(LIBCUB)
-
-test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
-	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) test.cpp -o test $(LIBCUB)
+all: shared test profile
 
 profile: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
 	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o profile $(LIBCUB)
+
+test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) test.cpp -o test $(LIBCUB)
 
 integrator.o: integrator.cpp integrator.hpp linalg.hpp physics.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) -c integrator.cpp -o integrator.o
@@ -37,4 +31,5 @@ clean:
 	rm profile
 	rm test
 	rm linalg.o
+	rm integrator.o
 	rm physics.o
