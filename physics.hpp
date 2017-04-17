@@ -31,7 +31,7 @@ const double pow2 = 3-2*nMHD;
 // -------------------------------------
 // Adiabatic constant
 
-const double gamma = 5./3;
+const double gamma_ad = 5./3;
 
 // -------------------------------------
 
