@@ -1,5 +1,6 @@
 CC = g++
-OPTC = -O3 -fopenmp -ffast-math -mtune=native -fpermissive -fPIC -shared
+OPTC = -O3 -fopenmp -ffast-math -mtune=native -fpermissive
+SHARED = -fPIC -shared
 PROF = $(OPTC) -pg -g
 DEBUG = -O0
 IEGN = -I ~/eigen/
@@ -8,13 +9,10 @@ ICUB = -I ~/cubature-1.0.2/
 OMPENABLE = -fopenmp
 TOTALINC = integrator.o linalg.o physics.o
 
-all: shared test profile
+all: shared test
 
 shared: python.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
-	$(CC) $(OPTC) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) python.cpp -o python.so $(LIBCUB)
-
-profile: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
-	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o profile $(LIBCUB)
+	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) python.cpp -o turb.so $(LIBCUB)
 
 test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) test.cpp -o test $(LIBCUB)
@@ -29,9 +27,7 @@ linalg.o: linalg.cpp linalg.hpp
 	$(CC) $(OPTC)  $(IEGN) $(OMPENABLE) -c linalg.cpp -o linalg.o
 
 clean:
-	rm main
-	rm debug
-	rm profile
+	rm turb.so
 	rm test
 	rm linalg.o
 	rm integrator.o
