@@ -10,7 +10,7 @@ import numpy as np
 import h5py
 from pyTurb import coeffs
 
-omega = 10**np.linspace(-5,2,num=25,endpoint=True)
+omega = 10**np.linspace(-5,1,num=25,endpoint=True)
 theta =	np.linspace(0,np.pi,num=20,endpoint=True)
 wOverOmega = 10**np.linspace(-6,0,num=20,endpoint=True)
 
