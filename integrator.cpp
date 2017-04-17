@@ -24,29 +24,7 @@ int integral(unsigned fdim, integrand f, void *fdata,
               error_norm norm,
               double *val, double *err) {
 
-	double maxErrH = 0;
-
-	hcubature(fdim,f,fdata,dim,xmin,xmax,maxEval,reqAbsError,reqRelError,norm,val,err);
-
-	for (int i=0;i<fdim;i++) {
-		if (err[i] > maxErrH)
-			maxErrH = err[i];
-	}
-
-	double maxErrP = 0;
-
-	pcubature(fdim,f,fdata,dim,xmin,xmax,maxEval,reqAbsError,reqRelError,norm,val,err);
-
-	for (int i=0;i<fdim;i++) {
-		if (err[i] > maxErrP)
-			maxErrP = err[i];
-	}
-
-	if (maxErrP < maxErrH) {
-		pcubature(fdim,f,fdata,dim,xmin,xmax,0,reqAbsError,reqRelError,norm,val,err);
-	} else {
-		hcubature(fdim,f,fdata,dim,xmin,xmax,0,reqAbsError,reqRelError,norm,val,err);
-	}
+	hcubature(fdim,f,fdata,dim,xmin,xmax,maxEval,reqRelError,reqAbsError,norm,val,err);
 
 	return 0;
 }
@@ -108,14 +86,14 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	// degenerate, in which case the growth correction makes them small relative to the
 	// other contributions to the diagonal upon integration.
 
-	double net = sqrt(1 + fmax(0,I(0,0) + I(1,1) + I(2,2)));
+//	double net = sqrt(1 + fmax(0,I(0,0) + I(1,1) + I(2,2)));
 
-	I.row(0) /= net;
-	I.row(1) /= net;
-	I.row(2) /= net;
-	I.col(0) /= net;
-	I.col(1) /= net;
-	I.col(2) /= net;
+//	I.row(0) /= net;
+//	I.row(1) /= net;
+//	I.row(2) /= net;
+//	I.col(0) /= net;
+//	I.col(1) /= net;
+//	I.col(2) /= net;
 
 	// Apply integration prefactor
 
