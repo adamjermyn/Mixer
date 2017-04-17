@@ -22,8 +22,7 @@ using namespace std;
 
 // -------------------------------------
 
-const int minLevel = 5;
-const int maxLevel = 15;
+const int maxEval = 100000;
 
 // -------------------------------------
 
@@ -32,13 +31,12 @@ int main(int argc, char* argv[]) {
 		double tolr = (double)(atof(argv[1]));
 		double tola = (double)(atof(argv[2]));
 
-		// Assuming you want tS, tP, omega sweep
+		// Assuming you want tS, tP, omega, w sweep
 		double B = 0;
 		double tB = 0;
 		double pB = 0;
 
 		double tW = 0;
-		double w = 0.1;
 		double N2 = -1;
 		double chi = 0;
 
@@ -50,44 +48,103 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		for (double tS=0;tS<=pi;tS+=pi/10){
-			for (double tP=0;tP<=2*pi;tP+=pi/10) {
+		for (double tS=0;tS<=pi;tS+=pi/20){
+			for (double tP=0;tP<=2*pi;tP+=pi/20) {
 				for (double lw=-3;lw<=3;lw+=0.1) {
-					omega = pow(10.,lw);
+					for (double w=0.000001;w<2;w+=0.1) { 
+						omega = pow(10.,lw);
 					
-					flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
+						flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
 
-					integral(49,&F,&f,intDim,transform_aa,transform_bb,100,1e-3,1e-3,ERROR_INDIVIDUAL,
-						ret,err);
-					cout << tS << " " << tP << " " << lw << endl << endl;
-					int counter = 0;
-					for (int i=0;i<7;i++) {
-						for (int j=0;j<7;j++) {
-							cout << ret[7*i+j] << " ";
-							if ((i==j) && (ret[7*i+j] < -tola - abs(err[7*i+j]))) {
-								counter += 1;
+						integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,tola,tolr,ERROR_INDIVIDUAL,
+							ret,err);
+						cout << tS << " " << tP << " " << lw << " " << w << endl << endl;
+						int counter = 0;
+						for (int i=0;i<7;i++) {
+							for (int j=0;j<7;j++) {
+								cout << ret[7*i+j] << " ";
+								if ((i==j) && (ret[7*i+j] < -tola - abs(err[7*i+j]))) {
+									counter += 1;
+								}
 							}
+							cout << endl;
+						}
+						if (counter > 0) {
+							cout << endl << endl << "WARNING: NEGATIVE AUTOCORRELATOR!!!" << endl;
+							cout << counter << endl;
 						}
 						cout << endl;
-					}
-					if (counter > 0) {
-						cout << endl << endl << "WARNING: NEGATIVE AUTOCORRELATOR!!!" << endl;
-						cout << counter << endl;
-					}
-					cout << endl;
-					for (int i=0;i<7;i++) {
-						for (int j=0;j<7;j++) {
-							cout << err[7*i+j] << " ";
+						for (int i=0;i<7;i++) {
+							for (int j=0;j<7;j++) {
+								cout << err[7*i+j] << " ";
+							}
+							cout << endl;
 						}
-						cout << endl;
+						cout << "------------------" << endl;
 					}
-					cout << "------------------" << endl;
 				}
 			}
 		}
 		return 0;
 	}
-	else if (argc==7) { // Shortcut for B=chi=0.
+	else if (argc==5) { // Shortcut for B=chi=0 and sweep tP/tS.
+		double B = 0;
+		double tB = 0;
+		double pB = 0;
+
+		double omega = (double)atof(argv[1]);
+		double tW = (double)atof(argv[2]);
+		double w = (double)atof(argv[3]);
+
+		double N2 = (double)atof(argv[4]);
+
+		double chi = 0;
+
+		double tola = 1e-5;
+		double tolr = 1e-5;
+
+
+		const unsigned intDim = 2; // If B!=0 or chi!=0 you need this to be 3
+		const double transform_aa[3] = {0,0};
+		const double transform_bb[3] = {pi,2*pi};
+
+		double ret[49];
+		double err[49];
+
+		for (double tS=0;tS<=2*pi;tS+=pi/40){
+			for (double tP=0;tP<=pi;tP+=pi/40) {
+				flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
+
+				integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,tola,tolr,ERROR_INDIVIDUAL,
+							ret,err);
+
+				cout << omega << " " << tW << " " << w << " "<< tS << " " << tP << " " << N2 << endl << endl;
+				int counter = 0;
+				for (int i=0;i<7;i++) {
+					for (int j=0;j<7;j++) {
+						cout << ret[7*i+j] << " ";
+						if ((i==j) && (ret[7*i+j] < -tola - abs(err[7*i+j]))) {
+							counter += 1;
+						}
+					}
+					cout << endl;
+				}
+				if (counter > 0) {
+					cout << endl << endl << "WARNING: NEGATIVE AUTOCORRELATOR!!!" << endl;
+					cout << counter << endl;
+				}
+				cout << endl;
+				for (int i=0;i<7;i++) {
+					for (int j=0;j<7;j++) {
+						cout << err[7*i+j] << " ";
+					}
+					cout << endl;
+				}
+				cout << "------------------" << endl;
+			}
+		}
+		return 0;		
+	}	else if (argc==7) { // Shortcut for B=chi=0.
 		double B = 0;
 		double tB = 0;
 		double pB = 0;
@@ -111,7 +168,7 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		integral(49,&F,&f,intDim,transform_aa,transform_bb,100,3e-4,3e-4,ERROR_INDIVIDUAL,
+		integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,1e-8,1e-8,ERROR_INDIVIDUAL,
 					ret,err);
 
 		int counter = 0;
@@ -155,7 +212,7 @@ int main(int argc, char* argv[]) {
 		double ret[49];
 		double err[49];
 
-		integral(49,&F,&f,intDim,transform_aa,transform_bb,100,3e-4,3e-4,ERROR_INDIVIDUAL,
+		integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,3e-4,3e-4,ERROR_INDIVIDUAL,
 			ret,err);
 
 		int counter = 0;
