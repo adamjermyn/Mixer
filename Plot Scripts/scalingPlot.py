@@ -1,3 +1,4 @@
+import os
 from os.path import dirname, abspath
 d = dirname(dirname(abspath(__file__)))
 os.chdir(d)
@@ -10,8 +11,6 @@ fi = h5py.File('Data/scale_results.dat','r')
 omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
-
-print(r.shape)
 
 plt.subplot(221)
 
@@ -59,6 +58,6 @@ plt.title('vrt')
 plt.xlabel('$\log \Omega$')
 plt.ylabel('$\log v_r \\theta$')
 
-plt.savefig('RRRT.pdf')
+plt.savefig('Plots/RRRT.pdf')
 plt.clf()
 
