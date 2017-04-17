@@ -57,21 +57,31 @@ def cylindricalToSphericalTensor(tensor, theta):
 	return np.einsum('...kl,...mn,...ln->...km',transform,transform,tensor)
 
 
-def coeffs(params):
+def coeffs(params, spherical=True):
+	'''
+	Returns the results the turbulence code. Automatically selects the
+	integration dimension based on the number of supplied parameters.
+
+	Accepts as input an optional argument spherical. If this is True (default)
+	the returned quantities are in spherical coordinates, otherwise they
+	are in cylindrical coordinates. Note that errors are not transformed.
+	'''
 	if len(params) == 8:
 		r = coeffs2(*params)
 		theta = params[4]
-		r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
-		r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
-		r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
-		r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
+		if spherical:
+			r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
+			r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
+			r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
+			r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
 	elif len(params) == 12:
 		r = coeffs3(*params)
 		theta = params[7]
-		r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
-		r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
-		r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
-		r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
+		if spherical:
+			r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
+			r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
+			r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
+			r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
 	else:
 		raise NotImplementedError('Number of parameters does not match any known specification.')
 	return r
