@@ -10,6 +10,9 @@ TOTALINC = integrator.o linalg.o physics.o
 
 all: shared test profile
 
+shared: python.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
+	$(CC) $(OPTC) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) python.cpp -o python.so $(LIBCUB)
+
 profile: main.cpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
 	$(CC) $(PROF)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) main.cpp -o profile $(LIBCUB)
 
