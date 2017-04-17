@@ -29,6 +29,11 @@ const double pow1 = 3-2*nKolmogorov;
 const double pow2 = 3-2*nMHD;
 
 // -------------------------------------
+// Adiabatic constant
+
+const double gamma = 5./3;
+
+// -------------------------------------
 
 class flmatrix
 {
