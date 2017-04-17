@@ -1,7 +1,7 @@
 import numpy as np
 import ctypes
 
-_turb = ctypes.CDLL('/home/asj42/Documents/Turbulence/turb.so')
+_turb = ctypes.CDLL('/home/asj42/Documents/Turbulence/Build/turb.so')
 _turb.coeffs3.argtypes = [ctypes.c_double for _ in range(12)]
 _turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
 _turb.coeffs2.argtypes = [ctypes.c_double for _ in range(8)]

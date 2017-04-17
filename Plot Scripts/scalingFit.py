@@ -1,6 +1,10 @@
+import os
 from os.path import dirname, abspath
 d = dirname(dirname(abspath(__file__)))
 os.chdir(d)
+
+import sys
+sys.path.append(d + '/Python/')
 
 import numpy as np
 import h5py
