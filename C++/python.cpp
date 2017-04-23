@@ -22,11 +22,11 @@ using namespace std;
 
 // -------------------------------------
 
-const int maxEval = 100000;
+const int maxEval = 100000000;
 
 // -------------------------------------
 
-extern "C" double* coeffs3(double tolr, double tola, double B, double tB, double pB, double omega, double w, double tW, double tS, double tP, double N2, double chi) {
+extern "C" double* coeffs3(double tolr, double tola, double B, double tB, double pB, double omega, double w, double tW, double tS, double tP, double N2, double chi, int maxEval) {
 
 	const unsigned intDim = 3;
 	const double transform_aa[3] = {0,0,0};
@@ -37,7 +37,7 @@ extern "C" double* coeffs3(double tolr, double tola, double B, double tB, double
 	double* net = new double[98];
 	
 	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
-	integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,3e-4,3e-4,ERROR_INDIVIDUAL,
+	integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola ,ERROR_INDIVIDUAL,
 			ret,err);
 
 	for (int i=0;i<49;i++) {
@@ -48,7 +48,7 @@ extern "C" double* coeffs3(double tolr, double tola, double B, double tB, double
 	return net;
 }
 
-extern "C" double* coeffs2(double tolr, double tola, double omega, double w, double tW, double tS, double tP, double N2) {
+extern "C" double* coeffs2(double tolr, double tola, double omega, double w, double tW, double tS, double tP, double N2, int maxEval) {
 
 	double B = 0;
 	double tB = 0;
@@ -65,7 +65,7 @@ extern "C" double* coeffs2(double tolr, double tola, double omega, double w, dou
 	double* net = new double[98];
 	
 	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
-	integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval,3e-4,3e-4,ERROR_INDIVIDUAL,
+	integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola,ERROR_INDIVIDUAL,
 			ret,err);
 
 	for (int i=0;i<49;i++) {
