@@ -91,8 +91,6 @@ void flmatrix::set_M() {
 	m(4,1) = -kva*kva-2*omega*b[0]*dot(b,wHat)*wmag;
 	m(4,2) = dot(presHat,b);
 	m(4,3) = 2*omega*dot(a,e);
-	
-//	cout << m << endl;
 
 }
 
