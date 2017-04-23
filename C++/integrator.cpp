@@ -76,25 +76,6 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	I *= unitConv*unitConv; // Needs to have two factors because we have two length factors
 
-	// We now bound the position correlation functions to be at most 1.
-	// This means that the position correlations are never over more than
-	// a single mixing length (in practice correlations which exceed this length
-	// will be distorted by longer-scale processes, making our calculations invalid
-	// if we don't do this). The max is because failure of perturbation theory
-	// can cause negative terms on the diagonal which are unphysical, so we don't
-	// want these to impact the correction. These terms arise when the matrix is nearly
-	// degenerate, in which case the growth correction makes them small relative to the
-	// other contributions to the diagonal upon integration.
-
-//	double net = sqrt(1 + fmax(0,I(0,0) + I(1,1) + I(2,2)));
-
-//	I.row(0) /= net;
-//	I.row(1) /= net;
-//	I.row(2) /= net;
-//	I.col(0) /= net;
-//	I.col(1) /= net;
-//	I.col(2) /= net;
-
 	// Apply integration prefactor
 
 	I *= pref;
