@@ -15,6 +15,9 @@ all: shared test
 shared: python.cpp linalg.so linalg.hpp physics.so physics.hpp integrator.so integrator.hpp
 	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINCS) python.cpp -o ../Build/turb.so $(LIBCUB)
 
+profile: python.cpp linalg.so linalg.hpp physics.so physics.hpp integrator.so integrator.hpp
+	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINCS) $(PROF) python.cpp -o ../Build/turbProf.so $(LIBCUB)
+
 test: test.cpp catch.hpp linalg.o linalg.hpp physics.o physics.hpp integrator.o integrator.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(OMPENABLE) $(TOTALINC) test.cpp -o ../Build/test $(LIBCUB)
 
