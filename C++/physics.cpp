@@ -10,7 +10,6 @@
 
 // -------------------------------------
 
-using namespace Eigen;
 using namespace std;
 
 // -------------------------------------
@@ -44,16 +43,8 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	// Set known matrix elements
 
-	m = MatrixXd::Zero(5,5);
-	mdot = MatrixXd::Zero(5,5);
-
 	m(0,3) = 1;
 	m(1,4) = 1;
-
-	// Initialize eigensystem
-	eigvals = MatrixXcd::Zero(10,10);
-	eigvecs = MatrixXcd::Zero(10,10);
-	correlator = MatrixXd::Zero(5,5);
 }
 
 void flmatrix::set_vecs() {
@@ -105,39 +96,49 @@ void flmatrix::set_Mdot() {
 	mdot(4,3) = -mdot(3,4);
 	mdot(4,1) = -2*wmag*dot(b,wHat)*(2*kw*b[0]-c[0]);
 	mdot(4,2) = dot(presHat,b)*kw-dot(presHat,c);
-
+	
 	mdot *= pref;
+
 }
 
-void flmatrix::compute_eigensystem() {
-	Matrix10d net = MatrixXd::Zero(10,10);
+void flmatrix::set_net() {
 	for (int i=0;i<5;i++) {
 		for (int j=0;j<5;j++) {
 			if (i==j)
-				net(i,j+5) = 1;
-			net(i+5,j) = mdot(i,j);
-			net(i+5,j+5) = m(i,j);
+				eignet(i,j+5) = 1;
+			eignet(i+5,j) = mdot(i,j);
+			eignet(i+5,j+5) = m(i,j);
 		}
 	}
+}
 
-	es10.compute(net);
+void flmatrix::compute_eigensystem() {
+	es10.compute(eignet);
 	eigvals.diagonal() = es10.eigenvalues();
 	eigvecs = es10.eigenvectors();
+
+/*	arma::mat A(10,10);
+	for (int i=0;i<10;i++) {
+		for (int j=0;j<10;j++) {
+			A(i,j) = eignet(i,j);
+		}
+	}
+*/	
+
 }
 
 void flmatrix::compute_correlator() {
-	Matrix5cd ret = MatrixXcd::Zero(5,5);
-
+	// Reset correlator
 	correlator *= 0;
 
-	// Temporary values
-	Vector5cd temp;
-	cdouble eigvalDiff;
+	// These have shape 5 because we only care about the first 5 components of a given eigenvector.
+	Vector5cd temp = Vector5cd::Zero();
+	Matrix5cd ret = Matrix5cd::Zero();
 
-	for (int i=0;i<5;i++) {
+	for (int i=0;i<10;i++) { // 10 because there are 10 eigenvalues and eigenvectors.
 		if (eigvals(i,i).real() > 0) {
-			for (int k=0;k<5;k++) {
-				temp(k) = eigvecs.col(i)(k);
+			for (int j=0;j<5;j++) {
+				temp(j) = eigvecs.col(i)(j);
 			}
 			temp = eigvals(i,i).real()*normalizeV(temp,eps);
 			ret += temp*temp.adjoint();
@@ -145,6 +146,7 @@ void flmatrix::compute_correlator() {
 	}
 
 	correlator += ret.real();
+
 }
 
 double flmatrix::computeKfromKA(double ka) {
@@ -160,6 +162,7 @@ double flmatrix::computeKfromKA(double ka) {
 
 // Set wavevector in spherical coordinates
 void flmatrix::set_k(double kmagg, double kT, double kP) {
+
 	kmag = kmagg;
 
 	sphericalToCartesian(kmagg,kT,kP,k);
@@ -168,6 +171,7 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 	set_vecs();
 	set_M();
 	set_Mdot();
+	set_net();
 	compute_eigensystem();
 	compute_correlator();
 }

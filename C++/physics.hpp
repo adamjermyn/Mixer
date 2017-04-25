@@ -6,6 +6,7 @@
 
 // -------------------------------------
 // Includes
+
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 #include "linalg.hpp"
@@ -67,12 +68,12 @@ public:
 	double transK;
 
 	// Intended outputs
-	Matrix5d m;
-	Matrix5d mdot;
-	Matrix10cd eigvals;
-	Matrix10cd eigvecs;
-	Matrix5cd proj;
-	Matrix5d correlator;
+	Matrix5d m = Matrix5d::Zero();
+	Matrix5d mdot = Matrix5d::Zero();
+	Matrix10d eignet = Matrix10d::Zero();
+	Matrix10cd eigvals = Matrix10cd::Zero();
+	Matrix10cd eigvecs = Matrix10cd::Zero();
+	Matrix5d correlator = Matrix5d::Zero();
 
 	// Eigensolver
 	EigenSolver<Matrix5d> es;
@@ -87,6 +88,8 @@ public:
 	void set_M();
 
 	void set_Mdot();
+
+	void set_net();
 
 	void compute_eigensystem();
 
