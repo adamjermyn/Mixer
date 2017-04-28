@@ -9,10 +9,11 @@ sys.path.append(d + '/Python/')
 import numpy as np
 import h5py
 from pyTurb import coeffs
+from multiprocessing import Pool
 
 fi = h5py.File('Data/baro_results.dat','w')
 
-delta = np.linspace(-np.pi,np.pi,num=30,endpoint=True)
+delta = np.linspace(-np.pi,np.pi,num=100,endpoint=True)
 
 fi['delta'] = delta
 
@@ -25,14 +26,16 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-10
 tola = 1e-10
+maxEval = 100000
 
-results = np.zeros(list(delta.shape) + [7,7,2])
 
-for i in range(delta.shape[0]):
-	print(i)
-	params = (omega, w, tW, tS + delta[i], tP, N2, tolr, tola)
+def f(x):
+	params = (omega, w, tW, tS + x, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
-	results[i] = r
+	return r
+
+pool = Pool(processes=4)
+results = np.array(pool.map(f, delta))
 
 fi['results'] = results
 fi.close()

@@ -9,32 +9,103 @@ sys.path.append(d + '/Python/')
 import numpy as np
 import h5py
 from pyTurb import coeffs
+from multiprocessing import Pool
 
-
-B = np.linspace(-3,3,num=30,endpoint=True)
-
-fi = h5py.File('Data/accretion_results.dat','w')
-fi['B'] = B
+B = 10**np.linspace(-3,3,num=100,endpoint=True)
 
 tB = 0
 pB = 0
 tS = np.pi/2
-tP = np.pi/2
-tW = 3*np.pi/2
+tP = 0
+tW = np.pi/2
 omega = 1.
-w = 3./2
+w = -3./2
 N2 = 0
 chi = 0
 tolr = 1e-10
 tola = 1e-10
+maxEval = 10000
 
-results = np.zeros(list(B.shape) + [7,7,2])
+B = 0.01
 
-for i in range(B.shape[0]):
-	print(i)
-	params = (B[i], tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola)
+w = 1.
+tW = np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = -1.
+tW = 3*np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = -1.
+tW = np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = 1.
+tW = 3*np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = 10.05
+tW = np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = -10.05
+tW = 3*np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = -10.05
+tW = np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+w = 10.05
+tW = 3*np.pi/2
+
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+r = coeffs(params)
+
+print(r[4:,4:,0])
+
+
+exit()
+
+fi = h5py.File('Data/accretion_results.dat','w')
+fi['B'] = B
+
+
+def f(x):
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
 	r = coeffs(params)
-	results[i] = r
+	return r
+
+pool = Pool(processes=4)
+results = np.array(pool.map(f, B))
 
 fi['results'] = results
 fi.close()
