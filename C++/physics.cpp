@@ -127,7 +127,7 @@ void flmatrix::compute_eigensystem() {
 
 	Matrix10d net = eigent * nullProjector(constraint, eps);
 
-	es10.compute(eignet);
+	es10.compute(net);
 	eigvals.diagonal() = es10.eigenvalues();
 	eigvecs = es10.eigenvectors();
 
