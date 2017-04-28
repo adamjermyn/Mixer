@@ -88,8 +88,8 @@ double vGrowth(Vector10cd v) {
 	(alpha, beta, d log rho, alpha-dot, beta-dot) and the next five are the
 	time derivatives of these.
 	*/
-	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9])
-	cdouble g1 = conj(g0)
+	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9]);
+	cdouble g1 = conj(g0);
 	return ((g0 + g1)/(eps + abs(v[3])*abs(v[3]) + abs(v[4])*abs(v[4]))).real();
 
 }
