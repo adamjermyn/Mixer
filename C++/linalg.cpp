@@ -69,8 +69,8 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 	Matrix10d ret = Matrix10d::Zero();
 
 	for (int i=0;i<10;i++) {
-		if (abs(es.eigenvalues()(i)) < eps) {
-			ret += (es.eigenvectors().col(i))*(es.eigenvectors().col(i)).adjoint();
+		if (abs(es10.eigenvalues()(i)) < eps) {
+			ret += (es10.eigenvectors().col(i))*(es10.eigenvectors().col(i)).adjoint();
 		}
 	}
 
