@@ -31,6 +31,7 @@ typedef Eigen::Matrix<double, 7, 5> Matrix75d;
 typedef Eigen::Matrix<double, 5, 1> Vector5d;
 typedef Eigen::Matrix<cdouble, 5, 1> Vector5cd;
 typedef Eigen::Matrix<cdouble, 10, 1> Vector10cd;
+typedef Eigen::Matrix<double, 10, 1> Vector10d;
 typedef Eigen::Array<double, 7, 7> Array7d;
 typedef Eigen::Matrix<double, 10, 10> Matrix10d;
 typedef Eigen::Matrix<cdouble, 10, 10> Matrix10cd;
