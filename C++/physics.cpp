@@ -142,11 +142,12 @@ void flmatrix::compute_correlator() {
 	Matrix5cd ret = Matrix5cd::Zero();
 
 	for (int i=0;i<10;i++) { // 10 because there are 10 eigenvalues and eigenvectors.
-		if (eigvals(i,i).real() > 0) {
+		g = vGrowth(eigvecs.col(i));
+		if (g > 0) {
 			for (int j=0;j<5;j++) {
 				temp(j) = eigvecs.col(i)(j);
 			}
-			temp = eigvals(i,i).real()*normalizeV(temp,eps);
+			temp = g*normalizeV(temp,eps);
 			ret += temp*temp.adjoint();
 		}
 	}

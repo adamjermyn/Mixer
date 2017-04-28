@@ -76,3 +76,13 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 
 	return ret;
 }
+
+double vGrowth(Vector10cd v) {
+	/*
+	This method takes as input a vector of size 10 and returns the growth rate
+	implied by the elements of the vector, assuming that the first five are
+	(alpha, beta, d log rho, alpha-dot, beta-dot) and the next five are the
+	time derivatives of these.
+	*/
+	return ((v[3]*v[8] + v[4]*v[9])/(v[3]*v[3] + v[4]*v[4])).real();
+}
