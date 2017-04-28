@@ -3,6 +3,7 @@
 *.e
 *.ipynb
 *.py~
+*~
 *.dat
 *.error
 *.out
