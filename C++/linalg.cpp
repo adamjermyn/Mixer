@@ -66,7 +66,7 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 	with the threshold used to distinguish null eigenvalues.
 	*/
 
-	JacobiSVD<Matrix10d> es10;
+	JacobiSVD<Matrix10d> es10(m, ComputeFullU | ComputeFullV );
 	es10.compute(m);
 
 	Vector10d vals = Vector10d::Zero();
@@ -74,11 +74,9 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 
 	for (int i=0;i<10;i++) {
 		if (abs(es10.singularValues()(i)) < eps) {
-			ret += ((es10.matrixU().col(i))*(es10.matrixV().col(i)).adjoint()).real();
+			ret += ((es10.matrixV().col(i))*(es10.matrixV().col(i)).adjoint()).real();
 		}
 	}
-
-	cout << ret << endl;
 
 	return ret;
 }
@@ -90,5 +88,8 @@ double vGrowth(Vector10cd v) {
 	(alpha, beta, d log rho, alpha-dot, beta-dot) and the next five are the
 	time derivatives of these.
 	*/
-	return ((v[3]*v[8] + v[4]*v[9])/(v[3]*v[3] + v[4]*v[4])).real();
+	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9])
+	cdouble g1 = conj(g0)
+	return ((g0 + g1)/(eps + abs(v[3])*abs(v[3]) + abs(v[4])*abs(v[4]))).real();
+
 }
