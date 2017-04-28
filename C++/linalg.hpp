@@ -50,6 +50,8 @@ Matrix5cd normalizeM(Matrix5cd m, double eps);
 
 Vector5cd normalizeV(Vector5cd m, double eps);
 
+Matrix10d nullProjector(Matrix10d m, double eps);
+
 // -------------------------------------
 // End Header guard
 #endif

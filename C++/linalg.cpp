@@ -54,3 +54,25 @@ Matrix5cd normalizeM(Matrix5cd m, double eps) {
 	}
 	return ret;
 }
+
+
+Matrix10d nullProjector(Matrix10d m, double eps) {
+	/*
+	This method takes as input a 10x10 matrix and a threshold and returns
+	the matrix which projects into the null space of the given matrix,
+	with the threshold used to distinguish null eigenvalues.
+	*/
+
+	EigenSolver<Matrix10d> es10;
+	es.compute(m);
+
+	Matrix10d ret = Matrix10d::Zero();
+
+	for (int i=0;i<10;i++) {
+		if (abs(es.eigenvalues()(i)) < eps) {
+			ret += (es.eigenvectors().col(i))*(es.eigenvectors().col(i)).adjoint();
+		}
+	}
+
+	return ret;
+}
