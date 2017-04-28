@@ -64,7 +64,7 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 	*/
 
 	EigenSolver<Matrix10d> es10;
-	es.compute(m);
+	es10.compute(m);
 
 	Matrix10d ret = Matrix10d::Zero();
 
