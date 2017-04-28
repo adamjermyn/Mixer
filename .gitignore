@@ -8,5 +8,6 @@
 *.out
 *.log
 *.pdf
+*.pyc
 *gmon*
 Build/out
