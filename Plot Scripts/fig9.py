@@ -16,6 +16,6 @@ x, y = delta, r[...,5,4,0]
 plt.plot(x,y)
 plt.title('Mid-latitude $r \\theta$ stress, $\Omega=0.1|N|$')
 plt.xlabel('$\delta$')
-plt.ylabel('$\langle v_r v_\phi \\rangle$')
+plt.ylabel('$\langle v_r v_\\theta \\rangle$')
 plt.tight_layout()
-plt.savefig('Plots/vrvt_baro_9.pdf')
+plt.savefig('Plots/9_vrvt_baro.pdf')

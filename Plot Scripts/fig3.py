@@ -18,5 +18,5 @@ plt.title('Mid-latitude $r \phi$ stress')
 plt.xlabel('$\log \Omega/|N|$')
 plt.ylabel('$\log|\langle v_r v_\phi\\rangle|$')
 plt.tight_layout()
-plt.savefig('Plots/vrvp_omega_3.pdf')
+plt.savefig('Plots/3_vrvp_omega.pdf')
 
