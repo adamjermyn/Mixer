@@ -125,7 +125,7 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix10d net = eigent * nullProjector(constraint, eps);
+	Matrix10d net = eignet * nullProjector(constraint, eps);
 
 	es10.compute(net);
 	eigvals.diagonal() = es10.eigenvalues();
@@ -142,7 +142,7 @@ void flmatrix::compute_correlator() {
 	Matrix5cd ret = Matrix5cd::Zero();
 
 	for (int i=0;i<10;i++) { // 10 because there are 10 eigenvalues and eigenvectors.
-		g = vGrowth(eigvecs.col(i));
+		double g = vGrowth(eigvecs.col(i));
 		if (g > 0) {
 			for (int j=0;j<5;j++) {
 				temp(j) = eigvecs.col(i)(j);
@@ -179,7 +179,7 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 	set_M();
 	set_Mdot();
 	set_net();
-	set_contraint();
+	set_constraint();
 	compute_eigensystem();
 	compute_correlator();
 }

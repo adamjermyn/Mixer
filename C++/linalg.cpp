@@ -70,7 +70,7 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 
 	for (int i=0;i<10;i++) {
 		if (abs(es10.eigenvalues()(i)) < eps) {
-			ret += (es10.eigenvectors().col(i))*(es10.eigenvectors().col(i)).adjoint();
+			ret += ((es10.eigenvectors().col(i))*(es10.eigenvectors().col(i)).adjoint()).real();
 		}
 	}
 
