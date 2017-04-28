@@ -4,9 +4,12 @@
 #include <Eigen/Eigenvalues>
 #include "linalg.hpp"
 
+#include <iostream>
+
 // -------------------------------------
 
 using namespace Eigen;
+using namespace std;
 
 // -------------------------------------
 
@@ -63,16 +66,19 @@ Matrix10d nullProjector(Matrix10d m, double eps) {
 	with the threshold used to distinguish null eigenvalues.
 	*/
 
-	EigenSolver<Matrix10d> es10;
+	JacobiSVD<Matrix10d> es10;
 	es10.compute(m);
 
+	Vector10d vals = Vector10d::Zero();
 	Matrix10d ret = Matrix10d::Zero();
 
 	for (int i=0;i<10;i++) {
-		if (abs(es10.eigenvalues()(i)) < eps) {
-			ret += ((es10.eigenvectors().col(i))*(es10.eigenvectors().col(i)).adjoint()).real();
+		if (abs(es10.singularValues()(i)) < eps) {
+			ret += ((es10.matrixU().col(i))*(es10.matrixV().col(i)).adjoint()).real();
 		}
 	}
+
+	cout << ret << endl;
 
 	return ret;
 }
