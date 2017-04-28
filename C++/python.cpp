@@ -20,12 +20,6 @@
 using namespace Eigen;
 using namespace std;
 
-// -------------------------------------
-
-const int maxEval = 100000000;
-
-// -------------------------------------
-
 extern "C" double* coeffs3(double tolr, double tola, double B, double tB, double pB, double omega, double w, double tW, double tS, double tP, double N2, double chi, int maxEval) {
 
 	const unsigned intDim = 3;

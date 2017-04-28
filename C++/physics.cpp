@@ -96,7 +96,7 @@ void flmatrix::set_Mdot() {
 	mdot(4,3) = -mdot(3,4);
 	mdot(4,1) = -2*wmag*dot(b,wHat)*(2*kw*b[0]-c[0]);
 	mdot(4,2) = dot(presHat,b)*kw-dot(presHat,c);
-	
+
 	mdot *= pref;
 
 }
@@ -113,6 +113,7 @@ void flmatrix::set_net() {
 }
 
 void flmatrix::compute_eigensystem() {
+
 	es10.compute(eignet);
 	eigvals.diagonal() = es10.eigenvalues();
 	eigvecs = es10.eigenvectors();
