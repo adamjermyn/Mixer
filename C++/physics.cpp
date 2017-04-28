@@ -131,14 +131,6 @@ void flmatrix::compute_eigensystem() {
 	eigvals.diagonal() = es10.eigenvalues();
 	eigvecs = es10.eigenvectors();
 
-/*	arma::mat A(10,10);
-	for (int i=0;i<10;i++) {
-		for (int j=0;j<10;j++) {
-			A(i,j) = eignet(i,j);
-		}
-	}
-*/	
-
 }
 
 void flmatrix::compute_correlator() {
