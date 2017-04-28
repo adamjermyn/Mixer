@@ -1,0 +1,21 @@
+#/bin/bash
+python fig1.py
+python fig2.py
+python fig3.py
+python fig4.py
+python fig5.py
+python fig6.py
+python fig7.py
+python fig8.py
+python fig9.py
+python fig10.py
+python fig11.py
+python fig12.py
+python scalingPlot.py
+python plot1.py
+python plot2.py
+python plot3.py
+python plot4.py
+python plot5.py
+python plot6.py
+python plot7.py
