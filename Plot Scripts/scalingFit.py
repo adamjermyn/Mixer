@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 from os.path import dirname, abspath
 d = dirname(dirname(abspath(__file__)))
@@ -9,10 +10,11 @@ sys.path.append(d + '/Python/')
 import numpy as np
 import h5py
 from pyTurb import coeffs
+from multiprocessing import Pool
 
-omega = 10**np.linspace(-3,1.5,num=100,endpoint=True)
+omega = 10**np.linspace(-3,3,num=100,endpoint=True)
 
-fi = h5py.File('Data/scale_results.dat','w')
+fi = h5py.File('Data/scale_results2.dat','w')
 fi['omega'] = omega
 
 tS = np.pi/4
@@ -20,16 +22,17 @@ tP = np.pi/4
 w = 1e-15
 tW = np.pi/2
 N2 = -1
-tolr = 1e-11
-tola = 1e-11
+tolr = 1e-9
+tola = 1e-9
+maxEval = 10000000
 
-results = np.zeros(list(omega.shape) + [7,7,2])
-
-for i in range(omega.shape[0]):
-	print(i)
-	params = (omega[i], w, tW, tS, tP, N2, tolr, tola)
+def f(x):
+	params = (x, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
-	results[i] = r
+	return r
+
+pool = Pool(processes=4)
+results = np.array(pool.map(f, omega))
 
 fi['results'] = results
 fi.close()

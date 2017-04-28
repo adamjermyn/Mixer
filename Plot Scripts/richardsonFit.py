@@ -9,6 +9,7 @@ sys.path.append(d + '/Python/')
 import numpy as np
 import h5py
 from pyTurb import coeffs
+from multiprocessing import Pool
 
 omega = 1
 w = omega * 10**np.linspace(-5,0,num=100,endpoint=True)
@@ -24,14 +25,15 @@ tW = np.pi/2
 N2 = 1
 tolr = 1e-10
 tola = 1e-10
+maxEval = 100000
 
-results = np.zeros(list(w.shape) + [7,7,2])
-
-for i in range(w.shape[0]):
-	print(i)
-	params = (omega, w[i], tW, tS, tP, N2, tolr, tola)
+def f(x):
+	params = (omega, x, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
-	results[i] = r
+	return r
+
+pool = Pool(processes=4)
+results = np.array(pool.map(f, w))
 
 fi['results'] = results
 fi.close()
