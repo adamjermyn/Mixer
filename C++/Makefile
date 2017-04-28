@@ -1,5 +1,5 @@
 CC = g++
-OPTC = -O3 -fopenmp -ffast-math -march=native -fpermissive -std=gnu++11 -pipe
+OPTC = -O3 -fopenmp -ffast-math -fpermissive -std=gnu++11 -pipe
 SHARED = -fPIC -shared
 PROF = $(OPTC) -pg -g
 DEBUG = -O0
