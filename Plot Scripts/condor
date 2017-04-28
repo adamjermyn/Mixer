@@ -1,0 +1,20 @@
+Universe = vanilla
+
+Initialdir = /home/asj42/Documents/Turbulence/Plot Scripts
+
+Executable = scalingFit.py
+
+Getenv = true
+
+Request_memory = 500
+Request_cpus = 4
+
+Notification = never
+
+Output = job.out
+
+Error = job.error
+
+Log = job.log
+
+Queue
