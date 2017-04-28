@@ -112,7 +112,20 @@ void flmatrix::set_net() {
 	}
 }
 
+
+void flmatrix::set_constraint() {
+	for (int i=0;i<5;i++) {
+		for (int j=0;j<5;j++) {
+			if (i==j)
+				constraint(i,i) = 1;
+			constraint(i+5,j) = m(i,j);
+		}
+	}
+}
+
 void flmatrix::compute_eigensystem() {
+
+	Matrix10d net = eigent * nullProjector(constraint, eps);
 
 	es10.compute(eignet);
 	eigvals.diagonal() = es10.eigenvalues();
@@ -173,6 +186,7 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 	set_M();
 	set_Mdot();
 	set_net();
+	set_contraint();
 	compute_eigensystem();
 	compute_correlator();
 }

@@ -70,6 +70,7 @@ public:
 	// Intended outputs
 	Matrix5d m = Matrix5d::Zero();
 	Matrix5d mdot = Matrix5d::Zero();
+	Matrix10d constraint = Matrix10d::Zero();
 	Matrix10d eignet = Matrix10d::Zero();
 	Matrix10cd eigvals = Matrix10cd::Zero();
 	Matrix10cd eigvecs = Matrix10cd::Zero();
