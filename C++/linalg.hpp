@@ -53,7 +53,7 @@ Vector5cd normalizeV(Vector5cd m, double eps);
 
 Matrix10d nullProjector(Matrix10d m, double eps);
 
-double vGrowth(Vector10d v);
+double vGrowth(Vector10cd v);
 
 // -------------------------------------
 // End Header guard
