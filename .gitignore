@@ -7,5 +7,6 @@
 *.error
 *.out
 *.log
+*.pdf
 *gmon*
 Build/out
