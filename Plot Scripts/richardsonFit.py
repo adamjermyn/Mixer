@@ -28,6 +28,7 @@ tola = 1e-10
 maxEval = 100000
 
 def f(x):
+	print(x)
 	params = (omega, x, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
 	return r

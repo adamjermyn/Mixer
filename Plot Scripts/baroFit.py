@@ -30,6 +30,7 @@ maxEval = 100000
 
 
 def f(x):
+	print(x)
 	params = (omega, w, tW, tS + x, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
 	return r
