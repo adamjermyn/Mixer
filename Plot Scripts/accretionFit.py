@@ -24,82 +24,15 @@ N2 = 0
 chi = 0
 tolr = 1e-10
 tola = 1e-10
-maxEval = 10000
+maxEval = 100000
 
-B = 0.01
-
-w = 1.
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = -1.
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = -1.
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = 1.
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = 10.05
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = -10.05
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = -10.05
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-w = 10.05
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[4:,4:,0])
-
-
-exit()
 
 fi = h5py.File('Data/accretion_results.dat','w')
 fi['B'] = B
 
 
 def f(x):
+	print(x)
 	params = (x, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
 	r = coeffs(params)
 	return r
