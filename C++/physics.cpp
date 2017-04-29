@@ -43,8 +43,8 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	// Set known matrix elements
 
-	m(0,3) = 1;
-	m(1,4) = 1;
+	m(0,2) = 1;
+	m(1,3) = 1;
 }
 
 void flmatrix::set_vecs() {
@@ -86,6 +86,8 @@ void flmatrix::set_Mdot() {
 	double pref = kHat[1]*wmag;
 	double kw = dot(kHat,wHat);
 
+	db = 
+
 	mdot(2,2) = -2*chi*kmag*kmag*kw;
 	mdot(2,4) = -N2*(kw*dot(b,entHat)-dot(c,entHat));
 	mdot(3,1) = -2*wmag*dot(b,wHat)*kw*a[0];
@@ -93,6 +95,14 @@ void flmatrix::set_Mdot() {
 	mdot(4,3) = -mdot(3,4);
 	mdot(4,1) = -2*wmag*dot(b,wHat)*(2*kw*b[0]-c[0]);
 	mdot(4,2) = dot(presHat,b)*kw-dot(presHat,c);
+
+	mdot(2,0) = -2*wmag*dot(b,wHat)*kw*a[0];
+	mdot(2,1) = -N2*dot(a, presHat)*dot(c, entHat);
+	mdot(3,0) = ;
+	mdot(3,1) = -2*wmag*dot(b,wHat)*(2*kw*b[0]-c[0]);
+
+	mdot(2,3) = -2*omega*(dot(a,e)*kw-dot(a,d));
+	mdot(3,2) = -mdot(2,3);
 
 	mdot *= pref;
 
