@@ -15,11 +15,11 @@ fi.close()
 plt.figure(figsize=(6,5))
 
 plt.subplot(121)
-x, y = omega[omega<=1], r[omega<=1][...,4,4,0]
+x, y = omega[omega<=2], r[omega<=2][...,4,4,0]
 plt.plot(x,y,label='$v_r v_r$')
 plt.xlim([0,1])
 plt.ylim([0,0.25])
-x, y = omega[omega<=1], r[omega<=1][...,0,4,0]
+x, y = omega[omega<=2], r[omega<=2][...,0,4,0]
 plt.plot(x,y,label='$v_r r_r$')
 plt.xlim([0,1])
 plt.ylim([0,0.25])
@@ -28,9 +28,11 @@ plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper right')
 
 plt.subplot(122)
-x, y = omega[(omega>=1) & (omega<=1000)], r[(omega>=1) & (omega<=1000)][...,4,4,0]
+x, y = omega[(omega>=0.5) & (omega<=1000)], r[(omega>=0.5) & (omega<=1000)][...,4,4,0]
+plt.xlim([0,max(omega)])
 plt.loglog(x,y,label='$v_r v_r$')
-x, y = omega[(omega>=1) & (omega<=1000)], r[(omega>=1) & (omega<=1000)][...,0,4,0]
+x, y = omega[(omega>=0.5) & (omega<=1000)], r[(omega>=0.5) & (omega<=1000)][...,0,4,0]
+plt.xlim([0,max(omega)])
 plt.loglog(x,y,label='$v_r r_r$')
 plt.xlabel('$ \Omega/|N|$')
 plt.legend(loc='upper right')
