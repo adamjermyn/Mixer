@@ -159,60 +159,28 @@ TEST_CASE("Spherical coordinates","[sphericalToCartesian]") {
 TEST_CASE("Velocity normalisation","[normalizeV]") {
 	double tol = 3*eps;
 
-	std::complex<double> z1 = 1+1i;
+	cdouble z1 = 1+1i;
 
-	Vector5cd m0;
-	Vector5cd m;
+	VectorC m0;
+	VectorC m;
 
 	double onorm;
 
 	for (int i=0;i<100;i++) {
-		m0 = Vector5cd::Random(5,1);
+		m0 = VectorC::Random(5,1);
 		m = normalizeV(m0,eps);
 
 		// Accuracy guarantees drop for small vectors
 		onorm = abs(pow(m0(3,0),2))+abs(pow(m0(4,0),2));
 		REQUIRE(abs(abs(pow(m(3,0),2))+abs(pow(m(4,0),2))-1)<=tol/onorm);
 
-		m0 = Vector5cd::Random(5,1);
+		m0 = VectorC::Random(5,1);
 		m0 = m0 * z1;
 		m = normalizeV(m0,eps);
 
 		// Accuracy guarantees drop for small vectors
 		onorm = abs(pow(m0(3,0),2))+abs(pow(m0(4,0),2));
 		REQUIRE(abs(abs(pow(m(3,0),2))+abs(pow(m(4,0),2))-1)<=tol/onorm);
-	}
-}
-
-TEST_CASE("Matrix velocity normalisation","[normalizeM]") {
-	double tol = 3*eps;
-
-	std::complex<double> z1 = 1+1i;
-
-	Matrix5cd m0;
-	Matrix5cd m;
-
-	double onorm;
-
-	for (int i=0;i<100;i++) {
-		m0 = Matrix5cd::Random(5,5);
-		m = normalizeM(m0,eps);
-
-		for (int j=0;j<5;j++) {
-			// Accuracy guarantees drop for small vectors
-			onorm = abs(pow(m0(3,j),2))+abs(pow(m0(4,j),2));
-			REQUIRE(abs(abs(pow(m(3,j),2))+abs(pow(m(4,j),2))-1)<=tol/onorm);
-		}
-
-		m0 = Matrix5cd::Random(5,5);
-		m0 = m0 * z1;
-		m = normalizeM(m0,eps);
-
-		for (int j=0;j<5;j++) {
-			// Accuracy guarantees drop for small vectors
-			onorm = abs(pow(m0(3,j),2))+abs(pow(m0(4,j),2));
-			REQUIRE(abs(abs(pow(m(3,j),2))+abs(pow(m(4,j),2))-1)<=tol/onorm);
-		}
 	}
 }
 

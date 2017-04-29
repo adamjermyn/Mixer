@@ -14,6 +14,8 @@ fi.close()
 
 x, y = np.log10(B), r[...,6,4,0]
 print(r[...,4:,4:,0])
+print('AAAAAAAAAAAAAAA')
+print(r[...,:3,4:,0])
 plt.plot(x,y)
 plt.title('Mid-latitude $r \phi$ stress $|N|=0$')
 plt.xlabel('$\log v_A/l\Omega$')

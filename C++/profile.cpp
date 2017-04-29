@@ -28,14 +28,14 @@ int main() {
 	double B = 0;
 	double tB = 0;
 	double pB = 0;
-	double omega = 1000;
+	double omega = 0.;
 	double w = 1e-15;
 	double tW = 0;
 	double tS = 1.57;
 	double tP = 1.57;
 	double N2 = -1;
 	double chi = 0;
-	int maxEval = 300000;
+	int maxEval = 10000;
 
 	const unsigned intDim = 2;
 	const double transform_aa[3] = {0,0};

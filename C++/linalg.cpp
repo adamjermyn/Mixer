@@ -4,9 +4,12 @@
 #include <Eigen/Eigenvalues>
 #include "linalg.hpp"
 
+#include <iostream>
+
 // -------------------------------------
 
 using namespace Eigen;
+using namespace std;
 
 // -------------------------------------
 
@@ -33,24 +36,44 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 	ret[2] = r*cos(t);
 }
 
-Vector5cd normalizeV(Vector5cd v, double eps) {
+VectorC normalizeV(VectorC v, double eps) {
+	//TODO: Add correction from c-hat piece
 	double net = sqrt(eps+pow(abs(v(dim-1,0)),2) + pow(abs(v(dim-2,0)),2));	
-	Vector5cd ret(v);
+	VectorC ret(v);
 	v /= net;
 	return v;
 }
 
-Matrix5cd normalizeM(Matrix5cd m, double eps) {
-	// This function takes as input a matrix with eigenvectors as columns
-	// and returns a copy with each column normalized such that
-	// the sum of the norm squares of the last two elements is unity.
-	Matrix5cd ret(m);
-	double net;
-	double elem;
-	//We've optimized dim for matrices of size five
-	for (int i=0;i<dim;i++) {
-		net = sqrt(eps+pow(abs(m(dim-1,i)),2) + pow(abs(m(dim-2,i)),2));
-		ret.col(i) /= net;
+Matrix2 nullProjector(Matrix2 m, double eps) {
+	/*
+	This method takes as input a (dim*2 x dim*2) matrix and a threshold and returns
+	the matrix which projects into its right null space,
+	with the threshold used to distinguish null eigenvalues.
+	*/
+
+	JacobiSVD<Matrix2> svd(m, ComputeFullU | ComputeFullV );
+	svd.compute(m);
+
+	Vector2 vals = Vector2::Zero();
+	Matrix2 ret = Matrix2::Zero();
+
+	for (int i=0;i<10;i++) {
+		if (abs(svd.singularValues()(i)) < eps) {
+			ret += ((svd.matrixV().col(i))*(svd.matrixV().col(i)).adjoint()).real();
+		}
 	}
+
 	return ret;
+}
+
+double vGrowth(VectorC2 v) {
+	/*
+	This method takes as input a vector of size 2*dim and returns the growth rate
+	implied by the velocity elements of the vector, which are assumed as usual to be
+	the final two in each set of dim.
+	*/
+	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9]);
+	cdouble g1 = conj(g0);
+	return ((g0 + g1)/(eps + abs(v[3])*abs(v[3]) + abs(v[4])*abs(v[4]))).real();
+
 }

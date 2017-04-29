@@ -102,29 +102,34 @@ void flmatrix::set_Mdot() {
 }
 
 void flmatrix::set_net() {
-	for (int i=0;i<5;i++) {
-		for (int j=0;j<5;j++) {
+	for (int i=0;i<dim;i++) {
+		for (int j=0;j<dim;j++) {
 			if (i==j)
-				eignet(i,j+5) = 1;
-			eignet(i+5,j) = mdot(i,j);
-			eignet(i+5,j+5) = m(i,j);
+				eignet(i,j+dim) = 1;
+			eignet(i+dim,j) = mdot(i,j);
+			eignet(i+dim,j+dim) = m(i,j);
+		}
+	}
+}
+
+
+void flmatrix::set_constraint() {
+	for (int i=0;i<dim;i++) {
+		for (int j=0;j<dim;j++) {
+			if (i==j)
+				constraint(i,i) = 1;
+			constraint(i+dim,j) = m(i,j);
 		}
 	}
 }
 
 void flmatrix::compute_eigensystem() {
 
-	es10.compute(eignet);
-	eigvals.diagonal() = es10.eigenvalues();
-	eigvecs = es10.eigenvectors();
+	Matrix2 net = eignet * nullProjector(constraint, eps);
 
-/*	arma::mat A(10,10);
-	for (int i=0;i<10;i++) {
-		for (int j=0;j<10;j++) {
-			A(i,j) = eignet(i,j);
-		}
-	}
-*/	
+	es2.compute(net);
+	eigvals.diagonal() = es2.eigenvalues();
+	eigvecs = es2.eigenvectors();
 
 }
 
@@ -132,16 +137,16 @@ void flmatrix::compute_correlator() {
 	// Reset correlator
 	correlator *= 0;
 
-	// These have shape 5 because we only care about the first 5 components of a given eigenvector.
-	Vector5cd temp = Vector5cd::Zero();
-	Matrix5cd ret = Matrix5cd::Zero();
+	VectorC temp = VectorC::Zero();
+	MatrixC ret = MatrixC::Zero();
 
-	for (int i=0;i<10;i++) { // 10 because there are 10 eigenvalues and eigenvectors.
-		if (eigvals(i,i).real() > 0) {
-			for (int j=0;j<5;j++) {
+	for (int i=0;i<2*dim;i++) {
+		double g = vGrowth(eigvecs.col(i));
+		if (g > 0) {
+			for (int j=0;j<dim;j++) {
 				temp(j) = eigvecs.col(i)(j);
 			}
-			temp = eigvals(i,i).real()*normalizeV(temp,eps);
+			temp = g*normalizeV(temp,eps);
 			ret += temp*temp.adjoint();
 		}
 	}
@@ -173,6 +178,7 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 	set_M();
 	set_Mdot();
 	set_net();
+	set_constraint();
 	compute_eigensystem();
 	compute_correlator();
 }

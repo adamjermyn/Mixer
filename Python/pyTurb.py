@@ -1,7 +1,12 @@
 import numpy as np
 import ctypes
 
-_turb = ctypes.CDLL('/home/asj42/Documents/Turbulence/Build/turb.so')
+import os
+from os.path import dirname, abspath
+d = dirname(dirname(abspath(__file__)))
+d = d + '/Build/turb.so'
+
+_turb = ctypes.CDLL(d)
 _turb.coeffs3.argtypes = [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
 _turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
 _turb.coeffs2.argtypes = [ctypes.c_double for _ in range(8)] + [ctypes.c_int]

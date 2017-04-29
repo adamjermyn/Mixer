@@ -11,4 +11,5 @@
 *.pdf
 *.pyc
 *gmon*
+*.plist
 Build/out

@@ -22,11 +22,12 @@ tP = np.pi/4
 w = 1e-15
 tW = np.pi/2
 N2 = -1
-tolr = 1e-9
-tola = 1e-9
-maxEval = 10000000
+tolr = 1e-7
+tola = 1e-7
+maxEval = 1000000
 
 def f(x):
+	print(x)
 	params = (x, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
 	return r

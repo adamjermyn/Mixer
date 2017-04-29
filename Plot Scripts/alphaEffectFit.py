@@ -21,7 +21,7 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-8
 tola = 1e-8
-maxEval = 30000000
+maxEval = 300000
 
 results = np.zeros(list(omega.shape) + [7,7,2])
 
