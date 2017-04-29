@@ -24,9 +24,9 @@ N2 = 0
 chi = 0
 tolr = 1e-10
 tola = 1e-10
-maxEval = 10000
+maxEval = 100000
 
-B = 0.01
+B = 0.1
 
 w = 1.
 tW = np.pi/2
