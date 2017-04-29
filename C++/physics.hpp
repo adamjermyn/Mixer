@@ -9,7 +9,9 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
+
 #include "linalg.hpp"
+#include "basis.hpp"
 
 // -------------------------------------
 
@@ -41,24 +43,14 @@ class flmatrix
 
 public:
 
-		// Geometry
-	double k[3];
+	// Geometry
+	basis ba;
 
 	double kmag;
-	double kHat[3];
-
-	double a[3];
-	double b[3];
-	double c[3];
-	double d[3];
-	double e[3];
-
 	double kva;
-
 
 	// Physical parameters
 	double va[3];
-	double wHat[3];
 	double entHat[3];
 	double presHat[3];
 	double wmag;
