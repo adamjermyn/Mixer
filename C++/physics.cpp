@@ -125,11 +125,11 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix10d net = eignet * nullProjector(constraint, eps);
+	Matrix2 net = eignet * nullProjector(constraint, eps);
 
-	es10.compute(net);
-	eigvals.diagonal() = es10.eigenvalues();
-	eigvecs = es10.eigenvectors();
+	es2.compute(net);
+	eigvals.diagonal() = es2.eigenvalues();
+	eigvecs = es2.eigenvectors();
 
 }
 
@@ -137,14 +137,13 @@ void flmatrix::compute_correlator() {
 	// Reset correlator
 	correlator *= 0;
 
-	// These have shape 5 because we only care about the first 5 components of a given eigenvector.
-	Vector5cd temp = Vector5cd::Zero();
-	Matrix5cd ret = Matrix5cd::Zero();
+	VectorC temp = VectorC::Zero();
+	MatrixC ret = MatrixC::Zero();
 
-	for (int i=0;i<10;i++) { // 10 because there are 10 eigenvalues and eigenvectors.
+	for (int i=0;i<2*dim;i++) {
 		double g = vGrowth(eigvecs.col(i));
 		if (g > 0) {
-			for (int j=0;j<5;j++) {
+			for (int j=0;j<dim;j++) {
 				temp(j) = eigvecs.col(i)(j);
 			}
 			temp = g*normalizeV(temp,eps);

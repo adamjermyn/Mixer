@@ -68,17 +68,17 @@ public:
 	double transK;
 
 	// Intended outputs
-	Matrix5d m = Matrix5d::Zero();
-	Matrix5d mdot = Matrix5d::Zero();
-	Matrix10d constraint = Matrix10d::Zero();
-	Matrix10d eignet = Matrix10d::Zero();
-	Matrix10cd eigvals = Matrix10cd::Zero();
-	Matrix10cd eigvecs = Matrix10cd::Zero();
-	Matrix5d correlator = Matrix5d::Zero();
+	Matrix1 m = Matrix1::Zero();
+	Matrix1 mdot = Matrix1::Zero();
+	Matrix2 constraint = Matrix2::Zero();
+	Matrix2 eignet = Matrix2::Zero();
+	MatrixC2 eigvals = MatrixC2::Zero();
+	MatrixC2 eigvecs = MatrixC2::Zero();
+	Matrix1 correlator = Matrix1::Zero();
 
 	// Eigensolver
-	EigenSolver<Matrix5d> es;
-	EigenSolver<Matrix10d> es10;
+	EigenSolver<Matrix1> es;
+	EigenSolver<Matrix2> es2;
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP

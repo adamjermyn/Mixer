@@ -16,25 +16,32 @@ using namespace Eigen;
 
 // -------------------------------------
 // Constants
-const int dim = 5; // Correlator matrix dimension
+const int dim = 5; // Time evolution matrix dimension
 const double eps=1e-12; // Numerical smoothing factor
 
 // -------------------------------------
 // Convenience typedef's
 
 typedef std::complex<double> cdouble;
-typedef Eigen::Matrix<cdouble, 5, 5> Matrix5cd;
-typedef Eigen::Matrix<double, 5, 5> Matrix5d;
+
+// Used for working with the time evolution matrix
+typedef Eigen::Matrix<double, dim, 1> Vector1;
+typedef Eigen::Matrix<cdouble, dim, 1> VectorC;
+typedef Eigen::Matrix<double, dim, dim> Matrix1;
+typedef Eigen::Matrix<cdouble, dim, dim> MatrixC;
+
+// Used for working at first order with the augmented evolution matrix
+typedef Eigen::Matrix<double, 2*dim, 1> Vector2;
+typedef Eigen::Matrix<cdouble, 2*dim, 1> VectorC2;
+typedef Eigen::Matrix<double, 2*dim, 2*dim> Matrix2;
+typedef Eigen::Matrix<cdouble, 2*dim, 2*dim> MatrixC2;
+
+// Used for coordinate transforms
 typedef Eigen::Matrix<double, 7, 7> Matrix7d;
 typedef Eigen::Matrix<double, 5, 7> Matrix57d;
 typedef Eigen::Matrix<double, 7, 5> Matrix75d;
-typedef Eigen::Matrix<double, 5, 1> Vector5d;
-typedef Eigen::Matrix<cdouble, 5, 1> Vector5cd;
-typedef Eigen::Matrix<cdouble, 10, 1> Vector10cd;
-typedef Eigen::Matrix<double, 10, 1> Vector10d;
 typedef Eigen::Array<double, 7, 7> Array7d;
-typedef Eigen::Matrix<double, 10, 10> Matrix10d;
-typedef Eigen::Matrix<cdouble, 10, 10> Matrix10cd;
+
 
 // -------------------------------------
 // Functions
@@ -47,13 +54,13 @@ void normalize(double* v, double eps);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
-Matrix5cd normalizeM(Matrix5cd m, double eps);
+MatrixC normalizeM(MatrixC m, double eps);
 
-Vector5cd normalizeV(Vector5cd m, double eps);
+VectorC normalizeV(VectorC m, double eps);
 
-Matrix10d nullProjector(Matrix10d m, double eps);
+Matrix2 nullProjector(Matrix2 m, double eps);
 
-double vGrowth(Vector10cd v);
+double vGrowth(VectorC2 v);
 
 // -------------------------------------
 // End Header guard

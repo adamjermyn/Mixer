@@ -36,18 +36,19 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 	ret[2] = r*cos(t);
 }
 
-Vector5cd normalizeV(Vector5cd v, double eps) {
+VectorC normalizeV(VectorC v, double eps) {
+	//TODO: Add correction from c-hat piece
 	double net = sqrt(eps+pow(abs(v(dim-1,0)),2) + pow(abs(v(dim-2,0)),2));	
-	Vector5cd ret(v);
+	VectorC ret(v);
 	v /= net;
 	return v;
 }
 
-Matrix5cd normalizeM(Matrix5cd m, double eps) {
+MatrixC normalizeM(MatrixC m, double eps) {
 	// This function takes as input a matrix with eigenvectors as columns
 	// and returns a copy with each column normalized such that
 	// the sum of the norm squares of the last two elements is unity.
-	Matrix5cd ret(m);
+	MatrixC ret(m);
 	double net;
 	double elem;
 	//We've optimized dim for matrices of size five
@@ -59,29 +60,29 @@ Matrix5cd normalizeM(Matrix5cd m, double eps) {
 }
 
 
-Matrix10d nullProjector(Matrix10d m, double eps) {
+Matrix2 nullProjector(Matrix2 m, double eps) {
 	/*
-	This method takes as input a 10x10 matrix and a threshold and returns
-	the matrix which projects into the null space of the given matrix,
+	This method takes as input a (dim*2 x dim*2) matrix and a threshold and returns
+	the matrix which projects into its right null space,
 	with the threshold used to distinguish null eigenvalues.
 	*/
 
-	JacobiSVD<Matrix10d> es10(m, ComputeFullU | ComputeFullV );
-	es10.compute(m);
+	JacobiSVD<Matrix2> svd(m, ComputeFullU | ComputeFullV );
+	svd.compute(m);
 
-	Vector10d vals = Vector10d::Zero();
-	Matrix10d ret = Matrix10d::Zero();
+	Vector2 vals = Vector2::Zero();
+	Matrix2 ret = Matrix2::Zero();
 
 	for (int i=0;i<10;i++) {
-		if (abs(es10.singularValues()(i)) < eps) {
-			ret += ((es10.matrixV().col(i))*(es10.matrixV().col(i)).adjoint()).real();
+		if (abs(svd.singularValues()(i)) < eps) {
+			ret += ((svd.matrixV().col(i))*(svd.matrixV().col(i)).adjoint()).real();
 		}
 	}
 
 	return ret;
 }
 
-double vGrowth(Vector10cd v) {
+double vGrowth(VectorC2 v) {
 	/*
 	This method takes as input a vector of size 10 and returns the growth rate
 	implied by the elements of the vector, assuming that the first five are
