@@ -102,23 +102,23 @@ void flmatrix::set_Mdot() {
 }
 
 void flmatrix::set_net() {
-	for (int i=0;i<5;i++) {
-		for (int j=0;j<5;j++) {
+	for (int i=0;i<dim;i++) {
+		for (int j=0;j<dim;j++) {
 			if (i==j)
-				eignet(i,j+5) = 1;
-			eignet(i+5,j) = mdot(i,j);
-			eignet(i+5,j+5) = m(i,j);
+				eignet(i,j+dim) = 1;
+			eignet(i+dim,j) = mdot(i,j);
+			eignet(i+dim,j+dim) = m(i,j);
 		}
 	}
 }
 
 
 void flmatrix::set_constraint() {
-	for (int i=0;i<5;i++) {
-		for (int j=0;j<5;j++) {
+	for (int i=0;i<dim;i++) {
+		for (int j=0;j<dim;j++) {
 			if (i==j)
 				constraint(i,i) = 1;
-			constraint(i+5,j) = m(i,j);
+			constraint(i+dim,j) = m(i,j);
 		}
 	}
 }
