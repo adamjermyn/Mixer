@@ -34,7 +34,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	flmatrix f = *(flmatrix *)fdata;
 
-	MatrixCorr I = MatrixCorr::Zero(7,7);
+	MatrixCorr I = MatrixCorr::Zero();
 
 	double k,tK,pK,pref;
 
@@ -59,12 +59,12 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	f.set_k(k,tK,pK);
 
 	// Construct coordinate transform
-	MatrixRegCorr transform = MatrixRegCorr::Zero(5,7);
+	MatrixRegCorr transform = MatrixRegCorr::Zero();
 	for (int j=0;j<3;j++) {
 		transform(0,j) = f.a[j];
 		transform(1,j) = f.b[j];
-		transform(3,4+j) = f.a[j];
-		transform(4,4+j) = f.b[j];
+		transform(2,4+j) = f.a[j];
+		transform(3,4+j) = f.b[j];
 		transform(1,4+j) = f.c[j]*f.wmag*f.omega*f.kHat[1]; // The velocity has an additional term due to the sheared coordinate system.
 	}
 	transform(2,3) = 1; // Density perturbation doesn't change under rotation
@@ -84,17 +84,10 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	// Place output in the output array
 
-	for (int j=0;j<7;j++) {
-		for (int q=0;q<7;q++) {
-			fval[7*j+q] = I(j,q);
+	for (int j=0;j<correlDim;j++) {
+		for (int q=0;q<correlDim;q++) {
+			fval[correlDim*j+q] = I(j,q);
 		}
-	}
-
-	// The following corrects the units on the density correlator:
-
-	for (int j=0;j<7;j++) {
-		fval[7*j+3] /= unitConv;
-		fval[7*3+j] /= unitConv;
 	}
 
 	return 0;
