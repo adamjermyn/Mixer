@@ -71,17 +71,14 @@ void flmatrix::set_M() {
 	// This is the more natural definition which retains the gradient magnitudes
 	// and does not require them to blow up when their directions are misaligned.
 
-	m(2,1) = -N2*kHat[1]*wmag*dot(c,entHat)/gamma_ad;
-	m(2,2) = -chi*kmag*kmag;
-	m(2,3) = -N2*dot(a,entHat)/gamma_ad;
-	m(2,4) = -N2*dot(b,entHat)/gamma_ad;
-	m(3,0) = -kva*kva;
-	m(3,1) = -2*omega*wmag*(dot(a,d)*kHat[1] + a[0]*dot(b,wHat));
-	m(3,2) = dot(presHat,a);
-	m(3,4) = -2*omega*dot(a,e);
-	m(4,1) = -kva*kva-2*omega*b[0]*dot(b,wHat)*wmag;
-	m(4,2) = dot(presHat,b);
-	m(4,3) = 2*omega*dot(a,e);
+	m(2,0) = -N2*dot(a, entHat)*dot(a, presHat) - kva*kva;
+	m(2,1) = -N2*dot(b, entHat)*dot(a, presHat) - 2*omega*wmag*(dot(a,d)*kHat[1] + a[0]*dot(b,wHat));
+	m(3,0) = -N2*dot(a, entHat)*dot(b, presHat);
+	m(3,1) = -N2*dot(b, entHat)*dot(b, presHat) -kva*kva - 2*omega*b[0]*dot(b,wHat)*wmag;
+
+	m(2,3) = -2*omega*dot(a,e);
+	m(3,2) = 2*omega*dot(a,e);
+
 
 }
 
