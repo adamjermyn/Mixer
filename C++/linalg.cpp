@@ -68,10 +68,9 @@ Matrix2 nullProjector(Matrix2 m, double eps) {
 
 double vGrowth(VectorC2 v) {
 	/*
-	This method takes as input a vector of size 10 and returns the growth rate
-	implied by the elements of the vector, assuming that the first five are
-	(alpha, beta, d log rho, alpha-dot, beta-dot) and the next five are the
-	time derivatives of these.
+	This method takes as input a vector of size 2*dim and returns the growth rate
+	implied by the velocity elements of the vector, which are assumed as usual to be
+	the final two in each set of dim.
 	*/
 	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9]);
 	cdouble g1 = conj(g0);
