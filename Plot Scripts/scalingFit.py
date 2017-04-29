@@ -24,7 +24,7 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-9
 tola = 1e-9
-maxEval = 100000
+maxEval = 300000
 
 def f(x):
 	print(x)
