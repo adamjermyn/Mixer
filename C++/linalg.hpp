@@ -17,8 +17,8 @@ using namespace Eigen;
 // -------------------------------------
 // Constants
 
-const int dim = 5; // Time evolution matrix dimension
-const int correlDim = 7; // Dimension of the correlator
+const int dim = 4; // Time evolution matrix dimension
+const int correlDim = 6; // Dimension of the correlator
 const double eps=1e-12; // Numerical smoothing factor
 
 // -------------------------------------
