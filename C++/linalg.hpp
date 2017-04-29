@@ -16,12 +16,14 @@ using namespace Eigen;
 
 // -------------------------------------
 // Constants
+
 const int dim = 5; // Time evolution matrix dimension
 const double eps=1e-12; // Numerical smoothing factor
 
 // -------------------------------------
 // Convenience typedef's
 
+// Complex numbers
 typedef std::complex<double> cdouble;
 
 // Used for working with the time evolution matrix
@@ -53,8 +55,6 @@ void cross(const double a[3], const double b[3], double ret[3]);
 void normalize(double* v, double eps);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
-
-MatrixC normalizeM(MatrixC m, double eps);
 
 VectorC normalizeV(VectorC m, double eps);
 

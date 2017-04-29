@@ -44,22 +44,6 @@ VectorC normalizeV(VectorC v, double eps) {
 	return v;
 }
 
-MatrixC normalizeM(MatrixC m, double eps) {
-	// This function takes as input a matrix with eigenvectors as columns
-	// and returns a copy with each column normalized such that
-	// the sum of the norm squares of the last two elements is unity.
-	MatrixC ret(m);
-	double net;
-	double elem;
-	//We've optimized dim for matrices of size five
-	for (int i=0;i<dim;i++) {
-		net = sqrt(eps+pow(abs(m(dim-1,i)),2) + pow(abs(m(dim-2,i)),2));
-		ret.col(i) /= net;
-	}
-	return ret;
-}
-
-
 Matrix2 nullProjector(Matrix2 m, double eps) {
 	/*
 	This method takes as input a (dim*2 x dim*2) matrix and a threshold and returns
