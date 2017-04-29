@@ -18,6 +18,7 @@ using namespace Eigen;
 // Constants
 
 const int dim = 5; // Time evolution matrix dimension
+const int correlDim = 7; // Dimension of the correlator
 const double eps=1e-12; // Numerical smoothing factor
 
 // -------------------------------------
@@ -38,11 +39,12 @@ typedef Eigen::Matrix<cdouble, 2*dim, 1> VectorC2;
 typedef Eigen::Matrix<double, 2*dim, 2*dim> Matrix2;
 typedef Eigen::Matrix<cdouble, 2*dim, 2*dim> MatrixC2;
 
-// Used for coordinate transforms
-typedef Eigen::Matrix<double, 7, 7> Matrix7d;
-typedef Eigen::Matrix<double, 5, 7> Matrix57d;
-typedef Eigen::Matrix<double, 7, 5> Matrix75d;
-typedef Eigen::Array<double, 7, 7> Array7d;
+// Used for coordinate transforms between the basis of the evolution matrix
+// and that of the correlator.
+typedef Eigen::Matrix<double, dim, correlDim> MatrixRegCorr;
+typedef Eigen::Matrix<double, correlDim, dim> MatrixCorrReg;
+typedef Eigen::Matrix<double, correlDim, correlDim> MatrixCorr;
+typedef Eigen::Array<double, correlDim, correlDim> ArrayCorr;
 
 
 // -------------------------------------
