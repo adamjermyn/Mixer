@@ -3,9 +3,9 @@ OPTC = -O3 -ffast-math -fpermissive -std=gnu++11 -pipe
 SHARED = -fPIC -shared
 PROF = $(OPTC) -pg -g
 DEBUG = -O0
-IEGN = -I ~/eigen/
-LIBCUB = ~/cubature-1.0.2/hcubature.so ~/cubature-1.0.2/pcubature.so
-ICUB = -I ~/cubature-1.0.2/
+IEGN = -I ../../eigen/
+LIBCUB = ../../cubature-1.0.2/hcubature.so ../../cubature-1.0.2/pcubature.so
+ICUB = -I ../../cubature-1.0.2/
 TOTALINC = ../Build/integrator.o ../Build/linalg.o ../Build/physics.o
 TOTALINCS = ../Build/integrator.so ../Build/linalg.so ../Build/physics.so
 TOTALINCP = ../Build/integratorP.o ../Build/linalgP.o ../Build/physicsP.o
