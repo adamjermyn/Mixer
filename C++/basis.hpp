@@ -38,12 +38,13 @@ e-hat = z-hat x b-hat
 
 These are not unit vectors!
 
-Finally, the basis object provides a vector db, defined as
+Finally, the basis object provides a vector dk, defined as
 
-db = (1/|R Grad Omega|) d b-hat/dt,
+dk = (1/|R Grad Omega|) d k-hat/dt
 
 and likewise
 
+db = (1/|R Grad Omega|) d b-hat/dt,
 dc = (1/|R Grad Omega|) d c-hat/dt
 dd = (1/|R Grad Omega|) d d-hat/dt
 de = (1/|R Grad Omega|) d e-hat/dt
@@ -68,6 +69,7 @@ public:
 	double d[3];
 	double e[3];
 
+	double dk[3];
 	double db[3];
 	double dc[3];
 	double dd[3];

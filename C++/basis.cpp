@@ -41,5 +41,26 @@ void set_k(double kT, double kP) {
 	cross(zhat,b,e);
 
 	// Derivative vectors
-	// Finish writing this
+	double kw = dot(kHat, wHat);
+
+	// dk
+	for (int i=0;i<3;i++)
+		dk[i] = kHat[2] * (wHat[i] + kHat[i]*kw);
+
+	double dkw = dot(dk, wHat);
+	double denom = eps + pow(1 - kw*kw,0.5);
+
+	// db
+	for (int i=0;i<3;i++)
+		db[i] = dk[i]*kw/denom;
+		db[i] += kHat[i]*dkw/denom;
+		db[i] += b[i]*dkw*kw/pow(denom, 2);
+
+	// Now we can just use the definitions of these vectors.
+	// Note that it matters that the normalization factor on db
+	// equals that on dc (i.e. that wHat is orthogonal to b).
+	cross(wHat, db, dc);
+	cross(zhat, dc, dd);
+	cross(zhat, db, de);
+
 }
