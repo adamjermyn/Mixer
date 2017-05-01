@@ -54,7 +54,6 @@ public:
 	double presHat[3];
 	double wmag;
 	double N2;
-	double chi;
 	double omega;
 	double transK;
 
@@ -73,7 +72,7 @@ public:
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double chii, double omegaa);
+		, double N22, double omegaa);
 
 	void set_vecs();
 

@@ -18,7 +18,7 @@ using namespace std;
 // Constructor
 
 flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double chii, double omegaa) {
+		, double N22, double omegaa) {
 	// tB, pB, tW, tS, tP are all dimensionless
 	// omegaa amd w have units of rad/s
 	// N22 has units of 1/s^2
@@ -33,7 +33,6 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	wmag = w;
 	N2 = N22;
-	chi = chii;
 	omega = omegaa;
 
 	// Set the k-value at which the spectrum switches from Kolmogorov to MHD
