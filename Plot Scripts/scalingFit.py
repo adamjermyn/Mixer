@@ -14,7 +14,7 @@ from multiprocessing import Pool
 
 omega = 10**np.linspace(-3,3,num=100,endpoint=True)
 
-fi = h5py.File('Data/scale_results2.dat','w')
+fi = h5py.File('Data/scale_results.dat','w')
 fi['omega'] = omega
 
 tS = np.pi/4

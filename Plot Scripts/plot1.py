@@ -18,11 +18,9 @@ plt.subplot(121)
 x, y = omega[omega<=2], r[omega<=2][...,3,3,0]
 plt.plot(x,y,label='$v_r v_r$')
 plt.xlim([0,1])
-plt.ylim([0,0.25])
 x, y = omega[omega<=2], r[omega<=2][...,0,3,0]
 plt.plot(x,y,label='$v_r r_r$')
 plt.xlim([0,1])
-plt.ylim([0,0.25])
 plt.xlabel('$ \Omega/|N|$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper right')
