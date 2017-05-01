@@ -1,6 +1,6 @@
 Universe = vanilla
 
-Initialdir = /home/asj42/Documents/Turbulence/Plot Scripts
+Initialdir = /home/asj42/Dropbox/Research/MLT/Turbulence/Plot Scripts
 
 Executable = scalingFit.py
 
