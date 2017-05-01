@@ -41,13 +41,13 @@ void set_k(double kT, double kP) {
 	cross(zhat,b,e);
 
 	// Derivative vectors
-	double kw = dot(kHat, wHat);
+	kw = dot(kHat, wHat);
 
 	// dk
 	for (int i=0;i<3;i++)
-		dk[i] = kHat[2] * (wHat[i] + kHat[i]*kw);
+		dk[i] = kHat[1] * (wHat[i] + kHat[i]*kw);
 
-	double dkw = dot(dk, wHat);
+	dkw = dot(dk, wHat);
 	double denom = eps + pow(1 - kw*kw,0.5);
 
 	// db

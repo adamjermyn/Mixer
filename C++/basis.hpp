@@ -38,7 +38,7 @@ e-hat = z-hat x b-hat
 
 These are not unit vectors!
 
-Finally, the basis object provides a vector dk, defined as
+The basis object provides a vector dk, defined as
 
 dk = (1/|R Grad Omega|) d k-hat/dt
 
@@ -51,6 +51,9 @@ de = (1/|R Grad Omega|) d e-hat/dt
 
 Note that a-hat is a constant in time so da is
 not provided.
+
+Finally, we store the inner product of kHat and wHat as kw
+and the inner product of dk and wHat as dkw.
 
 */
 
@@ -74,6 +77,9 @@ public:
 	double dc[3];
 	double dd[3];
 	double de[3];
+
+	double kw;
+	double dkw;
 
 	basis(tw);
 
