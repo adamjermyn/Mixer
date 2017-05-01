@@ -22,7 +22,6 @@ plt.plot(x,y, label='$v_r v_\\theta$')
 x, y = w/omega, r[...,3,1,0]
 plt.plot(x,y, label='$v_r r_\\theta$')
 plt.legend(loc='upper right')
-plt.ylim([-0.006,0])
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.ylabel('(Mixing Units)')
 plt.tight_layout()
@@ -34,7 +33,6 @@ plt.plot(x,y, label='$v_r v_\\phi$')
 x, y = w/omega, r[...,3,2,0]
 plt.plot(x,y, label='$v_r r_\\phi$')
 plt.legend(loc='upper right')
-plt.ylim([-0.03,0])
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.tight_layout()
 

@@ -14,9 +14,6 @@ fi.close()
 
 plt.figure(figsize=(6,5))
 
-np.set_printoptions(precision=2, linewidth=100)
-print(r[0,:,:,0])
-
 x, y = omega, r[...,3,4,0]
 y = np.abs(y)
 plt.loglog(x,y,label='$v_r v_\\theta$')
