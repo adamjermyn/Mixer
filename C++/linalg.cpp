@@ -72,8 +72,8 @@ double vGrowth(VectorC2 v) {
 	implied by the velocity elements of the vector, which are assumed as usual to be
 	the final two in each set of dim.
 	*/
-	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9]);
+	cdouble g0 = v[dim - 2]*conj(v[2*dim - 2]) + v[dim - 1]*conj(v[2*dim - 1]);
 	cdouble g1 = conj(g0);
-	return ((g0 + g1)/(eps + abs(v[3])*abs(v[3]) + abs(v[4])*abs(v[4]))).real();
+	return ((g0 + g1)/(eps + abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
 
 }
