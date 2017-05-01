@@ -7,10 +7,11 @@ d = dirname(dirname(abspath(__file__)))
 d = d + '/Build/turb.so'
 
 _turb = ctypes.CDLL(d)
-_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(11)] + [ctypes.c_int]
-_turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
 _turb.coeffs2.argtypes = [ctypes.c_double for _ in range(8)] + [ctypes.c_int]
 _turb.coeffs2.restype = ctypes.POINTER(ctypes.c_double)
+_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(11)] + [ctypes.c_int]
+_turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
+
 
 def coeffs2(omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 	global _turb
