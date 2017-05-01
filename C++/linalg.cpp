@@ -38,7 +38,7 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 
 VectorC normalizeV(VectorC v, double eps) {
 	//TODO: Add correction from c-hat piece
-	double net = sqrt(eps+pow(abs(v(dim-1,0)),2) + pow(abs(v(dim-2,0)),2));	
+	double net = sqrt(eps+pow(abs(v(dim-1)),2) + pow(abs(v(dim-2)),2));	
 	VectorC ret(v);
 	v /= net;
 	return v;
@@ -57,7 +57,7 @@ Matrix2 nullProjector(Matrix2 m, double eps) {
 	Vector2 vals = Vector2::Zero();
 	Matrix2 ret = Matrix2::Zero();
 
-	for (int i=0;i<10;i++) {
+	for (int i=0;i<2*dim;i++) {
 		if (abs(svd.singularValues()(i)) < eps) {
 			ret += ((svd.matrixV().col(i))*(svd.matrixV().col(i)).adjoint()).real();
 		}
@@ -72,8 +72,8 @@ double vGrowth(VectorC2 v) {
 	implied by the velocity elements of the vector, which are assumed as usual to be
 	the final two in each set of dim.
 	*/
-	cdouble g0 = v[3]*conj(v[8]) + v[4]*conj(v[9]);
+	cdouble g0 = v[dim - 2]*conj(v[2*dim - 2]) + v[dim - 1]*conj(v[2*dim - 1]);
 	cdouble g1 = conj(g0);
-	return ((g0 + g1)/(eps + abs(v[3])*abs(v[3]) + abs(v[4])*abs(v[4]))).real();
+	return ((g0 + g1)/(eps + abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
 
 }

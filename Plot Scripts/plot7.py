@@ -16,9 +16,9 @@ plt.figure(figsize=(6,5))
 
 plt.subplot(122)
 
-x, y = delta, r[...,5,4,0]
+x, y = delta, r[...,4,3,0]
 plt.plot(x,y, label='$v_r v_\\theta$')
-x, y = delta, r[...,1,4,0]
+x, y = delta, r[...,1,3,0]
 plt.plot(x,y, label='$v_r r_\\theta$')
 plt.xlabel('$\delta$')
 plt.ylabel('(Mixing Units)')
@@ -27,9 +27,9 @@ plt.tight_layout()
 
 plt.subplot(121)
 
-x, y = delta, r[...,4,4,0]
+x, y = delta, r[...,3,3,0]
 plt.plot(x,y, label='$v_r v_r$')
-x, y = delta, r[...,0,4,0]
+x, y = delta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
 plt.xlabel('$\delta$')
 plt.legend(loc='upper left')

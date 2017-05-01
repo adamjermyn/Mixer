@@ -17,10 +17,10 @@ plt.figure(figsize=(6,5))
 
 plt.subplot(121)
 
-x, y = w/omega, r[...,5,4,0]
+x, y = w/omega, r[...,4,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\theta$')
-x, y = w/omega, r[...,1,4,0]
+x, y = w/omega, r[...,1,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
@@ -30,10 +30,10 @@ plt.tight_layout()
 
 plt.subplot(122)
 
-x, y = w/omega, r[...,6,4,0]
+x, y = w/omega, r[...,5,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\phi$')
-x, y = w/omega, r[...,2,4,0]
+x, y = w/omega, r[...,2,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\phi$')
 plt.xlabel('$|R\\nabla \ln \Omega |$')

@@ -16,7 +16,7 @@ plt.figure(figsize=(15,15))
 
 plt.subplot(221)
 
-x, y = omega[omega<1], r[omega<1][...,4,4,0]
+x, y = omega[omega<1], r[omega<1][...,3,3,0]
 plt.plot(x,y,label='model')
 fit = np.polyfit(x[x < 0.3],y[x < 0.3],2)
 plt.plot(x, fit[0]*x**2 + fit[1]*x + fit[2], label='fit: ' + str(round(fit[0],2)) + '*x^2 + ' + str(round(fit[1],2)) + 'x + ' + str(round(fit[2],2)))
@@ -27,7 +27,7 @@ plt.ylabel('$v_r v_r$')
 
 
 plt.subplot(222)
-x, y = omega[omega<1], r[omega<1][...,4,5,0]
+x, y = omega[omega<1], r[omega<1][...,3,4,0]
 x, y = np.log10(x), np.log10(np.abs(y))
 plt.plot(x,y,label='model')
 fit = np.polyfit(x[(x > -2.5) & (x < -1)],y[(x > -2.5) & (x < -1)],1)
@@ -39,7 +39,7 @@ plt.ylabel('$\log v_r v_\\theta$')
 
 
 plt.subplot(223)
-x, y = omega[omega<1], r[omega<1][...,4,0,0]
+x, y = omega[omega<1], r[omega<1][...,3,0,0]
 plt.plot(x,y,label='model')
 fit = np.polyfit(x[x < 0.3],y[x < 0.3],2)
 plt.plot(x, fit[0]*x**2 + fit[1]*x + fit[2], label='fit: ' + str(round(fit[0],2)) + '*x^2 + ' + str(round(fit[1],2)) + 'x + ' + str(round(fit[2],2)))
@@ -50,7 +50,7 @@ plt.ylabel('$v_r r$')
 
 
 plt.subplot(224)
-x, y = omega, r[...,4,1,0]
+x, y = omega, r[...,3,1,0]
 x, y = np.log10(x), np.log10(np.abs(y))
 plt.plot(x,y,label='model')
 fit = np.polyfit(x[(x > -2.5) & (x < -1)],y[(x > -2.5) & (x < -1)],1)

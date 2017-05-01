@@ -23,7 +23,7 @@ tolr = 1e-8
 tola = 1e-8
 maxEval = 300000
 
-results = np.zeros(list(omega.shape) + [7,7,2])
+results = np.zeros(list(omega.shape) + [6,6,2])
 
 for i in range(omega.shape[0]):
 	print(i)

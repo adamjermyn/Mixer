@@ -30,12 +30,12 @@ tolr = 1e-10
 tola = 1e-10
 maxEval = 100000
 
-results = np.zeros(list(B.shape) + [3,7,7,2])
+results = np.zeros(list(B.shape) + [3,6,6,2])
 
 def f(x):
 	print(x)
 	
-	r = np.zeros([3,7,7,2])
+	r = np.zeros([3,6,6,2])
 
 	tB = np.pi
 	pB = 0

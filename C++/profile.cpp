@@ -34,22 +34,21 @@ int main() {
 	double tS = 1.57;
 	double tP = 1.57;
 	double N2 = -1;
-	double chi = 0;
 	int maxEval = 10000;
 
 	const unsigned intDim = 2;
 	const double transform_aa[3] = {0,0};
 	const double transform_bb[3] = {pi,2*pi};
 
-	double ret[49];
-	double err[49];
-	double* net = new double[98];
+	double ret[36];
+	double err[36];
+	double* net = new double[72];
 	
-	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
-	integral(49,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola ,ERROR_INDIVIDUAL,
+	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,omega);
+	integral(36,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola ,ERROR_INDIVIDUAL,
 			ret,err);
 
-	for (int i=0;i<49;i++) {
+	for (int i=0;i<36;i++) {
 		net[2*i] = ret[i];
 		net[2*i + 1] = err[i];
 		cout << ret[i] << " " << err[i] << endl;

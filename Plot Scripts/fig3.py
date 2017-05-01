@@ -12,7 +12,7 @@ omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-x, y = np.log10(omega), np.log10(np.abs(r[...,6,4,0]))
+x, y = np.log10(omega), np.log10(np.abs(r[...,5,3,0]))
 plt.plot(x,y)
 plt.title('Mid-latitude $r \phi$ stress')
 plt.xlabel('$\log \Omega/|N|$')
