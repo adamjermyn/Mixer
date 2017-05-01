@@ -63,6 +63,7 @@ class basis
 {
 
 public:
+	double wHat[3];
 	double kHat[3];
 
 	double a[3];
@@ -81,8 +82,13 @@ public:
 	double kw;
 	double dkw;
 
-	basis(tw);
+	basis();
+	basis(double tw);
 
 	void set_k(double kT, double kP);
 
-}
+};
+
+// -------------------------------------
+// End Header guard
+#endif

@@ -61,11 +61,11 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	// Construct coordinate transform
 	MatrixRegCorr transform = MatrixRegCorr::Zero();
 	for (int j=0;j<3;j++) {
-		transform(0,j) = f.a[j];
-		transform(1,j) = f.b[j];
-		transform(2,4+j) = f.a[j];
-		transform(3,4+j) = f.b[j];
-		transform(1,4+j) = f.c[j]*f.wmag*f.omega*f.kHat[1]; // The velocity has an additional term due to the sheared coordinate system.
+		transform(0,j) = f.ba.a[j];
+		transform(1,j) = f.ba.b[j];
+		transform(2,4+j) = f.ba.a[j];
+		transform(3,4+j) = f.ba.b[j];
+		transform(1,4+j) = f.ba.c[j]*f.wmag*f.omega*f.ba.kHat[1]; // The velocity has an additional term due to the sheared coordinate system.
 	}
 	transform(2,3) = 1; // Density perturbation doesn't change under rotation
 	MatrixCorrReg transformT = transform.transpose();

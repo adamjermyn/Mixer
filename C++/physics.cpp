@@ -28,7 +28,6 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 	ba = basis(tW);
 
 	sphericalToCartesian(B,tB,pB,va);
-	sphericalToCartesian(1,tW,0,wHat);
 	sphericalToCartesian(1,tS,0,entHat);
 	sphericalToCartesian(1,tP,0,presHat);
 
@@ -52,7 +51,7 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 void flmatrix::set_M() {
 
-	kva = dot(va,k);
+	kva = dot(va,ba.kHat)*kmag;
 
 	// We're defining N2 to just be the product of the magnitudes of the
 	// pressure and entropy gradients (with appropriate factors of density).
@@ -61,7 +60,7 @@ void flmatrix::set_M() {
 	// and does not require them to blow up when their directions are misaligned.
 
 	m(2,0) = -N2*dot(ba.a, entHat)*dot(ba.a, presHat) - kva*kva;
-	m(2,1) = -N2*dot(ba.b, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.d)*kHat[1] + a[0]*dot(ba.b,ba.wHat));
+	m(2,1) = -N2*dot(ba.b, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.d)*ba.kHat[1] + ba.a[0]*dot(ba.b,ba.wHat));
 	m(3,0) = -N2*dot(ba.a, entHat)*dot(ba.b, presHat);
 	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*ba.b[0]*dot(ba.b,ba.wHat)*wmag;
 
@@ -75,7 +74,7 @@ void flmatrix::set_Mdot() {
 	// with the basis vectors.
 
 	mdot(2,0) = 0;
-	mdot(2,1) = -N2*dot(ba.db, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.dd)*ba.kHat[1] + a[0]*dot(ba.db,ba.wHat))
+	mdot(2,1) = -N2*dot(ba.db, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.dd)*ba.kHat[1] + ba.a[0]*dot(ba.db,ba.wHat));
 	mdot(3,0) = -N2*dot(ba.a, entHat)*dot(ba.db, presHat);
 	mdot(3,1) = -N2*dot(ba.db, entHat)*dot(ba.b, presHat) - N2*dot(ba.b, entHat)*dot(ba.db, presHat) - 2*omega*(ba.db[0]*dot(ba.b,ba.wHat) + ba.b[0]*dot(ba.db,ba.wHat))*wmag;
 
@@ -155,8 +154,6 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 
 	kmag = kmagg;
 	ba.set_k(kT, kP);
-
-	sphericalToCartesian(kmagg,kT,kP,k);
 
 	set_M();
 	set_Mdot();

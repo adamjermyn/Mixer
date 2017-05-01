@@ -14,7 +14,11 @@ using namespace std;
 
 // -------------------------------------
 
-basis(double tw) {
+basis::basis() {
+
+}
+
+basis::basis(double tW) {
 	sphericalToCartesian(1,tW,0,wHat);
 }
 
