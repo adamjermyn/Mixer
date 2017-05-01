@@ -38,7 +38,7 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 
 VectorC normalizeV(VectorC v, double eps) {
 	//TODO: Add correction from c-hat piece
-	double net = sqrt(eps+pow(abs(v(dim-1,0)),2) + pow(abs(v(dim-2,0)),2));	
+	double net = sqrt(eps+pow(abs(v(dim-1)),2) + pow(abs(v(dim-2)),2));	
 	VectorC ret(v);
 	v /= net;
 	return v;
