@@ -12,7 +12,7 @@ delta = np.array(fi['delta'])
 r = np.array(fi['results'])
 fi.close()
 
-x, y = delta, r[...,5,4,0]
+x, y = delta, r[...,4,3,0]
 plt.plot(x,y)
 plt.title('Mid-latitude $r \\theta$ stress, $\Omega=0.1|N|$')
 plt.xlabel('$\delta$')

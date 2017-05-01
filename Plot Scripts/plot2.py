@@ -14,10 +14,10 @@ fi.close()
 
 plt.figure(figsize=(6,5))
 
-x, y = omega, r[...,4,5,0]
+x, y = omega, r[...,3,4,0]
 y = np.abs(y)
 plt.loglog(x,y,label='$v_r v_\\theta$')
-x, y = omega, r[...,4,1,0]
+x, y = omega, r[...,3,1,0]
 y = np.abs(y)
 plt.loglog(x,y,label='$v_r r_\\theta$')
 plt.xlabel('$ \Omega/|N|$')

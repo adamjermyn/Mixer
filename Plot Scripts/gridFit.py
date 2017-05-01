@@ -28,7 +28,7 @@ N2 = -1
 tolr = 1e-10
 tola = 1e-10
 
-results = np.zeros(list(omega.shape) + [7,7,2])
+results = np.zeros(list(omega.shape) + [6,6,2])
 
 for i in range(omega.shape[0]):
 	for j in range(omega.shape[1]):

@@ -13,7 +13,7 @@ omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-x, y = w/omega, r[...,6,4,0]
+x, y = w/omega, r[...,5,3,0]
 plt.plot(x,y)
 plt.title('Mid-latitude $r \phi$ stress, $\Omega=0.1|N|$')
 plt.xlabel('$R\\nabla \ln \Omega $')

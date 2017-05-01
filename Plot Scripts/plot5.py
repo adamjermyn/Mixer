@@ -18,10 +18,10 @@ plt.subplot(121)
 
 print(r)
 
-x, y = omega, r[...,4,5,0]
+x, y = omega, r[...,3,4,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\theta$')
-x, y = omega, r[...,4,1,0]
+x, y = omega, r[...,3,1,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.legend(loc='upper left')
@@ -31,10 +31,10 @@ plt.tight_layout()
 
 plt.subplot(122)
 
-x, y = omega, r[...,4,6,0]
+x, y = omega, r[...,3,4,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\phi$')
-x, y = omega, r[...,4,2,0]
+x, y = omega, r[...,3,2,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\\phi$')
 plt.legend(loc='upper left')

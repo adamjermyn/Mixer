@@ -7,7 +7,7 @@ d = dirname(dirname(abspath(__file__)))
 d = d + '/Build/turb.so'
 
 _turb = ctypes.CDLL(d)
-_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
+_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(11)] + [ctypes.c_int]
 _turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
 _turb.coeffs2.argtypes = [ctypes.c_double for _ in range(8)] + [ctypes.c_int]
 _turb.coeffs2.restype = ctypes.POINTER(ctypes.c_double)
@@ -19,28 +19,27 @@ def coeffs2(omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 			ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
 			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval))
 
-	ret = np.zeros((7,7,2))
-	for i in range(7):
-		for j in range(7):
-			ret[i,j,0] = res[2*(7*i + j)]
-			ret[i,j,1] = res[2*(7*i + j) + 1]
-
+	ret = np.zeros((6,6,2))
+	for i in range(6):
+		for j in range(6):
+			ret[i,j,0] = res[2*(6*i + j)]
+			ret[i,j,1] = res[2*(6*i + j) + 1]
 	return ret
 
-def coeffs3(B, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval):
+def coeffs3(B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 	global _turb
 
 	res = _turb.coeffs3(ctypes.c_double(tolr),ctypes.c_double(tola),\
 			ctypes.c_double(B),ctypes.c_double(tB),ctypes.c_double(pB),\
 			ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
 			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),\
-			ctypes.c_double(chi),ctypes.c_int(maxEval))
+			ctypes.c_int(maxEval))
 
-	ret = np.zeros((7,7,2))
-	for i in range(7):
-		for j in range(7):
-			ret[i,j,0] = res[2*(7*i + j)]
-			ret[i,j,1] = res[2*(7*i + j) + 1]
+	ret = np.zeros((6,6,2))
+	for i in range(6):
+		for j in range(6):
+			ret[i,j,0] = res[2*(6*i + j)]
+			ret[i,j,1] = res[2*(6*i + j) + 1]
 
 	return ret
 
@@ -76,17 +75,17 @@ def coeffs(params, spherical=True):
 		theta = params[4]
 		if spherical:
 			r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
-			r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
-			r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
-			r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
-	elif len(params) == 13:
+			r[3:,:3,0] = cylindricalToSphericalTensor(r[3:,:3,0], theta)
+			r[3:,3:,0] = cylindricalToSphericalTensor(r[3:,3:,0], theta)
+			r[:3,3:,0] = cylindricalToSphericalTensor(r[:3,3:,0], theta)
+	elif len(params) == 12:
 		r = coeffs3(*params)
 		theta = params[7]
 		if spherical:
 			r[:3,:3,0] = cylindricalToSphericalTensor(r[:3,:3,0], theta)
-			r[4:,:3,0] = cylindricalToSphericalTensor(r[4:,:3,0], theta)
-			r[4:,4:,0] = cylindricalToSphericalTensor(r[4:,4:,0], theta)
-			r[:3,4:,0] = cylindricalToSphericalTensor(r[:3,4:,0], theta)
+			r[3:,:3,0] = cylindricalToSphericalTensor(r[3:,:3,0], theta)
+			r[3:,3:,0] = cylindricalToSphericalTensor(r[3:,3:,0], theta)
+			r[:3,3:,0] = cylindricalToSphericalTensor(r[:3,3:,0], theta)
 	else:
 		raise NotImplementedError('Number of parameters does not match any known specification.')
 	return r
