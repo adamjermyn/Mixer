@@ -67,7 +67,6 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		transform(3,3+j) = f.ba.b[j];
 		transform(1,3+j) = f.ba.c[j]*f.wmag*f.omega*f.ba.kHat[1]; // The velocity has an additional term due to the sheared coordinate system.
 	}
-	transform(2,3) = 1; // Density perturbation doesn't change under rotation
 	MatrixCorrReg transformT = transform.transpose();
 
 	// Apply transform to real-space coordinates
