@@ -44,7 +44,7 @@ int main() {
 	double err[36];
 	double* net = new double[72];
 	
-	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,chi,omega);
+	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,omega);
 	integral(36,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola ,ERROR_INDIVIDUAL,
 			ret,err);
 
