@@ -66,35 +66,23 @@ void flmatrix::set_M() {
 	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*ba.b[0]*dot(ba.b,ba.wHat)*wmag;
 
 	m(2,3) = -2*omega*dot(ba.a,ba.e);
-	m(3,2) = 2*omega*dot(ba.a,ba.e);
-
+	m(3,2) = -m(2,3);
 
 }
 
 void flmatrix::set_Mdot() {
-	double pref = kHat[1]*wmag;
-	double kw = dot(kHat,wHat);
+	// The magnetic components have zero derivative, all other terms just vary
+	// with the basis vectors.
 
-	mdot(2,2) = -2*chi*kmag*kmag*kw;
-	mdot(2,4) = -N2*(kw*dot(b,entHat)-dot(c,entHat));
-	mdot(3,1) = -2*wmag*dot(b,wHat)*kw*a[0];
-	mdot(3,4) = -2*omega*(dot(a,e)*kw-dot(a,d));
-	mdot(4,3) = -mdot(3,4);
-	mdot(4,1) = -2*wmag*dot(b,wHat)*(2*kw*b[0]-c[0]);
-	mdot(4,2) = dot(presHat,b)*kw-dot(presHat,c);
+	mdot(2,0) = 0;
+	mdot(2,1) = -N2*dot(ba.db, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.dd)*ba.kHat[1] + a[0]*dot(ba.db,ba.wHat))
+	mdot(3,0) = -N2*dot(ba.a, entHat)*dot(ba.db, presHat);
+	mdot(3,1) = -N2*dot(ba.db, entHat)*dot(ba.b, presHat) - N2*dot(ba.b, entHat)*dot(ba.db, presHat) - 2*omega*(ba.db[0]*dot(ba.b,ba.wHat) + ba.b[0]*dot(ba.db,ba.wHat))*wmag;
 
-	// Finish replacing the above with the below.
-
-	mdot(2,0) = -2*wmag*dot(ba.b,wHat)*kw*ba.a[0];
-	mdot(2,1) = -N2*dot(ba.a, presHat)*dot(ba.c, entHat);
-	mdot(3,0) = ;
-	mdot(3,1) = -2*wmag*dot(ba.b,wHat)*(2*kw*ba.b[0]-ba.c[0]);
-
-	mdot(2,3) = -2*omega*(dot(ba.a,ba.e)*kw-dot(ba.a,ba.d));
+	mdot(2,3) = -2*omega*dot(ba.a, ba.de);
 	mdot(3,2) = -mdot(2,3);
 
-	mdot *= pref;
-
+	mdot *= wmag;
 }
 
 void flmatrix::set_net() {
