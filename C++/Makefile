@@ -26,40 +26,40 @@ profile: $(TOTALINCP)
 test: $(TOTALINC)
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(TOTALINC) test.cpp -o $(BUILD_DIR)/test.e $(LIBCUB)
 
-../Build/basis.o: basis.cpp basis.hpp
+$(BUILD_DIR)/basis.o: basis.cpp basis.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.o
 
-../Build/integrator.o: integrator.cpp integrator.hpp linalg.hpp physics.hpp
+$(BUILD_DIR)/integrator.o: integrator.cpp integrator.hpp linalg.hpp physics.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c integrator.cpp -o $(BUILD_DIR)/integrator.o
 
-../Build/physics.o:
+$(BUILD_DIR)/physics.o:
 	$(CC) $(OPTC)  $(IEGN) -c physics.cpp -o $(BUILD_DIR)/physics.o	
 
-../Build/linalg.o:
+$(BUILD_DIR)/linalg.o:
 	$(CC) $(OPTC)  $(IEGN) -c linalg.cpp -o $(BUILD_DIR)/linalg.o
  
-../Build/basisP.o:
+$(BUILD_DIR)/basisP.o:
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(PROF) -c basis.cpp -o $(BUILD_DIR)/basisP.o
 
-../Build/integratorP.o:
+$(BUILD_DIR)/integratorP.o:
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(PROF) -c integrator.cpp -o $(BUILD_DIR)/integratorP.o
 
-../Build/physicsP.o:
+$(BUILD_DIR)/physicsP.o:
 	$(CC) $(OPTC)  $(IEGN) $(PROF) -c physics.cpp -o $(BUILD_DIR)/physicsP.o	
 
-../Build/linalgP.o:
+$(BUILD_DIR)/linalgP.o:
 	$(CC) $(OPTC)  $(IEGN) $(PROF) -c linalg.cpp -o $(BUILD_DIR)/linalgP.o
 
-../Build/basis.so:
+$(BUILD_DIR)/basis.so:
 	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.so
 
-../Build/integrator.so:
+$(BUILD_DIR)/integrator.so:
 	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) -c integrator.cpp -o $(BUILD_DIR)/integrator.so
 
-../Build/physics.so:
+$(BUILD_DIR)/physics.so:
 	$(CC) $(OPTC) $(SHARED) $(IEGN) -c physics.cpp -o $(BUILD_DIR)/physics.so	
 
-../Build/linalg.so:
+$(BUILD_DIR)/linalg.so:
 	$(CC) $(OPTC) $(SHARED) $(IEGN) -c linalg.cpp -o $(BUILD_DIR)/linalg.so
 
 clean:
