@@ -57,7 +57,7 @@ Matrix2 nullProjector(Matrix2 m, double eps) {
 	Vector2 vals = Vector2::Zero();
 	Matrix2 ret = Matrix2::Zero();
 
-	for (int i=0;i<10;i++) {
+	for (int i=0;i<2*dim;i++) {
 		if (abs(svd.singularValues()(i)) < eps) {
 			ret += ((svd.matrixV().col(i))*(svd.matrixV().col(i)).adjoint()).real();
 		}
