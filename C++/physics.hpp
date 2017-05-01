@@ -20,7 +20,6 @@ using namespace Eigen;
 // -------------------------------------
 // Constants
 
-const double zhat[3] = {0,0,1};
 const double inf = 1.0/0.0;
 
 // -------------------------------------
@@ -44,7 +43,7 @@ class flmatrix
 public:
 
 	// Geometry
-	basis ba;
+	basis ba = basis(0);
 
 	double kmag;
 	double kva;

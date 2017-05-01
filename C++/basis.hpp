@@ -7,14 +7,7 @@
 // -------------------------------------
 // Includes
 
-#include <Eigen/Dense>
-#include <Eigen/Eigenvalues>
-
 #include "linalg.hpp"
-
-// -------------------------------------
-
-using namespace Eigen;
 
 // -------------------------------------
 
@@ -59,6 +52,10 @@ and the inner product of dk and wHat as dkw.
 
 // -------------------------------------
 
+const double zhat[3] = {0,0,1};
+
+// -------------------------------------
+
 class basis
 {
 
@@ -82,7 +79,6 @@ public:
 	double kw;
 	double dkw;
 
-	basis();
 	basis(double tw);
 
 	void set_k(double kT, double kP);

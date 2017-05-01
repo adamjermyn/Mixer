@@ -14,15 +14,11 @@ using namespace std;
 
 // -------------------------------------
 
-basis::basis() {
-
-}
-
 basis::basis(double tW) {
 	sphericalToCartesian(1,tW,0,wHat);
 }
 
-void set_k(double kT, double kP) {
+void basis::set_k(double kT, double kP) {
 
 	// Construct k-hat
 	sphericalToCartesian(1,kT,kP,kHat);
@@ -55,10 +51,11 @@ void set_k(double kT, double kP) {
 	double denom = eps + pow(1 - kw*kw,0.5);
 
 	// db
-	for (int i=0;i<3;i++)
+	for (int i=0;i<3;i++) {
 		db[i] = dk[i]*kw/denom;
 		db[i] += kHat[i]*dkw/denom;
 		db[i] += b[i]*dkw*kw/pow(denom, 2);
+	}
 
 	// Now we can just use the definitions of these vectors.
 	// Note that it matters that the normalization factor on db
