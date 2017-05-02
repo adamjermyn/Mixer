@@ -21,61 +21,6 @@ using namespace std;
 
 // -------------------------------------
 
-TEST_CASE("Normalize vector","[normalize]") {
-	double tol = 3*eps;
-	double a[3] = {0,0,0};
-
-	normalize(a,eps);
-	REQUIRE(abs(dot(a,a))<=tol);
-
-	double onorm;
-	for (int i=0;i<1000;i++) {
-		a[0] = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-		a[1] = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-		a[2] = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-		onorm = dot(a,a);
-		normalize(a,eps);
-		REQUIRE(abs(dot(a,a)-1)<=tol/onorm); // Accuracy guarantees drop for small vectors
-	}
-
-}
-
-TEST_CASE("Spherical coordinates","[sphericalToCartesian]") {
-	double pi = 3.141592653589;
-	double tol = 3*eps;
-	double* a = new double[3];
-
-	sphericalToCartesian(1,0,0,a);
-	REQUIRE(abs(a[0]-0) <=tol);
-	REQUIRE(abs(a[1]-0) <=tol);
-	REQUIRE(abs(a[2]-1) <=tol);
-
-	sphericalToCartesian(1,pi,0,a);
-	REQUIRE(abs(a[0]-0) <=tol);
-	REQUIRE(abs(a[1]-0) <=tol);
-	REQUIRE(abs(a[2]+1) <=tol);
-
-	sphericalToCartesian(1,pi/2,0,a);
-	REQUIRE(abs(a[0]-1) <=tol);
-	REQUIRE(abs(a[1]-0) <=tol);
-	REQUIRE(abs(a[2]-0) <=tol);
-
-	sphericalToCartesian(1,5*pi/2,0,a);
-	REQUIRE(abs(a[0]-1) <=tol);
-	REQUIRE(abs(a[1]-0) <=tol);
-	REQUIRE(abs(a[2]-0) <=tol);
-
-	sphericalToCartesian(1,pi/2,pi/2,a);
-	REQUIRE(abs(a[0]-0) <=tol);
-	REQUIRE(abs(a[1]-1) <=tol);
-	REQUIRE(abs(a[2]-0) <=tol);
-
-	sphericalToCartesian(1,pi/4,0,a);
-	REQUIRE(abs(a[0]-1/sqrt(2)) <=tol);
-	REQUIRE(abs(a[1]-0) <=tol);
-	REQUIRE(abs(a[2]-1/sqrt(2)) <=tol);
-
-}
 
 TEST_CASE("Velocity normalisation","[normalizeV]") {
 	double tol = 3*eps;
