@@ -37,7 +37,7 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 	omega = omegaa;
 
 	// Set the k-value at which the spectrum switches from Kolmogorov to MHD
-	double compFactor = max(max(omega,abs(wmag)),sqrt(abs(N2)));
+	double compFactor = max(abs(wmag),sqrt(abs(N2)));
 	transK = max(1.0,compFactor / sqrt(dot(va,va)+eps));
 	if (transK > compFactor/(2*eps)) {
 		transK = inf;
