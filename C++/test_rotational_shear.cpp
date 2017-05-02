@@ -21,7 +21,10 @@ using namespace std;
 
 // -------------------------------------
 
-TEST_CASE("Rotational Shear Dispersion Relation (Larger angle)","[rot]") {
+TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
+	// Tests to see whether the eigenvalues of the time evolution matrix match the analytic
+	// dispersion relation for rotational shear.
+
 	double tol = 10*eps;
 	double pi = 3.14159265358979;
 
@@ -32,8 +35,8 @@ TEST_CASE("Rotational Shear Dispersion Relation (Larger angle)","[rot]") {
 
 	// gradW = -3*omega/2 (Keplerian case)
 	double omegaa = 1;
-	double tW = 3*pi/2;
-	double w = 3*omegaa/2;
+	double tW = pi/2;
+	double w = -3*omegaa/2;
 
 	// Ignore entropy and pressure gradients
 	double tS = 0;
