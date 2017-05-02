@@ -1,10 +1,15 @@
+MAKE_DIR := $(abspath $(lastword $(MAKEFILE_LIST)))
+BUILD_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../Build)
+EIGEN_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../eigen)
+CUBE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../cubature-1.0.2)
+
 CC = /usr/local/bin/g++-6
 OPTC = -O3 -ffast-math -fpermissive -std=gnu++11 -pipe
 SHARED = -fPIC -shared
 PROF = $(OPTC) -pg -g
 DEBUG = -O0
 IEGN = -I $(EIGEN_DIR)
-LIBCUB = $(CUBE_DIR)/hcubature.so $(CUBE_DIR)/pcubature.so
+LIBCUB = $(CUBE_DIR)/hcubature_mac.so $(CUBE_DIR)/pcubature_mac.so
 ICUB = -I $(CUBE_DIR)/
 TOTALINC = $(BUILD_DIR)/integrator.o $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
 TOTALINCS = $(BUILD_DIR)/integrator.so $(BUILD_DIR)/linalg.so $(BUILD_DIR)/physics.so $(BUILD_DIR)/basis.so
