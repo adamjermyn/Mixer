@@ -48,7 +48,7 @@ VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
 
 	*/
 
-	double net = eps + pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1), 2)*pow(kPhi*w, 2));
+	double net = eps + pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
 	net = sqrt(net);
 	VectorC ret(v);
 	ret /= net;
