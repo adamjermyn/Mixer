@@ -27,7 +27,7 @@ maxEval = 100000
 
 B = 0.1
 
-w = 1.
+w = -1.5
 tW = np.pi/2
 
 params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
@@ -35,7 +35,7 @@ r = coeffs(params)
 
 print(r[3:,3:,0])
 
-w = -1.
+w = 1.5
 tW = 3*np.pi/2
 
 params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
@@ -43,53 +43,6 @@ r = coeffs(params)
 
 print(r[3:,3:,0])
 
-w = -1.
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-w = 1.
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-w = 10.05
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-w = -10.05
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-w = -10.05
-tW = np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-w = 10.05
-tW = 3*np.pi/2
-
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
+print(r[3:,3:,1])
 
 exit()
