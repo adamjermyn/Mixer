@@ -38,7 +38,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 	// Entropy gradient and pressure gradient along z-hat, stable
 	double tS = 0;
 	double tP = 0;
-	double N22 = 1;
+	double N22 = 0;
 
 	for (int j=0;j<100;j++) {
 		B = 10*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
@@ -54,7 +54,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 		for (int i=0;i<5;i++) {
 			cdouble x = f.eigvals(i,i);
 			REQUIRE(abs(x*(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)))
-			 <=2*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
+			 <=5*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
 		}
 
 	}
