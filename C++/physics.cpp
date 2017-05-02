@@ -25,18 +25,19 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 	// B has units of 1/s/(k_mix)
 	// Put vectors in cartesian coordinates with x-hat = R-hat, y-hat = phi-hat, and z-hat = z-hat
 		
-	ba = basis(tW);
 
 	sphericalToCartesian(B,tB,pB,va);
 	sphericalToCartesian(1,tS,0,entHat);
 	sphericalToCartesian(1,tP,0,presHat);
 
 	wmag = w;
+	ba = basis(tW);
+
 	N2 = N22;
 	omega = omegaa;
 
 	// Set the k-value at which the spectrum switches from Kolmogorov to MHD
-	double compFactor = max(max(omega,wmag),sqrt(abs(N2)));
+	double compFactor = max(max(omega,abs(wmag)),sqrt(abs(N2)));
 	transK = max(1.0,compFactor / sqrt(dot(va,va)+eps));
 	if (transK > compFactor/(2*eps)) {
 		transK = inf;
