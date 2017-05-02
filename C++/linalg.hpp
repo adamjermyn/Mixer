@@ -58,7 +58,7 @@ void normalize(double* v, double eps);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
-VectorC normalizeV(VectorC m, double eps);
+VectorC normalizeV(VectorC m, double kPhi, double w, double eps);
 
 Matrix2 nullProjector(Matrix2 m, double eps);
 

@@ -36,12 +36,23 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 	ret[2] = r*cos(t);
 }
 
-VectorC normalizeV(VectorC v, double eps) {
-	//TODO: Add correction from c-hat piece
-	double net = sqrt(eps+pow(abs(v(dim-1)),2) + pow(abs(v(dim-2)),2));	
+VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
+	/*
+	This method returns a normalized version of the given state vector,
+	such that the velocity is unity. The velocity is taken to reside
+	in the final two elements of the vector.
+
+	The normalization is computed as
+
+	|v|^2 = |v[dim - 2]|^2 + (|v[dim - 1]|^2)*(1 + k_phi^2 w^2) 
+
+	*/
+
+	double net = eps + pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2)*(1 + pow(kPhi*w, 2));
+	net = sqrt(net);
 	VectorC ret(v);
-	v /= net;
-	return v;
+	ret /= net;
+	return ret;
 }
 
 Matrix2 nullProjector(Matrix2 m, double eps) {
