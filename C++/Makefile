@@ -12,12 +12,11 @@ IEGN = -I $(EIGEN_DIR)
 LIBCUB = $(CUBE_DIR)/hcubature.so $(CUBE_DIR)/pcubature.so
 ICUB = -I $(CUBE_DIR)/
 TOTALINC = $(BUILD_DIR)/integrator.o $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
-TOTALINCS = $(BUILD_DIR)/integrator.so $(BUILD_DIR)/linalg.so $(BUILD_DIR)/physics.so $(BUILD_DIR)/basis.so
 TOTALINCP = $(BUILD_DIR)/integratorP.o $(BUILD_DIR)/linalgP.o $(BUILD_DIR)/physicsP.o $(BUILD_DIR)/basisP.o
 
 all: shared profile test
 
-shared: $(TOTALINCS)
+shared: $(TOTALINC)
 	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) $(TOTALINCS) python.cpp -o $(BUILD_DIR)/turb.so $(LIBCUB)
 
 profile: $(TOTALINCP)
@@ -49,18 +48,6 @@ $(BUILD_DIR)/physicsP.o:
 
 $(BUILD_DIR)/linalgP.o:
 	$(CC) $(OPTC)  $(IEGN) $(PROF) -c linalg.cpp -o $(BUILD_DIR)/linalgP.o
-
-$(BUILD_DIR)/basis.so:
-	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.so
-
-$(BUILD_DIR)/integrator.so:
-	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) -c integrator.cpp -o $(BUILD_DIR)/integrator.so
-
-$(BUILD_DIR)/physics.so:
-	$(CC) $(OPTC) $(SHARED) $(IEGN) -c physics.cpp -o $(BUILD_DIR)/physics.so	
-
-$(BUILD_DIR)/linalg.so:
-	$(CC) $(OPTC) $(SHARED) $(IEGN) -c linalg.cpp -o $(BUILD_DIR)/linalg.so
 
 clean:
 	rm ../Build/*.so
