@@ -28,6 +28,9 @@ test: $(TOTALINC)
 test_linalg: $(TOTALINC)
 	$(CC) $(OPTC) $(TOTALINC) test_linalg.cpp -o $(BUILD_DIR)/test_linalg.e $(LIBCUB)
 
+test_MRI: $(TOTALINC)
+	$(CC) $(OPTC) $(IEGN) $(TOTALINC) test_MRI.cpp -o $(BUILD_DIR)/test_MRI.e $(LIBCUB)
+
 $(BUILD_DIR)/basis.o: basis.cpp basis.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.o
 
