@@ -13,7 +13,7 @@ from multiprocessing import Pool
 
 B = 10**np.linspace(-3,3,num=100,endpoint=True)
 
-tB = 0
+tB = 0.2
 pB = 0
 tS = np.pi/2
 tP = 0
@@ -25,7 +25,7 @@ tolr = 1e-10
 tola = 1e-10
 maxEval = 100000
 
-B = 0.1
+B = 10.
 
 w = -1.5
 tW = np.pi/2
@@ -42,7 +42,5 @@ params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 r = coeffs(params)
 
 print(r[3:,3:,0])
-
-print(r[3:,3:,1])
 
 exit()
