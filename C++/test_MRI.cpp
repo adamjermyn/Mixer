@@ -25,7 +25,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 	// Tests to see whether the eigenvalues of the time evolution matrix match the analytic
 	// dispersion relation for the MRI.
 
-	double tol = 3*eps;
+	double tol = 20*eps;
 	double pi = 3.14159265358979;
 
 	// B is along z-hat
@@ -58,7 +58,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 		for (int i=0;i<4;i++) {
 			cdouble x = f.eigvals(i,i);
 			REQUIRE(abs(x*(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)))
-			 <=5*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
+			 <=2*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
 		}
 
 	}
@@ -69,7 +69,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 TEST_CASE("MRI Dispersion Relation Invariance","[MRI-Invariance]") {
 	// Tests to see if letting w -> -w and tW -> tW + Pi changes anything. It shouldn't.
 
-	double tol = 3*eps;
+	double tol = 20*eps;
 	double pi = 3.14159265358979;
 
 	// B is along z-hat
@@ -112,6 +112,7 @@ TEST_CASE("MRI Dispersion Relation Invariance","[MRI-Invariance]") {
 		for (int i=0;i<4;i++) {
 			for (int k=0;k<4;k++) {
 				REQUIRE(abs(f1.m(i,k) - f2.m(i,k)) < tol);
+				REQUIRE(abs(f1.mdot(i,k) - f2.mdot(i,k)) < tol);
 			}
 		}
 
