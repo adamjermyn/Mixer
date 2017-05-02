@@ -26,10 +26,13 @@ test: $(TOTALINC)
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(TOTALINC) test.cpp -o $(BUILD_DIR)/test.e $(LIBCUB)
 
 test_linalg: $(TOTALINC)
-	$(CC) $(OPTC) $(TOTALINC) test_linalg.cpp -o $(BUILD_DIR)/test_linalg.e $(LIBCUB)
+	$(CC) $(OPTC) $(TOTALINC) test_linalg.cpp -o $(BUILD_DIR)/test_linalg.e
 
 test_MRI: $(TOTALINC)
-	$(CC) $(OPTC) $(IEGN) $(TOTALINC) test_MRI.cpp -o $(BUILD_DIR)/test_MRI.e $(LIBCUB)
+	$(CC) $(OPTC) $(IEGN) $(TOTALINC) test_MRI.cpp -o $(BUILD_DIR)/test_MRI.e
+
+test_ROT: $(TOTALINC)
+	$(CC) $(OPTC) $(IEGN) $(TOTALINC) test_rotational_shear.cpp -o $(BUILD_DIR)/test_ROT.e
 
 $(BUILD_DIR)/basis.o: basis.cpp basis.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.o

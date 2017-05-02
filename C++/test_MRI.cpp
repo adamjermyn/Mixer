@@ -55,7 +55,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 		f.set_k(1,0,0);
 
 		// Test eigenvalues against analytic dispersion relation
-		for (int i=0;i<4;i++) {
+		for (int i=0;i<dim;i++) {
 			cdouble x = f.eigvals(i,i);
 			REQUIRE(abs(x*(pow(x,4) + (pow(omegaa,2)+2*pow(f.kva,2))*pow(x,2)+pow(f.kva,4) - 3*pow(omegaa*f.kva,2)))
 			 <=2*tol*(1 +pow(abs(x),5)+pow(omegaa,2)*pow(f.kva,2)+pow(f.kva,4)));
@@ -83,7 +83,7 @@ TEST_CASE("MRI Dispersion Relation Invariance","[MRI-Invariance]") {
 	double tW = pi/2;
 
 	// Entropy gradient and pressure gradient along z-hat, stable
-	double tS = 0;
+	double tS = pi/2;
 	double tP = 0;
 	double N22 = 0;
 
@@ -103,14 +103,14 @@ TEST_CASE("MRI Dispersion Relation Invariance","[MRI-Invariance]") {
 
 		// Random k
 		k = 10*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-		kT = 3.141*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-		kP = 2*3.141*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+		kT = pi*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
+		kP = 2*pi*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
 
 		f1.set_k(k, kT, kP);
 		f2.set_k(k, kT, kP);
 
-		for (int i=0;i<4;i++) {
-			for (int k=0;k<4;k++) {
+		for (int i=0;i<dim;i++) {
+			for (int k=0;k<dim;k++) {
 				REQUIRE(abs(f1.m(i,k) - f2.m(i,k)) < tol);
 				REQUIRE(abs(f1.mdot(i,k) - f2.mdot(i,k)) < tol);
 			}
