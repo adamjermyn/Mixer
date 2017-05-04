@@ -3,18 +3,26 @@ BUILD_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../Build)
 EIGEN_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../eigen)
 CUBE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../cubature-1.0.2)
 
-CC = g++
-OPTC = -O3 -ffast-math -march=native -fpermissive -std=gnu++11 -pipe
-SHARED = -fPIC -shared
+OS := $(shell uname)
+ifeq ($(OS),Darwin)
+	CC = /usr/local/bin/g++-6
+	LIBCUB = $(CUBE_DIR)/hcubature_mac.o
+	OPTC = -O3 -ffast-math -fpermissive -std=gnu++11 -pipe
+else	
+	CC = g++
+	LIBCUB = $(CUBE_DIR)/hcubature.o
+	OPTC = -O3 -ffast-math -march=native -fpermissive -std=gnu++11 -pipe
+endif
+
+SHARED = -shared -static
 PROF = $(OPTC) -pg -g
 DEBUG = -O0
 IEGN = -I $(EIGEN_DIR)
-LIBCUB = $(CUBE_DIR)/hcubature.so $(CUBE_DIR)/pcubature.so
 ICUB = -I $(CUBE_DIR)/
 TOTALINC = $(BUILD_DIR)/integrator.o $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
 TOTALINCP = $(BUILD_DIR)/integratorP.o $(BUILD_DIR)/linalgP.o $(BUILD_DIR)/physicsP.o $(BUILD_DIR)/basisP.o
 
-all: shared profile test
+all: shared profile test test_linal test_MRI test_ROT
 
 shared: $(TOTALINC)
 	$(CC) $(OPTC) $(SHARED) $(IEGN) $(ICUB) $(TOTALINCS) python.cpp -o $(BUILD_DIR)/turb.so $(LIBCUB)
@@ -59,7 +67,5 @@ $(BUILD_DIR)/linalgP.o:
 	$(CC) $(OPTC)  $(IEGN) $(PROF) -c linalg.cpp -o $(BUILD_DIR)/linalgP.o
 
 clean:
-	rm ../Build/*.so
-	rm ../Build/*.o
-	rm ../Build/*.e
+	rm ../Build/*
 
