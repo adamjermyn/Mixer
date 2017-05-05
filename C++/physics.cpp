@@ -88,28 +88,25 @@ void flmatrix::set_Mdot() {
 void flmatrix::set_net() {
 	for (int i=0;i<dim;i++) {
 		for (int j=0;j<dim;j++) {
-			if (i==j)
-				eignet(i,j+dim) = 1;
+			eignet(i,j) = m(i,j);
 			eignet(i+dim,j) = mdot(i,j);
 			eignet(i+dim,j+dim) = m(i,j);
 		}
 	}
 }
 
-
 void flmatrix::set_constraint() {
 	for (int i=0;i<dim;i++) {
 		for (int j=0;j<dim;j++) {
-			if (i==j)
-				constraint(i,i) = 1;
-			constraint(i+dim,j) = m(i,j);
+			constraint(i,j) = m(i,j);
+			constraint(i,j+dim) = -1;
 		}
 	}
 }
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix2 proj = nullProjector(constraint, eps)
+	Matrix2 proj = nullProjector(constraint, eps);
 	Matrix2 net = proj * eignet * proj;
 
 	es2.compute(net);
