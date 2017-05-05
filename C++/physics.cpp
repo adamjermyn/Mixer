@@ -109,7 +109,8 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix2 net = eignet * nullProjector(constraint, eps);
+	Matrix2 proj = nullProjector(constraint, eps)
+	Matrix2 net = proj * eignet * proj;
 
 	es2.compute(net);
 	eigvals.diagonal() = es2.eigenvalues();
