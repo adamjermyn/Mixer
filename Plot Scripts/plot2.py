@@ -12,7 +12,7 @@ omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(7,5))
+plt.figure(figsize=(5,4))
 
 x, y = omega, r[...,3,4,0]
 y = np.abs(y)
