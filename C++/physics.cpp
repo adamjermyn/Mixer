@@ -99,7 +99,9 @@ void flmatrix::set_constraint() {
 	for (int i=0;i<dim;i++) {
 		for (int j=0;j<dim;j++) {
 			constraint(i,j) = m(i,j);
-			constraint(i,j+dim) = -1;
+			if (i == j) {
+				constraint(i,j+dim) = -1;
+			}
 		}
 	}
 }
@@ -107,6 +109,7 @@ void flmatrix::set_constraint() {
 void flmatrix::compute_eigensystem() {
 
 	Matrix2 proj = nullProjector(constraint, eps);
+	cout << proj << endl;
 	Matrix2 net = proj * eignet * proj;
 
 	es2.compute(net);
