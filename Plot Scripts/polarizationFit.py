@@ -25,9 +25,8 @@ tW = np.pi/2
 omega = 0.1
 w = 1e-10
 N2 = -1.
-chi = 0
-tolr = 1e-10
-tola = 1e-10
+tolr = 1e-8
+tola = 1e-8
 maxEval = 100000
 
 results = np.zeros(list(B.shape) + [3,6,6,2])
@@ -39,22 +38,22 @@ def f(x):
 
 	tB = np.pi
 	pB = 0
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r[1] = coeffs(params)
 
 	tB = np.pi/2
 	pB = 0
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r[0] = coeffs(params)
 
 	tB = np.pi/2
 	pB = np.pi/2
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, chi, tolr, tola, maxEval)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r[2] = coeffs(params)
 
 	return r
 
-pool = Pool(processes=4)
+pool = Pool(processes=8)
 results = np.array(pool.map(f, B))
 
 fi['results'] = results

@@ -23,7 +23,7 @@ w = -3./2
 N2 = 0
 tolr = 1e-10
 tola = 1e-10
-maxEval = 300000
+maxEval = 1000000
 
 
 fi = h5py.File('Data/accretion_results.dat','w')
@@ -36,7 +36,7 @@ def f(x):
 	r = coeffs(params)
 	return r
 
-pool = Pool(processes=4)
+pool = Pool(processes=8)
 results = np.array(pool.map(f, B))
 
 fi['results'] = results
