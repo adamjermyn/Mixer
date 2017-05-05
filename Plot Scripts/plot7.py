@@ -12,7 +12,7 @@ delta = np.array(fi['delta'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(6,5))
+plt.figure(figsize=(7,5))
 
 plt.subplot(122)
 
@@ -21,7 +21,6 @@ plt.plot(x,y, label='$v_r v_\\theta$')
 x, y = delta, r[...,1,3,0]
 plt.plot(x,y, label='$v_r r_\\theta$')
 plt.xlabel('$\delta$')
-plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
 plt.tight_layout()
 
@@ -32,6 +31,7 @@ plt.plot(x,y, label='$v_r v_r$')
 x, y = delta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
 plt.xlabel('$\delta$')
+plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
 plt.tight_layout()
 

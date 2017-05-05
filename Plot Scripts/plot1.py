@@ -12,7 +12,7 @@ omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(6,5))
+plt.figure(figsize=(7,5))
 
 plt.subplot(121)
 x, y = omega[omega<=2], r[omega<=2][...,3,3,0]
