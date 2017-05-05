@@ -19,9 +19,9 @@ fi['omega'] = omega
 fi['w'] = w
 
 
-tS = np.pi/2
-tP = np.pi/2
-tW = np.pi/2
+tS = np.pi/4
+tP = np.pi/4
+tW = np.pi/4
 N2 = 1.
 tolr = 1e-10
 tola = 1e-10
@@ -31,7 +31,6 @@ def f(x):
 	print(x)
 	params = (omega, x, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
-	print(r)
 	return r
 
 pool = Pool(processes=4)
