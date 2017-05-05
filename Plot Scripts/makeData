@@ -6,3 +6,4 @@ python accretionFit.py &
 python alphaEffectFit.py &
 python polarizationFit.py &
 python richardsonFit.py &
+python latitudeFit.py &
