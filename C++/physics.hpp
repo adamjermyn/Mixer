@@ -28,7 +28,8 @@ const double inf = 1.0/0.0;
 const double nKolmogorov = 11./6;
 const double nMHD = 8./3;
 const double pow1 = 3-2*nKolmogorov;
-const double pow2 = 3-2*nMHD;
+const double pow2 = 3-2*nKolmogorov;
+//const double pow2 = 3-2*nMHD;
 
 // -------------------------------------
 // Adiabatic constant
