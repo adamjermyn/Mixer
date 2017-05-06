@@ -108,14 +108,16 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix2 proj = nullProjector(constraint, eps);
-	cout << proj << endl;
-	Matrix2 net = proj * eignet * proj;
+	proj = nullProjector(constraint, eps);
+	Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
 
-	es2.compute(net);
-	eigvals.diagonal() = es2.eigenvalues();
-	eigvecs = es2.eigenvectors();
+//	cout << net << endl << endl;
 
+	es.compute(m);
+	cout << es.eigenvalues() << endl;
+	es.compute(net);
+	cout << es.eigenvalues() << endl;
+	cout << endl;
 }
 
 void flmatrix::compute_correlator() {
@@ -123,13 +125,22 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
+	VectorC2 temp2 = VectorC2::Zero();
 	MatrixC ret = MatrixC::Zero();
 
-	for (int i=0;i<2*dim;i++) {
-		double g = vGrowth(eigvecs.col(i));
+	for (int i=0;i<es.eigenvectors().cols();i++) {
+		temp2 = proj.adjoint() * (es.eigenvectors().col(i));
+		double g = vGrowth(temp2);
+//		cout << g << endl;
+//		cout << temp2 << endl << endl;
 		if (g > 0) {
+//			cout << g << endl << endl;
+//			cout << temp2 << endl << endl;
+//			cout << eignet*temp2 << endl << endl;
+//			cout << constraint*temp2 << endl << endl;
+//			cout << "---------" << endl;
 			for (int j=0;j<dim;j++) {
-				temp(j) = eigvecs.col(i)(j);
+				temp(j) = temp2(j);
 			}
 			temp = g*normalizeV(temp, ba.kHat[1], wmag, eps);
 			ret += temp*temp.adjoint();

@@ -63,13 +63,13 @@ public:
 	Matrix1 mdot = Matrix1::Zero();
 	Matrix2 constraint = Matrix2::Zero();
 	Matrix2 eignet = Matrix2::Zero();
-	MatrixC2 eigvals = MatrixC2::Zero();
-	MatrixC2 eigvecs = MatrixC2::Zero();
 	Matrix1 correlator = Matrix1::Zero();
+	MatrixXcd eigvals;
+	MatrixXcd eigvecs;
+	MatrixXcd proj;
 
 	// Eigensolver
-	EigenSolver<Matrix1> es;
-	EigenSolver<Matrix2> es2;
+	EigenSolver<MatrixXd> es;
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP

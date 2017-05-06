@@ -48,14 +48,14 @@ VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
 
 	*/
 
-	double net = eps + pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
+	double net = pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
 	net = sqrt(net);
 	VectorC ret(v);
 	ret /= net;
 	return ret;
 }
 
-Matrix2 nullProjector(Matrix2 m, double eps) {
+Eigen::MatrixXcd nullProjector(Matrix2 m, double eps) {
 	/*
 	This method takes as input a (dim*2 x dim*2) matrix and a threshold and returns
 	the matrix which projects into its right null space,
@@ -65,16 +65,29 @@ Matrix2 nullProjector(Matrix2 m, double eps) {
 	JacobiSVD<Matrix2> svd(m, ComputeFullU | ComputeFullV );
 	svd.compute(m);
 
-	Vector2 vals = Vector2::Zero();
-	Matrix2 ret = Matrix2::Zero();
-
+	// Count null singular values
+	int num = 0;
 	for (int i=0;i<2*dim;i++) {
 		if (abs(svd.singularValues()(i)) < eps) {
-			ret += ((svd.matrixV().col(i))*(svd.matrixV().col(i)).adjoint()).real();
+			num += 1;
 		}
 	}
 
-	return ret;
+	MatrixXcd temp = MatrixXcd::Zero(num, 2*dim);
+
+	// Construct projector
+	int counter = 0;
+	for (int i=0;i<2*dim;i++) {
+		if (abs(svd.singularValues()(i)) < eps) {
+			for (int j=0;j<2*dim;j++) {
+				temp(counter,j) += svd.matrixV().adjoint()(i,j);
+			}
+			counter += 1;
+		}
+	}
+
+	return temp;
+
 }
 
 double vGrowth(VectorC2 v) {
@@ -85,6 +98,6 @@ double vGrowth(VectorC2 v) {
 	*/
 	cdouble g0 = v[dim - 2]*conj(v[2*dim - 2]) + v[dim - 1]*conj(v[2*dim - 1]);
 	cdouble g1 = conj(g0);
-	return ((g0 + g1)/(eps + abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
+	return ((g0 + g1)/(abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
 
 }

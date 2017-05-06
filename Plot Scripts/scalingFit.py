@@ -22,17 +22,18 @@ tP = np.pi/4
 w = 1e-15
 tW = np.pi/2
 N2 = -1
-tolr = 1e-8
-tola = 1e-8
-maxEval = 1000000
+tolr = 1e-10
+tola = 1e-10
+maxEval = 100000
 
 def f(x):
 	print(x)
 	params = (x, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params)
+	print(r)
 	return r
 
-pool = Pool(processes=8)
+pool = Pool(processes=1)
 results = np.array(pool.map(f, omega))
 
 fi['results'] = results
