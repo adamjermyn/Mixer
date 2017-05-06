@@ -111,13 +111,7 @@ void flmatrix::compute_eigensystem() {
 	proj = nullProjector(constraint, eps);
 	Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
 
-//	cout << net << endl << endl;
-
-	es.compute(m);
-	cout << es.eigenvalues() << endl;
 	es.compute(net);
-	cout << es.eigenvalues() << endl;
-	cout << endl;
 }
 
 void flmatrix::compute_correlator() {
