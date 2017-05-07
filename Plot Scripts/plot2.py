@@ -6,13 +6,14 @@ os.chdir(d)
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 
 fi = h5py.File('Data/scale_results.dat','r')
 omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(5,4))
+plt.figure(figsize=(4,3.5))
 
 x, y = omega, r[...,3,4,0]
 y = np.abs(y)

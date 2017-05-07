@@ -25,9 +25,9 @@ tW = np.pi/2
 omega = 0.1
 w = 1e-10
 N2 = -1.
-tolr = 1e-8
-tola = 1e-8
-maxEval = 100000
+tolr = 1e-18
+tola = 1e-18
+maxEval = 10000000
 
 results = np.zeros(list(B.shape) + [3,6,6,2])
 

@@ -6,13 +6,14 @@ os.chdir(d)
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 
 fi = h5py.File('Data/baro_results.dat','r')
 delta = np.array(fi['delta'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(7,5))
+plt.figure(figsize=(6,4.3))
 
 plt.subplot(122)
 

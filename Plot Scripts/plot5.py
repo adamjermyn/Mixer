@@ -6,13 +6,14 @@ os.chdir(d)
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 
 fi = h5py.File('Data/alpha_results.dat','r')
 omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
-plt.figure(figsize=(7,5))
+plt.figure(figsize=(6,4.3))
 
 plt.subplot(121)
 

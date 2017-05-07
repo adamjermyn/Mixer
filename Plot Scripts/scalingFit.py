@@ -22,9 +22,9 @@ tP = np.pi/4
 w = 1e-15
 tW = np.pi/2
 N2 = -1
-tolr = 1e-10
-tola = 1e-10
-maxEval = 100000
+tolr = 1e-20
+tola = 1e-20
+maxEval = 1000000
 
 def f(x):
 	print(x)
@@ -33,7 +33,7 @@ def f(x):
 	print(r)
 	return r
 
-pool = Pool(processes=1)
+pool = Pool(processes=4)
 results = np.array(pool.map(f, omega))
 
 fi['results'] = results

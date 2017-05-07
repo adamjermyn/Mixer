@@ -24,8 +24,8 @@ tS = np.pi/2
 tP = np.pi/2
 tW = np.pi/2
 N2 = -1
-tolr = 1e-10
-tola = 1e-10
+tolr = 1e-12
+tola = 1e-12
 maxEval = 100000
 
 

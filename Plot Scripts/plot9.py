@@ -6,13 +6,14 @@ os.chdir(d)
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 
 fi = h5py.File('Data/accretion_results.dat','r')
 B = np.array(fi['B'])
 r = np.array(fi['results'])
 fi.close()
 
-fig = plt.figure(figsize=(5,4))
+fig = plt.figure(figsize=(4,3.5))
 ax = fig.add_subplot(1,1,1)
 
 x, y = B, r[...,3,5,0]
