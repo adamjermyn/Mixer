@@ -49,6 +49,14 @@ public:
 	double kmag;
 	double kva;
 
+	/*
+	The angle theta defaults to pi/2 so that spherical and cylindrical
+	coordinates are identical. Changing this to another value causes the
+	returned coefficients to be in spherical coordinates evaluated at that
+	polar angle.
+	*/
+	double theta = pi/2;
+
 	// Physical parameters
 	double va[3];
 	double entHat[3];

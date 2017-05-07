@@ -17,6 +17,7 @@ using namespace Eigen;
 // -------------------------------------
 // Constants
 
+const int spaceDim = 3; // Number of spatial dimensions
 const int dim = 4; // Time evolution matrix dimension
 const int correlDim = 6; // Dimension of the correlator
 const double eps=1e-15; // Numerical smoothing factor
@@ -45,6 +46,10 @@ typedef Eigen::Matrix<double, dim, correlDim> MatrixRegCorr;
 typedef Eigen::Matrix<double, correlDim, dim> MatrixCorrReg;
 typedef Eigen::Matrix<double, correlDim, correlDim> MatrixCorr;
 typedef Eigen::Array<double, correlDim, correlDim> ArrayCorr;
+
+// Used for rotations
+typedef Eigen::Matrix<double, spatialDim, spatialDim> MatrixSpace;
+typedef Eigen::Matrix<double, 2*spatialDim, 2*spatialDim> MatrixSpace2;
 
 
 // -------------------------------------
