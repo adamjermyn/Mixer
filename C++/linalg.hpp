@@ -48,8 +48,8 @@ typedef Eigen::Matrix<double, correlDim, correlDim> MatrixCorr;
 typedef Eigen::Array<double, correlDim, correlDim> ArrayCorr;
 
 // Used for rotations
-typedef Eigen::Matrix<double, spatialDim, spatialDim> MatrixSpace;
-typedef Eigen::Matrix<double, 2*spatialDim, 2*spatialDim> MatrixSpace2;
+typedef Eigen::Matrix<double, spaceDim, spaceDim> MatrixSpace;
+typedef Eigen::Matrix<double, 2*spaceDim, 2*spaceDim> MatrixSpace2;
 
 
 // -------------------------------------

@@ -67,15 +67,18 @@ public:
 	double omega;
 	double transK;
 
-	// Intended outputs
+	// Temporary arrays
 	Matrix1 m = Matrix1::Zero();
 	Matrix1 mdot = Matrix1::Zero();
 	Matrix2 constraint = Matrix2::Zero();
 	Matrix2 eignet = Matrix2::Zero();
-	Matrix1 correlator = Matrix1::Zero();
 	MatrixXcd eigvals;
 	MatrixXcd eigvecs;
 	MatrixXcd proj;
+
+	// Intended outputs
+	int* output; // 1 to output the given component, 0 otherwise.
+	Matrix1 correlator = Matrix1::Zero();
 
 	// Eigensolver
 	EigenSolver<MatrixXd> es;
