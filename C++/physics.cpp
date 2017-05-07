@@ -128,8 +128,6 @@ void flmatrix::compute_correlator() {
 //		cout << g << endl;
 //		cout << temp2 << endl << endl;
 		if (g > 0) {
-//			cout << g << endl << endl;
-//			cout << temp2 << endl << endl;
 //			cout << eignet*temp2 << endl << endl;
 //			cout << constraint*temp2 << endl << endl;
 //			cout << "---------" << endl;
