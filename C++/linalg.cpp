@@ -48,7 +48,7 @@ VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
 
 	*/
 
-	double net = pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
+	double net = eps + pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
 	net = sqrt(net);
 	VectorC ret(v);
 	ret /= net;
@@ -98,6 +98,6 @@ double vGrowth(VectorC2 v) {
 	*/
 	cdouble g0 = v[dim - 2]*conj(v[2*dim - 2]) + v[dim - 1]*conj(v[2*dim - 1]);
 	cdouble g1 = conj(g0);
-	return ((g0 + g1)/(abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
+	return ((g0 + g1)/(eps + abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
 
 }
