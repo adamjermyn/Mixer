@@ -67,6 +67,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		transform(3,3+j) = f.ba.b[j];
 		transform(1,3+j) = f.ba.c[j]*f.wmag*f.omega*f.ba.kHat[1]; // The velocity has this additional term due to the sheared coordinate system.
 	}
+
 	MatrixCorrReg transformT = transform.transpose();
 
 	// Apply transform to real-space coordinates
@@ -76,32 +77,32 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	// Construct cylindrical to spherical transform
 
 	MatrixSpace temp = MatrixSpace::Zero();
-	MatrixSpace2 transform = MatrixSpace2::Zero();
+	MatrixSpace2 transformR = MatrixSpace2::Zero();
 
 	double theta = f.theta;
-	transform(0,0) = sin(theta);
-	transform(0,2) = cos(theta);
-	transform(1,0) = cos(theta);
-	transform(1,2) = -sin(theta);
-	transform(2,1) = 1;
-	for (int i=0;i<spatialDim;i++) {
-		for (int j=0;j<spatialDim;j++) {
-			transform(i,j) = temp(i,j);
-			transform(i + spatialDim, j) = temp(i,j);
-			transform(i, j + spatialDim) = temp(i,j);
-			transform(i + spatialDim, j + spatialDim) = temp(i,j);
+	temp(0,0) = sin(theta);
+	temp(0,2) = cos(theta);
+	temp(1,0) = cos(theta);
+	temp(1,2) = -sin(theta);
+	temp(2,1) = 1;
+	for (int i=0;i<spaceDim;i++) {
+		for (int j=0;j<spaceDim;j++) {
+			transformR(i,j) = temp(i,j);
+			transformR(i + spaceDim, j) = temp(i,j);
+			transformR(i, j + spaceDim) = temp(i,j);
+			transformR(i + spaceDim, j + spaceDim) = temp(i,j);
 		}
 	}
 
-	MatrixSpace2 transformT = transform.transpose();
+	MatrixSpace2 transformTR = transformR.transpose();
 
 	// Apply transform
 
-	I = transformT * I * transform;
+	I = transformTR * I * transformR;
 
-	// Apply unit conversion
+	// Apply unit conversion (needs to have two factors because we have two length factors)
 
-	I *= unitConv*unitConv; // Needs to have two factors because we have two length factors
+	I *= unitConv*unitConv;
 
 	// Apply integration prefactor
 

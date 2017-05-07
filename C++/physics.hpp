@@ -21,6 +21,7 @@ using namespace Eigen;
 // Constants
 
 const double inf = 1.0/0.0;
+const double pi = 3.141592653589;
 
 // -------------------------------------
 // Spectral indices (v ~ k^(-n))

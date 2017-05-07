@@ -106,7 +106,7 @@ extern "C" double* coeffs2spherical(double theta, double tolr, double tola, doub
 	double* net = new double[2*correlDim*correlDim];
 	
 	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,omega);
-	f.theta = theta
+	f.theta = theta;
 	integral(correlDim*correlDim,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola,ERROR_INDIVIDUAL,
 			ret,err);
 
