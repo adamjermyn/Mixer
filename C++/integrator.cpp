@@ -88,8 +88,6 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 	for (int i=0;i<spaceDim;i++) {
 		for (int j=0;j<spaceDim;j++) {
 			transformR(i,j) = temp(i,j);
-			transformR(i + spaceDim, j) = temp(i,j);
-			transformR(i, j + spaceDim) = temp(i,j);
 			transformR(i + spaceDim, j + spaceDim) = temp(i,j);
 		}
 	}
@@ -98,7 +96,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	// Apply transform
 
-	I = transformTR * I * transformR;
+	I = transformR * I * transformTR;
 
 	// Apply unit conversion (needs to have two factors because we have two length factors)
 
@@ -112,7 +110,11 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 
 	for (int j=0;j<correlDim;j++) {
 		for (int q=0;q<correlDim;q++) {
-			fval[correlDim*j+q] = I(j,q);
+			if (f.output[correlDim*j + q] == 1) {
+				fval[correlDim*j+q] = I(j,q);
+			} else {
+				fval[correlDim*j+q] = 0;
+			}
 		}
 	}
 
