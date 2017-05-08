@@ -78,8 +78,9 @@ public:
 
 	double kw;
 	double dkw;
+	double tW;
 
-	basis(double tw);
+	basis(double tWW);
 
 	void set_k(double kT, double kP);
 
