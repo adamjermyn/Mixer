@@ -55,7 +55,7 @@ void flmatrix::set_M() {
 	m(2,0) = -N2*dot(ba.a, entHat)*dot(ba.a, presHat) - kva*kva;
 	m(2,1) = -N2*dot(ba.b, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.d)*ba.kHat[1] + ba.a[0]*dot(ba.b,ba.wHat));
 	m(3,0) = -N2*dot(ba.a, entHat)*dot(ba.b, presHat);
-	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*ba.b[0]*dot(ba.b,ba.wHat)*wmag;
+	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*wmag*ba.b[0]*dot(ba.b,ba.wHat);
 
 	m(2,3) = -2*omega*dot(ba.a,ba.e);
 	m(3,2) = -m(2,3);
