@@ -23,7 +23,7 @@ const int correlDim = 6; // Dimension of the correlator
 
 const double vectorNormEPS = 1e-15;
 const double velocityNormEPS = 1e-15;
-const double growthEPS = 1e-15;
+const double growthEPS = 1e-25;
 const double svdEPS = 1e-20;
 
 // -------------------------------------
