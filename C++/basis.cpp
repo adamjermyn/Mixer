@@ -29,9 +29,9 @@ void basis::set_k(double kT, double kP) {
 	cross(wHat,a,c);
 
 	// Normalize basis
-	normalize(a,eps);
-	normalize(b,eps);
-	normalize(c,eps);	
+	normalize(a);
+	normalize(b);
+	normalize(c);	
 
 	// The original version had these cross products
 	// coming before the normalization, so check this!

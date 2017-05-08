@@ -23,7 +23,7 @@ void cross(const double a[3], const double b[3], double ret[3]) {
 	ret[2] = a[0]*b[1]-a[1]*b[0];
 }
 
-void normalize(double* v, double eps) {
+void normalize(double* v) {
 	double norm = sqrt(dot(v,v));
 	v[0] /= norm;
 	v[1] /= norm;
