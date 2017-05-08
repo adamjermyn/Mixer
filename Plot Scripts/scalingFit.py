@@ -12,19 +12,19 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-omega = 10**np.linspace(1,3,num=10,endpoint=True)
+omega = 10**np.linspace(-3,3,num=80,endpoint=True)
 
 fi = h5py.File('Data/scale_results.dat','w')
 fi['omega'] = omega
 
 tS = np.pi/4
 tP = np.pi/4
-w = 1e-15
+w = 0
 tW = np.pi/2
 N2 = -1
-tolr = 1e-20
-tola = 1e-20
-maxEval = 10000000
+tolr = 0
+tola = 0
+maxEval = 20000
 
 
 output = np.zeros((6,6))
