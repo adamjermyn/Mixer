@@ -24,12 +24,17 @@ tolr = 1e-8
 tola = 1e-8
 maxEval = 2000000
 
+output = np.zeros((6,6))
+output[3,3] = 1
+output[0,3] = 1
+output[4,3] = 1
+output[1,3] = 1
 
 omega = 0.1
 
 def f(x):
 	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
-	r = coeffs(params)
+	r = coeffs(params, output=output)
 	return r
 
 pool = Pool(processes=4)
@@ -40,7 +45,7 @@ omega = 1.0
 
 def g(x):
 	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
-	r = coeffs(params)
+	r = coeffs(params, output=output)
 	return r
 
 pool = Pool(processes=4)
@@ -52,7 +57,7 @@ omega = 10.
 
 def h(x):
 	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
-	r = coeffs(params)
+	r = coeffs(params, output=output)
 	return r
 
 pool = Pool(processes=4)

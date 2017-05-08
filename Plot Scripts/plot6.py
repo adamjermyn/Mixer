@@ -26,7 +26,7 @@ y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.ylabel('(Mixing Units)')
-plt.legend(loc='upper right')
+plt.legend(loc='upper left')
 plt.tight_layout()
 
 plt.subplot(122)

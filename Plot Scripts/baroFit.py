@@ -13,7 +13,7 @@ from multiprocessing import Pool
 
 fi = h5py.File('Data/baro_results.dat','w')
 
-delta = np.linspace(-np.pi,np.pi,num=100,endpoint=True)
+delta = np.linspace(-np.pi,np.pi,num=60,endpoint=True)
 
 fi['delta'] = delta
 
@@ -26,13 +26,18 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-12
 tola = 1e-12
-maxEval = 100000
+maxEval = 10000
 
+output = np.zeros((6,6))
+output[4,3] = 1
+output[1,3] = 1
+output[3,3] = 1
+output[0,3] = 1
 
 def f(x):
 	print(x)
 	params = (omega, w, tW, tS + x, tP, N2, tolr, tola, maxEval)
-	r = coeffs(params)
+	r = coeffs(params, output=output)
 	return r
 
 pool = Pool(processes=4)
