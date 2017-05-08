@@ -11,7 +11,7 @@ ifeq ($(OS),Darwin)
 else	
 	CC = g++
 	LIBCUB = $(CUBE_DIR)/hcubature.so
-	OPTC = -O3 -ffast-math -march=native -fpermissive -std=gnu++11 -pipe
+	OPTC = -O3 -ffast-math -fpermissive -std=gnu++11 -pipe
 endif
 
 SHARED = -shared -fPIC
