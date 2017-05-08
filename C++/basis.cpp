@@ -48,7 +48,7 @@ void basis::set_k(double kT, double kP) {
 		dk[i] = kHat[1] * (wHat[i] + kHat[i]*kw);
 
 	dkw = dot(dk, wHat);
-	double denom = eps + pow(1 - kw*kw,0.5);
+	double denom = vectorNormEPS + pow(1 - kw*kw,0.5);
 
 	// db
 	for (int i=0;i<3;i++) {

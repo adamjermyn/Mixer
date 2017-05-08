@@ -100,7 +100,7 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	proj = nullProjector(constraint, eps);
+	proj = nullProjector(constraint);
 	Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
 
 	es.compute(net);
@@ -122,7 +122,7 @@ void flmatrix::compute_correlator() {
 			for (int j=0;j<dim;j++) {
 				temp(j) = temp2(j);
 			}
-			temp = g*normalizeV(temp, ba.kHat[1], wmag, eps);
+			temp = g*normalizeV(temp, ba.kHat[1], wmag);
 			ret += temp*temp.adjoint();
 		}
 	}
@@ -132,9 +132,6 @@ void flmatrix::compute_correlator() {
 }
 
 double flmatrix::computeKfromKA(double ka) {
-	if (ka < 10*eps) {
-		return inf;
-	}
 	return pow(ka,1/powN);
 }
 
