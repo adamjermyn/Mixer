@@ -139,8 +139,7 @@ double flmatrix::computeKfromKA(double ka) {
 	if (ka < 10*eps) {
 		return inf;
 	}
-	double kk = pow(ka,1/pow);
-	return kk;
+	return pow(ka,1/powN);
 }
 
 // Set wavevector in spherical coordinates

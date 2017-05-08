@@ -48,11 +48,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		pK = x[2];
 		k = f.computeKfromKA(x[0]);
 		pref = sin(tK)*fourierCoeff;
-		if (k <= f.transK) {
-			pref /= -(3-2*nKolmogorov);
-		} else {
-			pref /= -(3-2*nMHD);
-		}
+		pref /= powN;
 	}
 
 	// Compute physics
