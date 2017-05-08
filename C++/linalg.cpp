@@ -24,7 +24,7 @@ void cross(const double a[3], const double b[3], double ret[3]) {
 }
 
 void normalize(double* v) {
-	double norm = vectorNormEPS + sqrt(dot(v,v));
+	double norm = sqrt(vectorNormEPS + dot(v,v));
 	v[0] /= norm;
 	v[1] /= norm;
 	v[2] /= norm;
@@ -49,9 +49,9 @@ VectorC normalizeV(VectorC v, double kPhi, double w) {
 	*/
 
 	double net = pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
-	net = sqrt(net);
+	net = sqrt(velocityNormEPS + net);
 	VectorC ret(v);
-	ret /= (velocityNormEPS + net);
+	ret /= net;
 	return ret;
 }
 
