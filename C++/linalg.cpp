@@ -89,15 +89,3 @@ Eigen::MatrixXcd nullProjector(Matrix2 m) {
 	return temp;
 
 }
-
-double vGrowth(VectorC2 v) {
-	/*
-	This method takes as input a vector of size 2*dim and returns the growth rate
-	implied by the velocity elements of the vector, which are assumed as usual to be
-	the final two in each set of dim.
-	*/
-	cdouble g0 = v[dim - 2]*conj(v[2*dim - 2]) + v[dim - 1]*conj(v[2*dim - 1]);
-	cdouble g1 = conj(g0);
-	return ((g0 + g1)/(velocityNormEPS + abs(v[dim - 2])*abs(v[dim - 2]) + abs(v[dim - 1])*abs(v[dim - 1]))).real();
-
-}

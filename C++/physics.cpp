@@ -100,10 +100,15 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	proj = nullProjector(constraint);
-	Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
+	if (abs(wmag) > 0) {
+		proj = nullProjector(constraint);
+		Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
+		es.compute(net);
+		cout << "hi" << endl;
+	} else {
+		es.compute(m);
+	}
 
-	es.compute(net);
 }
 
 void flmatrix::compute_correlator() {
@@ -111,18 +116,35 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
+	VectorC tempM = VectorC::Zero();
 	VectorC2 temp2 = VectorC2::Zero();
 	MatrixC ret = MatrixC::Zero();
 
 	for (int i=0;i<es.eigenvectors().cols();i++) {
-		temp2 = proj.adjoint() * (es.eigenvectors().col(i));
-		double g = vGrowth(temp2);
-//		cout << g << endl << endl << temp2 << endl << endl;
-		if (g > 0) {
+
+		if (abs(wmag) > 0) {
+			temp2 = proj.adjoint() * (es.eigenvectors().col(i));
+		} else {
 			for (int j=0;j<dim;j++) {
-				temp(j) = temp2(j);
+				temp2(j) = es.eigenvectors().col(i)(j);
+				temp2(j + dim) = 0;
 			}
-			temp = g*normalizeV(temp, ba.kHat[1], wmag);
+		}
+
+		for (int j=0;j<dim;j++) {
+			temp(j) = temp2(j);
+		}
+
+		temp = normalizeV(temp, ba.kHat[1], wmag);
+
+		tempM = m*temp;
+
+		double g = ((tempM(2)*conj(temp(2)) + tempM(3)*conj(temp(3)))/(growthEPS + temp(2)*conj(temp(2)) + temp(3)*conj(temp(3)))).real();
+
+//		cout << g << endl << endl << temp2 << endl << endl;
+//		cout << eignet << endl;
+		if (g > 0) {
+			temp = g*temp;
 			ret += temp*temp.adjoint();
 		}
 	}
