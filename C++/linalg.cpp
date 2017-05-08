@@ -24,7 +24,7 @@ void cross(const double a[3], const double b[3], double ret[3]) {
 }
 
 void normalize(double* v, double eps) {
-	double norm = sqrt(dot(v,v)+eps);
+	double norm = sqrt(dot(v,v));
 	v[0] /= norm;
 	v[1] /= norm;
 	v[2] /= norm;
