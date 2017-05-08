@@ -117,12 +117,7 @@ void flmatrix::compute_correlator() {
 	for (int i=0;i<es.eigenvectors().cols();i++) {
 		temp2 = proj.adjoint() * (es.eigenvectors().col(i));
 		double g = vGrowth(temp2);
-//		cout << g << endl;
-//		cout << temp2 << endl << endl;
 		if (g > 0) {
-//			cout << eignet*temp2 << endl << endl;
-//			cout << constraint*temp2 << endl << endl;
-//			cout << "---------" << endl;
 			for (int j=0;j<dim;j++) {
 				temp(j) = temp2(j);
 			}
