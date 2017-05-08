@@ -11,7 +11,7 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-omega = 0.1
+omega = 1.0
 w = omega * np.linspace(0.001,0.50 ,num=20,endpoint=True)
 
 fi = h5py.File('Data/scale_grad_results.dat','w')
@@ -22,9 +22,9 @@ tS = np.pi/4
 tP = np.pi/4
 tW = np.pi/2
 N2 = -1
-tolr = 1e-10
-tola = 1e-10
-maxEval = 1000000
+tolr = 1e-20
+tola = 1e-20
+maxEval = 3000000
 
 
 output = np.zeros((6,6))

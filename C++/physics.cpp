@@ -104,7 +104,6 @@ void flmatrix::compute_eigensystem() {
 		proj = nullProjector(constraint);
 		Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
 		es.compute(net);
-		cout << "hi" << endl;
 	} else {
 		es.compute(m);
 	}
