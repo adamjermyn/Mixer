@@ -4,6 +4,7 @@
 // Includes
 
 #include <math.h>
+const double vectorEPS = 1e-20;
 
 
 double db0(double kT, double kP, double tW) {
@@ -51,7 +52,7 @@ R0_14 = R0_7 * R0_7;
 R0_11 = R0_11 * R0_14;
 R0_10 = R0_10 + R0_12 + R0_11;
 R0_12 = sqrt(R0_10);
-R0_10 = 1 / R0_12;
+R0_10 = 1 / (vectorEPS + R0_12);
 R0_12 = R0_3 * R0_9 * R0_10;
 
 return R0_12;
@@ -97,7 +98,7 @@ R0_12 = R0_8 * R0_8;
 R0_11 = R0_11 * R0_12;
 R0_9 = R0_9 + R0_10 + R0_11;
 R0_10 = sqrt(R0_9);
-R0_9 = 1 / R0_10;
+R0_9 = 1 / (vectorEPS + R0_10);
 R0_10 = R0_6 * R0_3 * R0_9;
 R0_9 = -R0_10;
 return R0_9;
@@ -149,7 +150,7 @@ R0_14 = R0_3 * R0_3;
 R0_10 = R0_10 * R0_14;
 R0_11 = R0_11 + R0_12 + R0_10;
 R0_12 = sqrt(R0_11);
-R0_11 = 1 / R0_12;
+R0_11 = 1 / (vectorEPS + R0_12);
 R0_12 = R0_3 * R0_9 * R0_11;
 return R0_12;
 
