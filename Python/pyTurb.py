@@ -226,7 +226,7 @@ def coeffs(params, output=None):
 				raise NotImplementedError('Number of parameters does not match any known specification.')
 
 
-			if np.sum(np.abs(c[2:,2:])) > 1e-10:
+			if np.sum(np.abs(c[2:,2:])) > 1e-13:
 				return np.sum(np.abs(c[2:,2:]))
 			else:
 				return 0
@@ -239,12 +239,14 @@ def coeffs(params, output=None):
 		r = np.zeros((6,6,2))
 
 		# For determining the number of evals
-		vol = sum([c.volume for c in t.nonzero])
-		print(vol/(2*np.pi**2))
+		est = sum([c.mean*c.volume for c in t.nonzero])
+
+		print('EST:',est)
 
 		for c in t.nonzero:
 			params3 = [c.mins, c.maxs] + params2
-			params3[-1] = int(params3[-1] * c.volume/vol)
+			params3[-1] = int(params3[-1] * c.mean*c.volume/est)
+#			print('Evals:',params3[-1])
 			res = co(params3)
 			r += res
 

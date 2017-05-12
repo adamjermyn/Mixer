@@ -17,9 +17,13 @@ class cube:
 				self.vals[p] = self.func(p)
 
 		self.num = 0
+		self.mean = 0
 		for p in self.pts:
+			self.mean += self.vals[p]
 			if self.vals[p] != 0:
 				self.num += 1
+		self.mean /= len(self.pts)
+
 
 	@property
 	def volume(self):

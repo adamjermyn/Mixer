@@ -3,7 +3,10 @@ import matplotlib.patches as patches
 from pyTurb import correlator
 from tree import *
 
-omega = 0.5
+# Funny behaviour occurs between omega=702 and 730. It appears to be a 
+# switching-type behaviour, probably due to the floor on unit vectors...
+
+omega = 730
 w = 0
 tS = np.pi/4
 tP = np.pi/4
@@ -20,8 +23,22 @@ def f(x):
 	else:
 		return 0
 
-mins = [0.,0.]
-maxs = [1.,1.]
+mins = [0.45,0]
+maxs = [0.55,1]
+
+t = tree(mins, maxs, f)
+t.allSplit(3000)
+
+fig1 = plt.figure()
+ax1 = fig1.add_subplot(111,aspect='equal')
+for c in t.cubes:
+	if c.num == 2**len(c.mins):
+		ax1.add_patch(patches.Rectangle(c.mins, c.maxs[0]-c.mins[0], c.maxs[1]-c.mins[1], fill=True))
+	else:
+		ax1.add_patch(patches.Rectangle(c.mins, c.maxs[0]-c.mins[0], c.maxs[1]-c.mins[1], fill=False))
+plt.show()
+exit()
+
 
 t = tree(mins, maxs, f)
 for i in range(10000):
