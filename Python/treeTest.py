@@ -23,7 +23,7 @@ def f(x):
 	else:
 		return 0
 
-mins = [0,0]
+mins = [0.,0.]
 maxs = [1.,1.]
 
 t = tree(mins, maxs, f)
