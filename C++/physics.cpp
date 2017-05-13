@@ -136,18 +136,15 @@ void flmatrix::compute_correlator() {
 
 		double g = 0;
 
-		// We do this to avoid a segment of m which could be
-		// quite large but which analytically provides zero
-		// contribution.
-		g += (temp(2)*m(2,0)*conj(temp(0))).real();
-		g += (temp(2)*m(2,1)*conj(temp(1))).real();
-		g += (temp(3)*m(3,0)*conj(temp(0))).real();
-		g += (temp(3)*m(3,1)*conj(temp(1))).real();
+		temp2 = m * temp
+		g = (temp2(2)*conj(temp(2)) + temp2(3)*conj(temp(3))).real();
 
 //		cout << g << endl << endl << es.eigenvalues() << endl;
 
-//		cout << g << endl << endl << temp2 << endl << endl;
+//		cout << g << endl << temp << endl << endl << endl;
 //		cout << eignet << endl;
+
+
 		if (g > 0) {
 			temp = g*temp;
 			ret += temp*temp.adjoint();
