@@ -136,7 +136,7 @@ void flmatrix::compute_correlator() {
 
 		double g = 0;
 
-		temp2 = m * temp
+		temp2 = m * temp;
 		g = (temp2(2)*conj(temp(2)) + temp2(3)*conj(temp(3))).real();
 
 //		cout << g << endl << endl << es.eigenvalues() << endl;
