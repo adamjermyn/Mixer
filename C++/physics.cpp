@@ -100,12 +100,24 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	if (abs(wmag) > 0) {
-		proj = nullProjector(constraint);
-		Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
-		es.compute(net);
+	Matrix1 a = m*m + mdot;
+	Matrix1 b = 1.*m;
+
+	// Check for pathological cases
+	es.compute(a);
+	double sum = 0;
+	for (int i=0;i<dim;i++) {
+		sum += abs(es.eigenvalues()(i));
+	}
+	if (sum < 1e-10) {
+		eigvecs *= 0;
+		eigvals *= 0;
 	} else {
-		es.compute(m);
+		cout << a << endl;
+		cout << b << endl;
+		cout << "Computing" << endl;
+		ges.compute(a, b);
+		cout << "Done" << endl;
 	}
 
 }
@@ -115,24 +127,11 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
-	VectorC2 temp2 = VectorC2::Zero();
 	MatrixC ret = MatrixC::Zero();
 
-	for (int i=0;i<es.eigenvectors().cols();i++) {
+	for (int i=0;i<eigvecs.cols();i++) {
 
-		if (abs(wmag) > 0) {
-			temp2 = proj.adjoint() * (es.eigenvectors().col(i));
-		} else {
-			for (int j=0;j<dim;j++) {
-				temp2(j) = es.eigenvectors().col(i)(j);
-				temp2(j + dim) = 0;
-			}
-		}
-
-		for (int j=0;j<dim;j++) {
-			temp(j) = temp2(j);
-		}
-
+		temp = eigvecs.col(i);
 		temp = normalizeV(temp, ba.kHat[1], wmag);
 
 		double g = 0;

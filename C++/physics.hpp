@@ -78,7 +78,8 @@ public:
 	Matrix1 correlator = Matrix1::Zero();
 
 	// Eigensolver
-	EigenSolver<MatrixXd> es;
+	EigenSolver<Matrix1> es;
+	GeneralizedEigenSolver<Matrix1> ges;
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
