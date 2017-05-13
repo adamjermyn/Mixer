@@ -104,7 +104,6 @@ void flmatrix::compute_eigensystem() {
 		proj = nullProjector(constraint);
 		Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
 		es.compute(net);
-		cout << "hi" << endl;
 	} else {
 		es.compute(m);
 	}
@@ -116,7 +115,6 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
-	VectorC tempM = VectorC::Zero();
 	VectorC2 temp2 = VectorC2::Zero();
 	MatrixC ret = MatrixC::Zero();
 
@@ -137,9 +135,17 @@ void flmatrix::compute_correlator() {
 
 		temp = normalizeV(temp, ba.kHat[1], wmag);
 
-		tempM = m*temp;
+		double g = 0;
 
-		double g = ((tempM(2)*conj(temp(2)) + tempM(3)*conj(temp(3)))/(growthEPS + temp(2)*conj(temp(2)) + temp(3)*conj(temp(3)))).real();
+		// We do this to avoid a segment of m which could be
+		// quite large but which analytically provides zero
+		// contribution.
+		g += (temp(2)*m(2,0)*conj(temp(0))).real();
+		g += (temp(2)*m(2,1)*conj(temp(1))).real();
+		g += (temp(3)*m(3,0)*conj(temp(0))).real();
+		g += (temp(3)*m(3,1)*conj(temp(1))).real();
+
+//		cout << g << endl << endl << es.eigenvalues() << endl;
 
 //		cout << g << endl << endl << temp2 << endl << endl;
 //		cout << eignet << endl;

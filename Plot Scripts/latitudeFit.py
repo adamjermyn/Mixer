@@ -22,7 +22,7 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-8
 tola = 1e-8
-maxEval = 2000000
+maxEval = 20000
 
 output = np.zeros((6,6))
 output[3,3] = 1

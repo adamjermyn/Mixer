@@ -23,9 +23,9 @@ tS = np.pi/4
 tP = np.pi/4
 tW = np.pi/4
 N2 = 1.
-tolr = 1e-13
-tola = 1e-13
-maxEval = 100000
+tolr = 1e-10
+tola = 1e-10
+maxEval = 30000
 
 output = np.zeros((6,6))
 output[4,3] = 1

@@ -14,6 +14,8 @@ omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
 
+print(r[...,3,4,0])
+
 plt.figure(figsize=(6,4.3))
 
 plt.subplot(121)

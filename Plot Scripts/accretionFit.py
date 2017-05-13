@@ -21,9 +21,9 @@ tW = np.pi/2
 omega = 1.
 w = -3./2
 N2 = 0
-tolr = 1e-18
-tola = 1e-18
-maxEval = 10000000
+tolr = 1e-10
+tola = 1e-10
+maxEval = 100000
 
 
 fi = h5py.File('Data/accretion_results.dat','w')
