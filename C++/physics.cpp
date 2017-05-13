@@ -104,20 +104,21 @@ void flmatrix::compute_eigensystem() {
 	Matrix1 b = 1.*m;
 
 	// Check for pathological cases
-	es.compute(a);
+	es.compute(b);
 	double sum = 0;
 	for (int i=0;i<dim;i++) {
 		sum += abs(es.eigenvalues()(i));
 	}
-	if (sum < 1e-10) {
+	if (sum < 1e-15) {
+		// Special case handling... if the matrix is
+		// numerically trivial we know that the answer
+		// is trivial.
 		eigvecs *= 0;
 		eigvals *= 0;
 	} else {
-		cout << a << endl;
-		cout << b << endl;
-		cout << "Computing" << endl;
 		ges.compute(a, b);
-		cout << "Done" << endl;
+		eigvecs = 1.*ges.eigenvectors();
+		eigvals = 1.*ges.eigenvalues();
 	}
 
 }
@@ -127,6 +128,7 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
+	VectorC temp2 = VectorC::Zero();
 	MatrixC ret = MatrixC::Zero();
 
 	for (int i=0;i<eigvecs.cols();i++) {
