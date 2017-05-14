@@ -233,19 +233,20 @@ def coeffs(params, output=None):
 
 
 		t = tree(mins, maxs, f)
-		t.allSplit(3000)
+		t.allSplit(1000)
 		print(len(t.nonzero))
 
 		r = np.zeros((6,6,2))
 
 		# For determining the number of evals
 		est = sum([c.mean*c.volume for c in t.nonzero])
+		vol = sum([c.volume for c in t.nonzero])
 
 		print('EST:',est)
 
 		for c in t.nonzero:
 			params3 = [c.mins, c.maxs] + params2
-			params3[-1] = int(params3[-1] * c.mean*c.volume/est)
+			params3[-1] = int(params3[-1] * c.volume/vol)
 #			print('Evals:',params3[-1])
 			res = co(params3)
 			r += res

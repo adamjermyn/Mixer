@@ -109,13 +109,18 @@ void flmatrix::compute_eigensystem() {
 	for (int i=0;i<dim;i++) {
 		sum += abs(es.eigenvalues()(i));
 	}
-	if (sum < 1e-15) {
+	if (sum < 1e-13) {
 		// Special case handling... if the matrix is
 		// numerically trivial we know that the answer
 		// is trivial.
 		eigvecs *= 0;
 		eigvals *= 0;
 	} else {
+		cout << a << endl << endl << b << endl << endl;
+		cout << es.eigenvalues() << endl << endl;
+		es.compute(a);
+		cout << es.eigenvalues() << endl << endl;
+		cout << "-----" << endl;
 		ges.compute(a, b);
 		eigvecs = 1.*ges.eigenvectors();
 		eigvals = 1.*ges.eigenvalues();
