@@ -42,7 +42,7 @@ void basis::set_k(double kT, double kP) {
 	// Next we extract the spherical angles of kTemp in this new
 	// coordinate system.
 	double p = atan2(kTemp[0], kTemp[2]);
-	double t = atan2(sqrt(kTemp[0]*kTemp[0] + kTemp[1]*kTemp[1]), kTemp[2])
+	double t = atan2(sqrt(kTemp[0]*kTemp[0] + kTemp[1]*kTemp[1]), kTemp[2]);
 
 	// Now we apply the analytic normalized cross product
 	a[0] = sin(p);
