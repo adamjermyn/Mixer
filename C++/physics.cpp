@@ -100,12 +100,30 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	if (abs(wmag) > 0) {
-		proj = nullProjector(constraint);
-		Eigen::MatrixXd net = (proj * eignet * proj.adjoint()).real();
-		es.compute(net);
+	Matrix1 a = m*m + mdot;
+	Matrix1 b = 1.*m;
+
+	// Check for pathological cases
+	es.compute(b);
+	double sum = 0;
+	for (int i=0;i<dim;i++) {
+		sum += abs(es.eigenvalues()(i));
+	}
+	if (sum < 1e-13) {
+		// Special case handling... if the matrix is
+		// numerically trivial we know that the answer
+		// is trivial.
+		eigvecs *= 0;
+		eigvals *= 0;
 	} else {
-		es.compute(m);
+		cout << a << endl << endl << b << endl << endl;
+		cout << es.eigenvalues() << endl << endl;
+		es.compute(a);
+		cout << es.eigenvalues() << endl << endl;
+		cout << "-----" << endl;
+		ges.compute(a, b);
+		eigvecs = 1.*ges.eigenvectors();
+		eigvals = 1.*ges.eigenvalues();
 	}
 
 }
@@ -115,40 +133,25 @@ void flmatrix::compute_correlator() {
 	correlator *= 0;
 
 	VectorC temp = VectorC::Zero();
-	VectorC2 temp2 = VectorC2::Zero();
+	VectorC temp2 = VectorC::Zero();
 	MatrixC ret = MatrixC::Zero();
 
-	for (int i=0;i<es.eigenvectors().cols();i++) {
+	for (int i=0;i<eigvecs.cols();i++) {
 
-		if (abs(wmag) > 0) {
-			temp2 = proj.adjoint() * (es.eigenvectors().col(i));
-		} else {
-			for (int j=0;j<dim;j++) {
-				temp2(j) = es.eigenvectors().col(i)(j);
-				temp2(j + dim) = 0;
-			}
-		}
-
-		for (int j=0;j<dim;j++) {
-			temp(j) = temp2(j);
-		}
-
+		temp = eigvecs.col(i);
 		temp = normalizeV(temp, ba.kHat[1], wmag);
 
 		double g = 0;
 
-		// We do this to avoid a segment of m which could be
-		// quite large but which analytically provides zero
-		// contribution.
-		g += (temp(2)*m(2,0)*conj(temp(0))).real();
-		g += (temp(2)*m(2,1)*conj(temp(1))).real();
-		g += (temp(3)*m(3,0)*conj(temp(0))).real();
-		g += (temp(3)*m(3,1)*conj(temp(1))).real();
+		temp2 = m * temp;
+		g = (temp2(2)*conj(temp(2)) + temp2(3)*conj(temp(3))).real();
 
 //		cout << g << endl << endl << es.eigenvalues() << endl;
 
-//		cout << g << endl << endl << temp2 << endl << endl;
+//		cout << g << endl << temp << endl << endl << endl;
 //		cout << eignet << endl;
+
+
 		if (g > 0) {
 			temp = g*temp;
 			ret += temp*temp.adjoint();

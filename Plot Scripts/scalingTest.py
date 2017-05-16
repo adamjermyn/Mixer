@@ -18,7 +18,7 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-10
 tola = 1e-10
-maxEval = 300000
+maxEval = 100000
 
 
 output = np.zeros((6,6))
@@ -29,7 +29,7 @@ output[3,1] = 1
 output[3,5] = 1
 output[3,2] = 1
 
-omega = 800.
+omega = 0.316227766017
 
 params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 r = coeffs(params, output=output)
