@@ -77,27 +77,6 @@ void flmatrix::set_Mdot() {
 	mdot *= wmag;
 }
 
-void flmatrix::set_net() {
-	for (int i=0;i<dim;i++) {
-		for (int j=0;j<dim;j++) {
-			eignet(i,j) = m(i,j);
-			eignet(i+dim,j) = mdot(i,j);
-			eignet(i+dim,j+dim) = m(i,j);
-		}
-	}
-}
-
-void flmatrix::set_constraint() {
-	for (int i=0;i<dim;i++) {
-		for (int j=0;j<dim;j++) {
-			constraint(i,j) = m(i,j);
-			if (i == j) {
-				constraint(i,j+dim) = -1;
-			}
-		}
-	}
-}
-
 void flmatrix::compute_eigensystem() {
 
 	Matrix1 q = m.colPivHouseholderQr().solve(mdot);
@@ -156,8 +135,6 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 
 	set_M();
 	set_Mdot();
-	set_net();
-	set_constraint();
 	compute_eigensystem();
 	compute_correlator();
 }

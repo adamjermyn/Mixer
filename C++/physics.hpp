@@ -90,10 +90,6 @@ public:
 
 	void set_Mdot();
 
-	void set_net();
-
-	void set_constraint();
-
 	void compute_eigensystem();
 
 	void compute_correlator();

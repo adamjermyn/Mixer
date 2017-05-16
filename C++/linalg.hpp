@@ -68,8 +68,6 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
 VectorC normalizeV(VectorC m, double kPhi, double w);
 
-MatrixXcd nullProjector(Matrix2 m);
-
 // -------------------------------------
 // End Header guard
 #endif
