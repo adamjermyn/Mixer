@@ -100,7 +100,7 @@ void flmatrix::set_constraint() {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix1 q = m.ColPivHouseholderQR().solve(mdot);
+	Matrix1 q = m.colPivHouseholderQr().solve(mdot);
 	Matrix1 a = m + q;
 
 	// Check for pathological cases
