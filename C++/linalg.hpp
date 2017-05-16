@@ -60,7 +60,7 @@ double dot(const double a[3], const double b[3]);
 
 void cross(const double a[3], const double b[3], double ret[3]);
 
-void rotY(double theta, const double v[3]);
+void rotY(double theta, double v[3]);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
