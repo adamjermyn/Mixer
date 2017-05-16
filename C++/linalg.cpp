@@ -55,37 +55,3 @@ VectorC normalizeV(VectorC v, double kPhi, double w) {
 	return ret;
 }
 
-Eigen::MatrixXcd nullProjector(Matrix2 m) {
-	/*
-	This method takes as input a (dim*2 x dim*2) matrix and a threshold and returns
-	the matrix which projects into its right null space,
-	with the threshold used to distinguish null eigenvalues.
-	*/
-
-	JacobiSVD<Matrix2> svd(m, ComputeFullU | ComputeFullV );
-	svd.compute(m);
-
-	// Count null singular values
-	int num = 0;
-	for (int i=0;i<2*dim;i++) {
-		if (abs(svd.singularValues()(i)) < svdEPS) {
-			num += 1;
-		}
-	}
-
-	MatrixXcd temp = MatrixXcd::Zero(num, 2*dim);
-
-	// Construct projector
-	int counter = 0;
-	for (int i=0;i<2*dim;i++) {
-		if (abs(svd.singularValues()(i)) < svdEPS) {
-			for (int j=0;j<2*dim;j++) {
-				temp(counter,j) += svd.matrixV().adjoint()(i,j);
-			}
-			counter += 1;
-		}
-	}
-
-	return temp;
-
-}

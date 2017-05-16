@@ -21,9 +21,8 @@ const int spaceDim = 3; // Number of spatial dimensions
 const int dim = 4; // Time evolution matrix dimension
 const int correlDim = 6; // Dimension of the correlator
 
-const double vectorNormEPS = 1e-10;
-const double velocityNormEPS = 1e-20;
-const double svdEPS = 1e-20;
+const double vectorNormEPS = 1e-5;
+const double velocityNormEPS = 1e-15;
 
 // -------------------------------------
 // Convenience typedef's
@@ -67,8 +66,6 @@ void normalize(double* v);
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
 VectorC normalizeV(VectorC m, double kPhi, double w);
-
-MatrixXcd nullProjector(Matrix2 m);
 
 // -------------------------------------
 // End Header guard

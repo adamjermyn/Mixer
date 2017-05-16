@@ -77,54 +77,15 @@ void flmatrix::set_Mdot() {
 	mdot *= wmag;
 }
 
-void flmatrix::set_net() {
-	for (int i=0;i<dim;i++) {
-		for (int j=0;j<dim;j++) {
-			eignet(i,j) = m(i,j);
-			eignet(i+dim,j) = mdot(i,j);
-			eignet(i+dim,j+dim) = m(i,j);
-		}
-	}
-}
-
-void flmatrix::set_constraint() {
-	for (int i=0;i<dim;i++) {
-		for (int j=0;j<dim;j++) {
-			constraint(i,j) = m(i,j);
-			if (i == j) {
-				constraint(i,j+dim) = -1;
-			}
-		}
-	}
-}
-
 void flmatrix::compute_eigensystem() {
 
-	Matrix1 a = m*m + mdot;
-	Matrix1 b = 1.*m;
+	Matrix1 q = m.colPivHouseholderQr().solve(mdot);
+	Matrix1 a = m + q;
 
 	// Check for pathological cases
-	es.compute(b);
-	double sum = 0;
-	for (int i=0;i<dim;i++) {
-		sum += abs(es.eigenvalues()(i));
-	}
-	if (sum < 1e-13) {
-		// Special case handling... if the matrix is
-		// numerically trivial we know that the answer
-		// is trivial.
-		eigvecs *= 0;
-		eigvals *= 0;
-	} else {
-		cout << a << endl << endl << b << endl << endl;
-		cout << es.eigenvalues() << endl << endl;
-		es.compute(a);
-		cout << es.eigenvalues() << endl << endl;
-		cout << "-----" << endl;
-		ges.compute(a, b);
-		eigvecs = 1.*ges.eigenvectors();
-		eigvals = 1.*ges.eigenvalues();
-	}
+	es.compute(a);
+	eigvecs = 1.*es.eigenvectors();
+	eigvals = 1.*es.eigenvalues();
 
 }
 
@@ -174,8 +135,6 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 
 	set_M();
 	set_Mdot();
-	set_net();
-	set_constraint();
 	compute_eigensystem();
 	compute_correlator();
 }

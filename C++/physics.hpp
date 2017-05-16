@@ -79,7 +79,6 @@ public:
 
 	// Eigensolver
 	EigenSolver<Matrix1> es;
-	GeneralizedEigenSolver<Matrix1> ges;
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
@@ -90,10 +89,6 @@ public:
 	void set_M();
 
 	void set_Mdot();
-
-	void set_net();
-
-	void set_constraint();
 
 	void compute_eigensystem();
 

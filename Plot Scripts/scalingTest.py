@@ -29,7 +29,7 @@ output[3,1] = 1
 output[3,5] = 1
 output[3,2] = 1
 
-omega = 0.316227766017
+omega = 1000
 
 params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 r = coeffs(params, output=output)
@@ -41,8 +41,3 @@ params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 r = coeffs(params, output=output)
 print(r)
 
-omega = 1000
-
-params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params, output=output)
-print(r)

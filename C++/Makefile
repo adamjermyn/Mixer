@@ -5,7 +5,7 @@ CUBE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../cubature-1.0.2)
 
 OS := $(shell uname)
 ifeq ($(OS),Darwin)
-	CC = /usr/local/bin/g++-6
+	CC = /usr/local/bin/g++-7
 	LIBCUB = $(CUBE_DIR)/hcubature_mac.so
 	OPTC = -O3 -ffast-math -fpermissive -std=gnu++11 -pipe
 else	
