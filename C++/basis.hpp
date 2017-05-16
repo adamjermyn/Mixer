@@ -76,8 +76,6 @@ public:
 	double dd[3];
 	double de[3];
 
-	double kw;
-	double dkw;
 	double tW;
 
 	basis(double tWW);

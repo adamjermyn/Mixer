@@ -6,7 +6,6 @@
 #include "basis.hpp"
 
 #include "linalg.hpp"
-#include "mathematica.hpp"
 
 #include <iostream>
 
@@ -49,8 +48,18 @@ void basis::set_k(double kT, double kP) {
 	a[1] = -cos(p);
 	a[2] = 0;
 
+	dk[0] = -cos(p)*cos(t)*sin(t);
+	dk[1] = -cos(t)*sin(p)*sin(t);
+	dk[2] = sin(t)*sin(t);
+
+	db[0] = cos(p);
+	db[1] = sin(p);
+	db[2] = 0;
+
 	// And finally we counter-rotate
 	rotY(-tW, a);
+	rotY(-tW, dk);
+	rotY(-tW, db);
 
 	// Now a is orthogonal to both kHat and wHat, so
 	// the results of subsequent cross-products don't
@@ -61,20 +70,6 @@ void basis::set_k(double kT, double kP) {
 	// Helper vectors
 	cross(zhat,c,d);
 	cross(zhat,b,e);
-
-	// Derivative vectors
-	kw = dot(kHat, wHat);
-
-	// dk
-	for (int i=0;i<3;i++)
-		dk[i] = kHat[1] * (wHat[i] + kHat[i]*kw);
-
-	dkw = dot(dk, wHat);
-
-	// db
-	db[0] = db0(kT, kP, tW);
-	db[1] = db1(kT, kP, tW);
-	db[2] = db2(kT, kP, tW);
 
 	// Now we can just use the definitions of these vectors.
 	// Note that it matters that the normalization factor on db
