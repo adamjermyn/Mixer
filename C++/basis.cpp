@@ -27,18 +27,36 @@ void basis::set_k(double kT, double kP) {
 	// Construct k-hat
 	sphericalToCartesian(1,kT,kP,kHat);
 
-	// Construct basis
-	cross(kHat,wHat,a);
+	// Construct a = normalize(cross(k,w))
+	
+	// First we construct a temporary copy of kHat
+	double kTemp[3];
+	kTemp[0] = kHat[0];
+	kTemp[1] = kHat[1];
+	kTemp[2] = kHat[2];
+
+	// First we rotate the coordinate system about the middle
+	// axis so that wHat = zHat.
+	rotY(tW, kTemp);
+
+	// Next we extract the spherical angles of kTemp in this new
+	// coordinate system.
+	double p = atan2(kTemp[0], kTemp[2]);
+	double t = atan2(sqrt(kTemp[0]*kTemp[0] + kTemp[1]*kTemp[1]), kTemp[2])
+
+	// Now we apply the analytic normalized cross product
+	a[0] = sin(p);
+	a[1] = -cos(p);
+	a[2] = 0;
+
+	// And finally we counter-rotate
+	rotY(-tW, a);
+
+	// Now a is orthogonal to both kHat and wHat, so
+	// the results of subsequent cross-products don't
+	// require normalization.
 	cross(kHat,a,b);
 	cross(wHat,a,c);
-
-	// Normalize basis
-	normalize(a);
-	normalize(b);
-	normalize(c);	
-
-	// The original version had these cross products
-	// coming before the normalization, so check this!
 
 	// Helper vectors
 	cross(zhat,c,d);
@@ -64,18 +82,5 @@ void basis::set_k(double kT, double kP) {
 	cross(wHat, db, dc);
 	cross(zhat, dc, dd);
 	cross(zhat, db, de);
-
-//	cout << db[0] << " " << db[1] << " " << db[2] << endl;
-
-/*	
-	cout << a[0] << " " << a[1] << " " << a[2] << endl;
-	cout << b[0] << " " << b[1] << " " << b[2] << endl;
-	cout << c[0] << " " << c[1] << " " << c[2] << endl;
-	cout << dk[0] << " " << dk[1] << " " << dk[2] << endl;
-	cout << db[0] << " " << db[1] << " " << db[2] << endl;
-	cout << dc[0] << " " << dc[1] << " " << dd[2] << endl;
-	cout << dd[0] << " " << dd[1] << " " << dc[2] << endl;
-	cout << de[0] << " " << de[1] << " " << de[2] << endl;
-*/
 
 }

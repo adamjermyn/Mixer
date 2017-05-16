@@ -21,7 +21,6 @@ const int spaceDim = 3; // Number of spatial dimensions
 const int dim = 4; // Time evolution matrix dimension
 const int correlDim = 6; // Dimension of the correlator
 
-const double vectorNormEPS = 1e-5;
 const double velocityNormEPS = 1e-15;
 
 // -------------------------------------
@@ -61,7 +60,7 @@ double dot(const double a[3], const double b[3]);
 
 void cross(const double a[3], const double b[3], double ret[3]);
 
-void normalize(double* v);
+void rotY(double theta, const double v[3]);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
