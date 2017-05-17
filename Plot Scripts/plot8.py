@@ -11,7 +11,7 @@ plt.style.use('ggplot')
 fi = h5py.File('Data/latitude_results.dat','r')
 theta = np.array(fi['theta'])
 
-plt.figure(figsize=(18,4.3))
+plt.figure(figsize=(6, 14))
 
 r = np.array(fi['results_0.1'])
 

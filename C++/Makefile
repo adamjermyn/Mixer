@@ -19,9 +19,9 @@ PROF = $(OPTC) -pg -g
 DEBUG = -O0
 IEGN = -I $(EIGEN_DIR)
 ICUB = -I $(CUBE_DIR)/
-TOTALINC = $(BUILD_DIR)/integrator.o $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o $(BUILD_DIR)/mathematica.o
-TOTALINCS = $(BUILD_DIR)/integrator.so $(BUILD_DIR)/linalg.so $(BUILD_DIR)/physics.so $(BUILD_DIR)/basis.so $(BUILD_DIR)/mathematica.so
-TOTALINCP = $(BUILD_DIR)/integratorP.o $(BUILD_DIR)/linalgP.o $(BUILD_DIR)/physicsP.o $(BUILD_DIR)/basisP.o $(BUILD_DIR)/mathematicaP.o
+TOTALINC = $(BUILD_DIR)/integrator.o $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
+TOTALINCS = $(BUILD_DIR)/integrator.so $(BUILD_DIR)/linalg.so $(BUILD_DIR)/physics.so $(BUILD_DIR)/basis.so
+TOTALINCP = $(BUILD_DIR)/integratorP.o $(BUILD_DIR)/linalgP.o $(BUILD_DIR)/physicsP.o $(BUILD_DIR)/basisP.o
 
 all: shared profile test test_linal test_MRI test_ROT
 
@@ -43,11 +43,8 @@ test_MRI: $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
 test_ROT: $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o
 	$(CC) $(OPTC) $(IEGN) $(BUILD_DIR)/linalg.o $(BUILD_DIR)/physics.o $(BUILD_DIR)/basis.o test_rotational_shear.cpp -o $(BUILD_DIR)/test_ROT.e
 
-$(BUILD_DIR)/basis.o: basis.cpp basis.hpp mathematica.hpp
+$(BUILD_DIR)/basis.o: basis.cpp basis.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.o
-
-$(BUILD_DIR)/mathematica.o:
-	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c mathematica.cpp -o $(BUILD_DIR)/mathematica.o
 
 $(BUILD_DIR)/integrator.o: integrator.cpp integrator.hpp linalg.hpp physics.hpp
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) -c integrator.cpp -o $(BUILD_DIR)/integrator.o
@@ -67,13 +64,10 @@ $(BUILD_DIR)/physics.so:
 $(BUILD_DIR)/linalg.so:
 	$(CC) $(OPTC)  $(IEGN) $(SHARED) -c linalg.cpp -o $(BUILD_DIR)/linalg.so
  
-$(BUILD_DIR)/basis.so: mathematica.hpp
+$(BUILD_DIR)/basis.so:
 	$(CC) $(OPTC)  $(IEGN) $(SHARED) $(ICUB) -c basis.cpp -o $(BUILD_DIR)/basis.so
 
-$(BUILD_DIR)/mathematica.so:
-	$(CC) $(OPTC)  $(IEGN) $(SHARED) $(ICUB) -c mathematica.cpp -o $(BUILD_DIR)/mathematica.so
-
-$(BUILD_DIR)/basisP.o: mathematica.hpp
+$(BUILD_DIR)/basisP.o:
 	$(CC) $(OPTC)  $(IEGN) $(ICUB) $(PROF) -c basis.cpp -o $(BUILD_DIR)/basisP.o
 
 $(BUILD_DIR)/integratorP.o:
@@ -84,9 +78,6 @@ $(BUILD_DIR)/physicsP.o:
 
 $(BUILD_DIR)/linalgP.o:
 	$(CC) $(OPTC)  $(IEGN) $(PROF) -c linalg.cpp -o $(BUILD_DIR)/linalgP.o
-
-$(BUILD_DIR)/mathematicaP.o:
-	$(CC) $(OPTC)  $(IEGN) $(PROF) $(ICUB) -c mathematica.cpp -o $(BUILD_DIR)/mathematicaP.o
 
 clean:
 	rm ../Build/*

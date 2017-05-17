@@ -17,17 +17,19 @@ double dot(const double a[3], const double b[3]) {
 	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 }
 
+void rotY(double theta, double v[3]) {
+	// Rotates the specified vector an angle theta about the middle axis
+	double x, y;
+	x = v[0]*cos(theta) + v[2]*sin(theta);
+	y = -v[0]*sin(theta) + v[2]*cos(theta);
+	v[0] = x;
+	v[2] = y;
+}
+
 void cross(const double a[3], const double b[3], double ret[3]) {
 	ret[0] = a[1]*b[2]-a[2]*b[1];
 	ret[1] = a[2]*b[0]-a[0]*b[2];
 	ret[2] = a[0]*b[1]-a[1]*b[0];
-}
-
-void normalize(double* v) {
-	double norm = vectorNormEPS + sqrt(dot(v,v));
-	v[0] /= norm;
-	v[1] /= norm;
-	v[2] /= norm;
 }
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]) {
