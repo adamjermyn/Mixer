@@ -22,7 +22,7 @@ tW = np.pi/2
 N2 = -1
 tolr = 1e-10
 tola = 1e-10
-maxEval = 100000
+maxEval = 3000000
 
 def f(x):
 	print(x)
@@ -32,6 +32,7 @@ def f(x):
 	for j in range(w.shape[0]):
 		params = (x, w[j] * x, tW, tS, tP, N2, tolr, tola, maxEval)
 		r = coeffs(params)
+		print(r)
 		data.append(r)
 	data = np.array(data)
 	sh = data.shape[1:]
@@ -40,8 +41,9 @@ def f(x):
 	ft = ft[0].reshape(sh)
 	return ft
 
-pool = Pool(processes=8)
-results = np.array(pool.map(f, omega))
+#pool = Pool(processes=8)
+#results = np.array(pool.map(f, omega))
+results = np.array(map(f, omega))
 
 fi['results'] = results
 fi.close()
