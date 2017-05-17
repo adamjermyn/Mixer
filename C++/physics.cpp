@@ -89,24 +89,27 @@ Matrix1 flmatrix::derivative(int i) {
 	return ret;
 }
 
-void flmatrix::set_Mdot() {
-	// The magnetic components have zero derivative, all other terms just vary
-	// with the basis vectors.
-
-	mdot(2,0) = 0;
-	mdot(2,1) = -N2*dot(ba.db, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.dd)*ba.kHat[1] + ba.a[0]*dot(ba.db,ba.wHat));
-	mdot(3,0) = -N2*dot(ba.a, entHat)*dot(ba.db, presHat);
-	mdot(3,1) = -N2*dot(ba.db, entHat)*dot(ba.b, presHat) - N2*dot(ba.b, entHat)*dot(ba.db, presHat) - 2*omega*(ba.db[0]*dot(ba.b,ba.wHat) + ba.b[0]*dot(ba.db,ba.wHat))*wmag;
-
-	mdot(2,3) = -2*omega*dot(ba.a, ba.de);
-	mdot(3,2) = -mdot(2,3);
-
-	mdot *= wmag*ba.kHat[1];
-}
-
 void flmatrix::compute_eigensystem() {
 
-	Matrix1 q = m.colPivHouseholderQr().solve(mdot);
+	Matrix1 RHS = Matrix1::Zeros();
+	Matrix1 LHS = Matrix1::Zeros();
+
+	Matrix1 tempPow = Matrix1::Identity();
+
+	for (int i=maxOrder - 1;i>=0;i--) {
+		RHS += nCr(maxOrder - 1, i) * derivative(i) * tempPow;
+		tempPow = tempPow * m;
+	}
+
+	tempPow = Matrix1::Identity();
+
+	for (int i=maxOrder;i>=0;i--) {
+		LHS += (nCr(maxOrder, i) - nCr(maxOrder - 1, i)) * derivative(i) * tempPow;
+		tempPow = tempPow * m;
+	}
+
+
+	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
 	Matrix1 a = m + q;
 
 	es.compute(a);

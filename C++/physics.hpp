@@ -85,7 +85,7 @@ public:
 
 	void set_M();
 
-	void set_Mdot();
+	Matrix1 derivative(int i);
 
 	void compute_eigensystem();
 
