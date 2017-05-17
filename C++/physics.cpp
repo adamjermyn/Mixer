@@ -62,6 +62,31 @@ void flmatrix::set_M() {
 
 }
 
+Matrix1 flmatrix::derivative(int i) {
+	// The magnetic components have zero derivative, all other terms just vary
+	// with the basis vectors.
+
+	Matrix1 ret = Matrix1::Zeros();
+
+	ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
+	ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
+	ret(2,1) -= 2*omega*wmag*dot(ba.a,ba.dd[i])*ba.kHat[1];
+
+	ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
+
+	ret(3,1) = 0;
+	for (int j=0;j<=i;j++) {
+		int k = n - j;
+		ret(3,1) -= nCr(n, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
+		ret(3,1) -= nCr(n, j) * N2*dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
+	}
+
+	ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
+	ret(3,2) = -ret(2,3);
+
+	return ret;
+}
+
 void flmatrix::set_Mdot() {
 	// The magnetic components have zero derivative, all other terms just vary
 	// with the basis vectors.
@@ -82,7 +107,6 @@ void flmatrix::compute_eigensystem() {
 	Matrix1 q = m.colPivHouseholderQr().solve(mdot);
 	Matrix1 a = m + q;
 
-	// Check for pathological cases
 	es.compute(a);
 	eigvecs = 1.*es.eigenvectors();
 	eigvals = 1.*es.eigenvalues();

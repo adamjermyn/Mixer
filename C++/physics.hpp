@@ -66,9 +66,6 @@ public:
 
 	// Temporary arrays
 	Matrix1 m = Matrix1::Zero();
-	Matrix1 mdot = Matrix1::Zero();
-	Matrix2 constraint = Matrix2::Zero();
-	Matrix2 eignet = Matrix2::Zero();
 	MatrixXcd eigvals;
 	MatrixXcd eigvecs;
 	MatrixXcd proj;
