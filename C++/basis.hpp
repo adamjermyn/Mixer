@@ -52,6 +52,7 @@ and the inner product of dk and wHat as dkw.
 
 // -------------------------------------
 
+const int maxOrder = 3;
 const double zhat[3] = {0,0,1};
 
 // -------------------------------------
@@ -70,11 +71,11 @@ public:
 	double d[3];
 	double e[3];
 
-	double dk[4][3];
-	double db[4][3];
-	double dc[4][3];
-	double dd[4][3];
-	double de[4][3];
+	double dk[maxOrder + 1][3];
+	double db[maxOrder + 1][3];
+	double dc[maxOrder + 1][3];
+	double dd[maxOrder + 1][3];
+	double de[maxOrder + 1][3];
 
 	double tW;
 

@@ -75,7 +75,7 @@ void basis::set_k(double kT, double kP) {
 
 	// And finally we counter-rotate
 	rotY(-tW, a);
-	for (int i=0;i<4;i++) {
+	for (int i=0;i<maxOrder + 1;i++) {
 		rotY(-tW, dk[i]);
 		rotY(-tW, db[i]);
 	}
@@ -93,7 +93,7 @@ void basis::set_k(double kT, double kP) {
 	// Now we can just use the definitions of these vectors.
 	// Note that it matters that the normalization factor on db
 	// equals that on dc (i.e. that wHat is orthogonal to b).
-	for(int i=0;i<4;i++) {
+	for(int i=0;i<maxOrder + 1;i++) {
 		cross(wHat, db[i], dc[i]);
 		cross(zhat, dc[i], dd[i]);
 		cross(zhat, db[i], de[i]);
