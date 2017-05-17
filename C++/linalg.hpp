@@ -56,6 +56,10 @@ typedef Eigen::Matrix<double, 2*spaceDim, 2*spaceDim> MatrixSpace2;
 // -------------------------------------
 // Functions
 
+int factorial(int n);
+
+int nCr(int n, int k);
+
 double dot(const double a[3], const double b[3]);
 
 void cross(const double a[3], const double b[3], double ret[3]);
