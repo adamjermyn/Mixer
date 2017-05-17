@@ -48,18 +48,37 @@ void basis::set_k(double kT, double kP) {
 	a[1] = -cos(p);
 	a[2] = 0;
 
-	dk[0] = -cos(p)*cos(t)*sin(t);
-	dk[1] = -cos(t)*sin(p)*sin(t);
-	dk[2] = sin(t)*sin(t);
+	dk[0][0] = kTemp[0];
+	dk[0][1] = kTemp[1];
+	dk[0][2] = kTemp[2];
+	dk[1][0] = -cos(p)*cos(t)*sin(t);
+	dk[1][1] = -cos(t)*sin(p)*sin(t);
+	dk[1][2] = sin(t)*sin(t);
+	dk[2][0] = 0.5*cos(p)*(1+3*cos(2*t))*sin(t);
+	dk[2][1] = 0.5*(1+3*cos(2*t))*sin(p)*sin(t);
+	dk[2][2] = -3*cos(t)*sin(t)*sin(t);
+	dk[3][0] = -1.5*cos(p)*cos(t)*(5*cos(2*t) - 1)*sin(t);
+	dk[3][1] = -1.5*cos(t)*(5*cos(2*t) - 1)*sin(p)*sin(t);
+	dk[3][2] = 1.5*(5*cos(2*t) + 3)*sin(t)*sin(t);
 
-	db[0] = cos(p);
-	db[1] = sin(p);
-	db[2] = 0;
+	cross(kHat, a, db[0]);
+
+	db[1][0] = cos(p)*pow(sin(t),2);
+	db[1][1] = sin(p)*pow(sin(t),2);
+	db[1][2] = cos(t)*sin(t);
+	db[2][0] = -3*cos(p)*cos(t)*pow(sin(t),2);
+	db[2][1] = -3*sin(p)*cos(t)*pow(sin(t),2);
+	db[2][2] = (1-3*pow(cos(t),2))*sin(t);
+	db[3][0] = 1.5*cos(p)*(3+5*cos(2*t))*pow(sin(t),2);
+	db[3][1] = 1.5*sin(p)*(3+5*cos(2*t))*pow(sin(t),2);
+	db[3][2] = 3*cos(t)*sin(t)*(-3+5*pow(cos(t),2));
 
 	// And finally we counter-rotate
 	rotY(-tW, a);
-	rotY(-tW, dk);
-	rotY(-tW, db);
+	for (int i=0;i<4;i++) {
+		rotY(-tW, dk[i]);
+		rotY(-tW, db[i]);
+	}
 
 	// Now a is orthogonal to both kHat and wHat, so
 	// the results of subsequent cross-products don't
@@ -74,8 +93,10 @@ void basis::set_k(double kT, double kP) {
 	// Now we can just use the definitions of these vectors.
 	// Note that it matters that the normalization factor on db
 	// equals that on dc (i.e. that wHat is orthogonal to b).
-	cross(wHat, db, dc);
-	cross(zhat, dc, dd);
-	cross(zhat, db, de);
+	for(int i=0;i<4;i++) {
+		cross(wHat, db[i], dc[i]);
+		cross(zhat, dc[i], dd[i]);
+		cross(zhat, db[i], de[i]);
+	}
 
 }

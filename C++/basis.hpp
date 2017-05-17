@@ -70,11 +70,11 @@ public:
 	double d[3];
 	double e[3];
 
-	double dk[3];
-	double db[3];
-	double dc[3];
-	double dd[3];
-	double de[3];
+	double dk[4][3];
+	double db[4][3];
+	double dc[4][3];
+	double dd[4][3];
+	double de[4][3];
 
 	double tW;
 
