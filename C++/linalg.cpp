@@ -19,7 +19,12 @@ int factorial(int n)
 }
 
 int nCr(int n, int k) {
-	return factorial(n)/(factorial(n-k)*factorial(k));
+	if ((k > n) || (k < 0)) {
+		return 0;
+	}
+	else {
+		return factorial(n)/(factorial(n-k)*factorial(k));		
+	}
 }
 
 double dot(const double a[3], const double b[3]) {
