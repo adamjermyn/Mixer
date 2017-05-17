@@ -91,8 +91,8 @@ Matrix1 flmatrix::derivative(int i) {
 
 void flmatrix::compute_eigensystem() {
 
-	Matrix1 RHS = Matrix1::Zeros();
-	Matrix1 LHS = Matrix1::Zeros();
+	Matrix1 RHS = Matrix1::Zero();
+	Matrix1 LHS = Matrix1::Zero();
 
 	Matrix1 tempPow = Matrix1::Identity();
 
