@@ -163,7 +163,6 @@ void flmatrix::set_k(double kmagg, double kT, double kP) {
 	ba.set_k(kT, kP);
 
 	set_M();
-	set_Mdot();
 	compute_eigensystem();
 	compute_correlator();
 }
