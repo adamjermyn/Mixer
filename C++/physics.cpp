@@ -76,7 +76,7 @@ Matrix1 flmatrix::derivative(int i) {
 
 	ret(3,1) = 0;
 	for (int j=0;j<=i;j++) {
-		int k = n - j;
+		int k = i - j;
 		ret(3,1) -= nCr(n, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
 		ret(3,1) -= nCr(n, j) * N2*dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
 	}
