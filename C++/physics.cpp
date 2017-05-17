@@ -74,7 +74,7 @@ void flmatrix::set_Mdot() {
 	mdot(2,3) = -2*omega*dot(ba.a, ba.de);
 	mdot(3,2) = -mdot(2,3);
 
-	mdot *= wmag*ba.kHat[2];
+	mdot *= wmag*ba.kHat[1];
 }
 
 void flmatrix::compute_eigensystem() {
