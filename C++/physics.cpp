@@ -17,6 +17,22 @@ using namespace std;
 
 // Constructor
 
+
+/*
+TODO:
+
+Figure out the coordinate system.
+Currently inputs are given as spherical angles (r,t,p) which specify
+a vector (x,y,z). The components of the vector are then identified with
+local cylindrical components (R,p,z). This means that the phi component
+in the input does not correspond to the phi component in the output, for instance.
+Setting phi in the input to zero gives a vector of the form (x,0,z) which is
+then interpreted as (R,0,z), which is correct.
+
+So maybe there's nothing to figure out after all.
+
+*/
+
 flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
 		, double N22, double omegaa) {
 	// tB, pB, tW, tS, tP are all dimensionless
@@ -114,8 +130,10 @@ void flmatrix::compute_eigensystem() {
 		tempPow = tempPow * m;
 	}
 
-
 	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
+
+	cout << q << endl;
+
 	Matrix1 a = m + q;
 
 	es.compute(a);
