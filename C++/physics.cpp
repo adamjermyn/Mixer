@@ -19,17 +19,14 @@ using namespace std;
 
 
 /*
-TODO:
+NOTE:
 
-Figure out the coordinate system.
 Currently inputs are given as spherical angles (r,t,p) which specify
 a vector (x,y,z). The components of the vector are then identified with
 local cylindrical components (R,p,z). This means that the phi component
 in the input does not correspond to the phi component in the output, for instance.
 Setting phi in the input to zero gives a vector of the form (x,0,z) which is
 then interpreted as (R,0,z), which is correct.
-
-So maybe there's nothing to figure out after all.
 
 */
 
