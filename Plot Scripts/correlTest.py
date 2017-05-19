@@ -11,17 +11,17 @@ import numpy as np
 from pyTurb import correlator
 from multiprocessing import Pool
 
-omega = 10.
+omega = 1.
 tS = np.pi/4
 tP = np.pi/4
-w = 0
+w = 0.01
 tW = np.pi/2
 N2 = -1
 tolr = 1e-30
 tola = 1e-30
 
-tRan = np.linspace(0, np.pi, num=100, endpoint=True)
-pRan = np.linspace(0, 2*np.pi, num=100, endpoint=True)
+tRan = np.linspace(0, np.pi, num=200, endpoint=True)
+pRan = np.linspace(0, 2*np.pi, num=200, endpoint=True)
 
 correl = np.zeros((len(tRan), len(pRan), 4, 4))
 for i,t in enumerate(tRan):
