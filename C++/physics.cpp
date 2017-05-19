@@ -129,8 +129,6 @@ void flmatrix::compute_eigensystem() {
 
 	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
 
-	cout << q << endl;
-
 	Matrix1 a = m + q;
 
 	es.compute(a);
@@ -156,11 +154,6 @@ void flmatrix::compute_correlator() {
 
 		temp2 = m * temp;
 		g = (temp2(2)*conj(temp(2)) + temp2(3)*conj(temp(3))).real();
-
-//		cout << g << endl << endl << es.eigenvalues() << endl;
-
-//		cout << g << endl << temp << endl << endl << endl;
-//		cout << eignet << endl;
 
 
 		if (g > 0) {
