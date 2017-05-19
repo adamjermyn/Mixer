@@ -67,7 +67,7 @@ void basis::set_k(double kT, double kP) {
 		dk[3][2] = 1.5*(5*cos(2*t) + 3)*sin(t)*sin(t);
 	}
 
-	cross(kHat, a, db[0]);
+	cross(kTemp, a, db[0]);
 
 
 	if (maxOrder > 0) {
