@@ -66,7 +66,13 @@ Matrix1 flmatrix::derivative(int i) {
 	// The magnetic components have zero derivative, all other terms just vary
 	// with the basis vectors.
 
+
 	Matrix1 ret = Matrix1::Zero();
+
+	if (i == 0) {
+		// Special case handling because of magnetic fields.
+		ret = ret + m;
+	}
 
 	ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
 	ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
