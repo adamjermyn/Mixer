@@ -21,8 +21,9 @@ int factorial(int n)
 int nCr(int n, int k) {
 	if ((k > n) || (k < 0)) {
 		return 0;
-	}
-	else {
+	} else if (k == n) {
+		return 1;
+	} else {
 		return factorial(n)/(factorial(n-k)*factorial(k));		
 	}
 }
