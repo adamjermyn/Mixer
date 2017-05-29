@@ -18,6 +18,8 @@ plt.figure(figsize=(6,4.3))
 
 plt.subplot(121)
 
+print(w/omega)
+
 x, y = w/omega, r[...,4,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\theta$')

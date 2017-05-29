@@ -12,17 +12,17 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-theta = np.linspace(0,np.pi,num=100,endpoint=True)
+theta = np.linspace(0,np.pi,num=50,endpoint=True)
 
 fi = h5py.File('Data/latitude_results.dat','w')
 fi['theta'] = theta
 
-w = 1e-15
+w = 0
 tW = np.pi/2
 N2 = -1
-tolr = 1e-8
-tola = 1e-8
-maxEval = 20000
+tolr = 1e-15
+tola = 1e-15
+maxEval = 10000000
 
 output = np.zeros((6,6))
 output[3,3] = 1
@@ -30,7 +30,7 @@ output[0,3] = 1
 output[4,3] = 1
 output[1,3] = 1
 
-omega = 0.1
+omega = 0.5
 
 def f(x):
 	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
@@ -53,7 +53,7 @@ results = np.array(pool.map(g, theta))
 fi['results_1.0'] = results
 
 
-omega = 10.
+omega = 5.
 
 def h(x):
 	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)

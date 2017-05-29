@@ -12,7 +12,7 @@ from pyTurb import coeffs
 from multiprocessing import Pool
 
 omega = 1.0
-w = omega * np.linspace(0.001,0.20 ,num=40,endpoint=True)
+w = omega * np.linspace(0.001,1.0 ,num=100,endpoint=True)
 
 fi = h5py.File('Data/scale_grad_results.dat','w')
 fi['omega'] = omega
@@ -40,7 +40,7 @@ def f(x):
 	print(r)
 	return r
 
-pool = Pool(processes=4)
+pool = Pool(processes=8)
 results = np.array(pool.map(f, w))
 
 fi['results'] = results
