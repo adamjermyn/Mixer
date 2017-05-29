@@ -21,7 +21,7 @@ const int spaceDim = 3; // Number of spatial dimensions
 const int dim = 4; // Time evolution matrix dimension
 const int correlDim = 6; // Dimension of the correlator
 
-const double velocityNormEPS = 1e-10;
+const double velocityNormEPS = 1e-15;
 
 // -------------------------------------
 // Convenience typedef's
