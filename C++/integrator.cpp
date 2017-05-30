@@ -47,8 +47,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		tK = x[1];
 		pK = x[2];
 		k = f.computeKfromKA(x[0]);
-		pref = sin(tK)*fourierCoeff;
-		pref /= -powN;
+		pref = -sin(tK)*fourierCoeff/powN;
 	}
 
 	// Compute physics
