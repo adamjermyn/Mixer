@@ -17,10 +17,10 @@ fig = plt.figure(figsize=(4,3.5))
 ax = fig.add_subplot(1,1,1)
 
 x, y = B, r[...,3,5,0]
-y = np.abs(y)
+y = np.log10(np.abs(y))
 ax.plot(x,y,label='$v_r v_\phi$')
 x, y = B, r[...,3,2,0]
-y = np.abs(y)
+y = np.log10(np.abs(y))
 ax.plot(x,y,label='$v_r r_\phi$')
 ax.set_xscale('log')
 plt.xlabel('$\\frac{B}{\Omega l \mu_0 \sqrt{\\rho}}}$')

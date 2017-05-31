@@ -38,6 +38,7 @@ def f(x):
 	print(x)
 	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
 	r = coeffs(params, output=output)
+	print(r)
 	return r
 
 pool = Pool(processes=4)
