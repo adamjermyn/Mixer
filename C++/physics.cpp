@@ -31,7 +31,7 @@ then interpreted as (R,0,z), which is correct.
 */
 
 flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double omegaa) {
+		, double N22, double omegaa, double epss) {
 	// tB, pB, tW, tS, tP are all dimensionless
 	// omegaa amd w have units of rad/s
 	// N22 has units of 1/s^2
@@ -48,6 +48,8 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	N2 = N22;
 	omega = omegaa;
+
+	eps =  epss;
 
 	// Set known matrix elements
 
@@ -148,7 +150,7 @@ void flmatrix::compute_correlator() {
 	for (int i=0;i<eigvecs.cols();i++) {
 
 		temp = eigvecs.col(i);
-		temp = normalizeV(temp, ba.kHat[1], wmag);
+		temp = normalizeV(temp, ba.kHat[1], wmag, eps);
 
 		double g = 0;
 

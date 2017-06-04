@@ -8,40 +8,40 @@ d = dirname(dirname(abspath(__file__)))
 d = d + '/Build/turb.so'
 
 _turb = ctypes.CDLL(d)
-_turb.coeffs2.argtypes = [ctypes.c_double for _ in range(8)] + [ctypes.c_int]
+_turb.coeffs2.argtypes = [ctypes.c_double for _ in range(9)] + [ctypes.c_int]
 _turb.coeffs2.restype = ctypes.POINTER(ctypes.c_double)
-_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(11)] + [ctypes.c_int]
+_turb.coeffs3.argtypes = [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
 _turb.coeffs3.restype = ctypes.POINTER(ctypes.c_double)
 
-_turb.coeffs2spherical.argtypes = [ctypes.c_double for _ in range(9)] + [ctypes.c_int]
+_turb.coeffs2spherical.argtypes = [ctypes.c_double for _ in range(10)] + [ctypes.c_int]
 _turb.coeffs2spherical.restype = ctypes.POINTER(ctypes.c_double)
-_turb.coeffs3spherical.argtypes = [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
+_turb.coeffs3spherical.argtypes = [ctypes.c_double for _ in range(13)] + [ctypes.c_int]
 _turb.coeffs3spherical.restype = ctypes.POINTER(ctypes.c_double)
 
 array_type = ctypes.c_int * 36
-_turb.coeffs2sphericalSpecific.argtypes = [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(9)] + [ctypes.c_int]
+_turb.coeffs2sphericalSpecific.argtypes = [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(10)] + [ctypes.c_int]
 _turb.coeffs2sphericalSpecific.restype = ctypes.POINTER(ctypes.c_double)
-_turb.coeffs3sphericalSpecific.argtypes = [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
+_turb.coeffs3sphericalSpecific.argtypes = [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(13)] + [ctypes.c_int]
 _turb.coeffs3sphericalSpecific.restype = ctypes.POINTER(ctypes.c_double)
 
 array_type = ctypes.c_int * 36
 array_type2 = ctypes.c_double * 2
 array_type3 = ctypes.c_double * 3
-_turb.coeffs2sphericalSpecificBox.argtypes = [ctypes.POINTER(ctypes.c_double) for _ in range(2)] + [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(9)] + [ctypes.c_int]
+_turb.coeffs2sphericalSpecificBox.argtypes = [ctypes.POINTER(ctypes.c_double) for _ in range(2)] + [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(9)] + [ctypes.c_int, ctypes.c_double]
 _turb.coeffs2sphericalSpecificBox.restype = ctypes.POINTER(ctypes.c_double)
-_turb.coeffs3sphericalSpecificBox.argtypes = [ctypes.POINTER(ctypes.c_double) for _ in range(2)] + [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(12)] + [ctypes.c_int]
+_turb.coeffs3sphericalSpecificBox.argtypes = [ctypes.POINTER(ctypes.c_double) for _ in range(2)] + [ctypes.POINTER(ctypes.c_int)] + [ctypes.c_double for _ in range(12)] + [ctypes.c_int, ctypes.c_double]
 _turb.coeffs3sphericalSpecificBox.restype = ctypes.POINTER(ctypes.c_double)
 
-_turb.correlator.argtypes = [ctypes.c_double for _ in range(12)]
+_turb.correlator.argtypes = [ctypes.c_double for _ in range(13)]
 _turb.correlator.restype = ctypes.POINTER(ctypes.c_double)
 
-def correlator(k, kT, kP, B, tB, pB, omega, w, tW, tS, tP, N2):
+def correlator(k, kT, kP, B, tB, pB, omega, w, tW, tS, tP, N2, eps=1e-10):
 	global _turb
 
 	res = _turb.correlator(ctypes.c_double(k),ctypes.c_double(kT),ctypes.c_double(kP),\
 			ctypes.c_double(B),ctypes.c_double(tB),ctypes.c_double(pB),\
 			ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
-			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2))
+			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2), ctypes.c_double(eps))
 
 	ret = np.zeros((4,4))
 	for i in range(4):
@@ -50,12 +50,12 @@ def correlator(k, kT, kP, B, tB, pB, omega, w, tW, tS, tP, N2):
 
 	return ret
 
-def coeffs2(omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs2(omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs2(ctypes.c_double(tolr),ctypes.c_double(tola),\
 			ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
-			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -65,14 +65,14 @@ def coeffs2(omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 	return ret
 
 
-def coeffs3(B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs3(B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs3(ctypes.c_double(tolr),ctypes.c_double(tola),\
 			ctypes.c_double(B),ctypes.c_double(tB),ctypes.c_double(pB),\
 			ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
 			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),\
-			ctypes.c_int(maxEval))
+			ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -82,12 +82,12 @@ def coeffs3(B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 
 	return ret
 
-def coeffs2spherical(theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs2spherical(theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs2spherical(ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
-			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -96,14 +96,14 @@ def coeffs2spherical(theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
 			ret[i,j,1] = res[2*(6*i + j) + 1]
 	return ret
 
-def coeffs3spherical(theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs3spherical(theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs3spherical(ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(B),ctypes.c_double(tB),\
 			ctypes.c_double(pB),ctypes.c_double(omega),ctypes.c_double(w),\
 			ctypes.c_double(tW),ctypes.c_double(tS),ctypes.c_double(tP),\
-			ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -113,12 +113,12 @@ def coeffs3spherical(theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, max
 
 	return ret
 
-def coeffs2sphericalSpecific(output, theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs2sphericalSpecific(output, theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs2sphericalSpecific(array_type(*output), ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
-			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -127,14 +127,14 @@ def coeffs2sphericalSpecific(output, theta, omega, w, tW, tS, tP, N2, tolr, tola
 			ret[i,j,1] = res[2*(6*i + j) + 1]
 	return ret
 
-def coeffs3sphericalSpecific(output, theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs3sphericalSpecific(output, theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs3sphericalSpecific(array_type(*output), ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(B),ctypes.c_double(tB),\
 			ctypes.c_double(pB),ctypes.c_double(omega),ctypes.c_double(w),\
 			ctypes.c_double(tW),ctypes.c_double(tS),ctypes.c_double(tP),\
-			ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -144,12 +144,12 @@ def coeffs3sphericalSpecific(output, theta, B, tB, pB, omega, w, tW, tS, tP, N2,
 
 	return ret
 
-def coeffs2sphericalSpecificBox(mins, maxs, output, theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs2sphericalSpecificBox(mins, maxs, output, theta, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs2sphericalSpecificBox(array_type2(*mins), array_type2(*maxs), array_type(*output), ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(omega),ctypes.c_double(w),ctypes.c_double(tW),\
-			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(tS),ctypes.c_double(tP),ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -158,14 +158,14 @@ def coeffs2sphericalSpecificBox(mins, maxs, output, theta, omega, w, tW, tS, tP,
 			ret[i,j,1] = res[2*(6*i + j) + 1]
 	return ret
 
-def coeffs3sphericalSpecificBox(mins, maxs, output, theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval):
+def coeffs3sphericalSpecificBox(mins, maxs, output, theta, B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps=1e-10):
 	global _turb
 
 	res = _turb.coeffs3sphericalSpecificBox(array_type3(*mins), array_type3(*maxs), array_type(*output), ctypes.c_double(theta), ctypes.c_double(tolr),\
 			ctypes.c_double(tola),ctypes.c_double(B),ctypes.c_double(tB),\
 			ctypes.c_double(pB),ctypes.c_double(omega),ctypes.c_double(w),\
 			ctypes.c_double(tW),ctypes.c_double(tS),ctypes.c_double(tP),\
-			ctypes.c_double(N2),ctypes.c_int(maxEval))
+			ctypes.c_double(N2),ctypes.c_int(maxEval), ctypes.c_double(eps))
 
 	ret = np.zeros((6,6,2))
 	for i in range(6):
@@ -202,12 +202,12 @@ def coeffs(params, output=None):
 				if output[i,j]:
 					output2[6*i + j] = 1
 
-		if len(params) == 9:
+		if len(params) == 10:
 			params2 = [output2, params[4]] + list(params)
 			mins = [0.,0.]
 			maxs = [np.pi,2*np.pi]
 			co = lambda x: coeffs2sphericalSpecificBox(*x)
-		elif len(params) == 12:
+		elif len(params) == 13:
 			params2 = [output2, params[7]] + list(params)
 			mins = [0.,0.,0.]
 			maxs = [1.,np.pi,2*np.pi]
@@ -218,10 +218,10 @@ def coeffs(params, output=None):
 
 		def f(x):
 			c = None
-			if len(params) == 9:
-				c = correlator(1., x[0], x[1], 0, 0, 0, params[0], params[1], params[2], params[3], params[4], params[5])
-			elif len(params) == 12:
-				c = correlator(x[0], x[1], x[2], params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8])
+			if len(params) == 10:
+				c = correlator(1., x[0], x[1], 0, 0, 0, params[0], params[1], params[2], params[3], params[4], params[5], params[6])
+			elif len(params) == 13:
+				c = correlator(x[0], x[1], x[2], params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9])
 			else:
 				raise NotImplementedError('Number of parameters does not match any known specification.')
 
@@ -251,7 +251,7 @@ def coeffs(params, output=None):
 			for c in t.nonzero:
 				params3 = [c.mins, c.maxs] + params2
 	#			params3[-1] = 10 + int(params3[-1] * c.volume/vol)
-				params3[-1] = 10 + int(params3[-1] * c.mean*c.volume/est)
+				params3[-2] = 10 + int(params3[-1] * c.mean*c.volume/est)
 	#			print('Evals:',params3[-1])
 				res = co(params3)
 				r += res

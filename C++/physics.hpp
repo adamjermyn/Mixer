@@ -64,6 +64,10 @@ public:
 	double omega;
 	double transK;
 
+	// Convergence parameters
+	double eps;
+
+
 	// Temporary arrays
 	Matrix1 m = Matrix1::Zero();
 	MatrixXcd eigvals;
