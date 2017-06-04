@@ -83,7 +83,7 @@ public:
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double omegaa);
+		, double N22, double omegaa, double epss);
 
 	void set_vecs();
 
