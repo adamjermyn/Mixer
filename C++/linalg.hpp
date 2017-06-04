@@ -66,7 +66,7 @@ void rotY(double theta, double v[3]);
 
 void sphericalToCartesian(double r, double t, double p, double ret[3]);
 
-VectorC normalizeV(VectorC m, double kPhi, double w);
+VectorC normalizeV(VectorC m, double kPhi, double w, double eps);
 
 // -------------------------------------
 // End Header guard
