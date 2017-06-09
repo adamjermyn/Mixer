@@ -107,7 +107,6 @@ void basis::set_k(double kT, double kP) {
 	// Note that it matters that the normalization factor on db
 	// equals that on dc (i.e. that wHat is orthogonal to b).
 	for(int i=0;i<maxOrder + 1;i++) {
-		cross(wHat, db[i], dc[i]);
 		cross(zhat, dc[i], dd[i]);
 		cross(zhat, db[i], de[i]);
 	}

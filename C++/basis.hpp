@@ -73,7 +73,6 @@ public:
 
 	double dk[maxOrder + 1][3];
 	double db[maxOrder + 1][3];
-	double dc[maxOrder + 1][3];
 	double dd[maxOrder + 1][3];
 	double de[maxOrder + 1][3];
 
