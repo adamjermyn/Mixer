@@ -25,9 +25,10 @@ tW = np.pi/2
 omega = 0.1
 w = 1e-10
 N2 = -1.
-tolr = 1e-18
-tola = 1e-18
-maxEval = 10000000
+eps = 1e-20
+tolr = 1e-8
+tola = 1e-12
+maxEval = 100000
 
 results = np.zeros(list(B.shape) + [3,6,6,2])
 
@@ -38,18 +39,18 @@ def f(x):
 
 	tB = np.pi
 	pB = 0
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-	r[1] = coeffs(params)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+	r[1] = coeffs(params, output=output)
 
 	tB = np.pi/2
 	pB = 0
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-	r[0] = coeffs(params)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+	r[0] = coeffs(params, output=output)
 
 	tB = np.pi/2
 	pB = np.pi/2
-	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-	r[2] = coeffs(params)
+	params = (x, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEva, eps)
+	r[2] = coeffs(params, output=output)
 
 	return r
 
