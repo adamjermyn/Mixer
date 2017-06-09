@@ -13,7 +13,7 @@ from pyTurb import correlator
 omega = 0.1
 tS = np.pi/2
 tP = np.pi/2
-w = 0.0001
+w = 0.000001
 tW = np.pi/4
 N2 = 1.
 
@@ -24,7 +24,7 @@ print(correlator(1, 1.564, 3.232, 0, 0, 0, omega, w, tW, tS, tP, N2))
 print('')
 print(correlator(1, 1.564, 3.3, 0, 0, 0, omega, w, tW, tS, tP, N2))
 print('')
-exit()
+#exit()
 
 tRan = np.linspace(1.54,1.575, num=200, endpoint=True)
 pRan = np.linspace(3.14, 3.32, num=200, endpoint=True)
@@ -34,7 +34,7 @@ for i,t in enumerate(tRan):
 	for j,p in enumerate(pRan):
 		correl[i,j] = correlator(1, t, p, 0, 0, 0, omega, w, tW, tS, tP, N2)
 
-correl[np.abs(correl) < 1e-12] = 0
+#correl[np.abs(correl) < 1e-12] = 0
 
 import matplotlib.pyplot as plt
 #plt.subplot(211)

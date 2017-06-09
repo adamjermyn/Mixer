@@ -11,9 +11,7 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-B = 10**np.linspace(-3,3,num=100,endpoint=True)
-
-tB = 0.2
+tB = np.pi/4
 pB = 0
 tS = np.pi/2
 tP = 0
@@ -21,26 +19,21 @@ tW = np.pi/2
 omega = 1.
 w = -3./2
 N2 = 0
-tolr = 1e-10
+eps = 1e-20
+tolr = 1e-6
 tola = 1e-10
-maxEval = 100000
+maxEval = 300000000
 
-B = 10.
+B = 0.015
 
-w = -1.5
-tW = np.pi/2
+output = np.zeros((6,6))
+output[3,5] = 1
+output[3,3] = 0
 
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
 
-print(r[3:,3:,0])
 
-w = 1.5
-tW = 3*np.pi/2
+params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+r = coeffs(params, output=output)
 
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
-r = coeffs(params)
-
-print(r[3:,3:,0])
-
-exit()
+print(r)
+print(np.abs(r[...,0]/r[...,1]))
