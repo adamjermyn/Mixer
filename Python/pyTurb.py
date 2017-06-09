@@ -252,6 +252,7 @@ def coeffs(params, output=None):
 				params3 = [c.mins, c.maxs] + params2
 	#			params3[-1] = 10 + int(params3[-1] * c.volume/vol)
 				params3[-2] = 10 + int(params3[-2] * c.mean*c.volume/est)
+				print(c.mean, c.volume, est, params3[-2])
 				res = co(params3)
 				r += res
 
