@@ -91,7 +91,6 @@ Matrix1 flmatrix::derivative(int i) {
 
 	ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
 	ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
-	ret(2,1) -= 2*omega*wmag*dot(ba.a,ba.dd[i])*ba.kHat[1];
 
 	ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
 

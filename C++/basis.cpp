@@ -104,10 +104,7 @@ void basis::set_k(double kT, double kP) {
 	cross(zhat,b,e);
 
 	// Now we can just use the definitions of these vectors.
-	// Note that it matters that the normalization factor on db
-	// equals that on dc (i.e. that wHat is orthogonal to b).
 	for(int i=0;i<maxOrder + 1;i++) {
-		cross(zhat, dc[i], dd[i]);
 		cross(zhat, db[i], de[i]);
 	}
 
