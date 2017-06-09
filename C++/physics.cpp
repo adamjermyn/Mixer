@@ -105,7 +105,7 @@ Matrix1 flmatrix::derivative(int i) {
 	ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
 	ret(3,2) = -ret(2,3);
 
-	ret *= pow(wmag*ba.kHat[1], i);
+	ret *= pow(-wmag*ba.kHat[1], i);
 
 	return ret;
 }
