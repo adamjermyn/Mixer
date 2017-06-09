@@ -20,6 +20,7 @@ fi['theta'] = theta
 w = 0
 tW = np.pi/2
 N2 = -1
+eps = 1e-20
 tolr = 1e-15
 tola = 1e-15
 maxEval = 10000000
@@ -33,7 +34,7 @@ output[1,3] = 1
 omega = 0.5
 
 def f(x):
-	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
+	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval, eps)
 	r = coeffs(params, output=output)
 	return r
 
@@ -44,7 +45,7 @@ fi['results_0.1'] = results
 omega = 1.0
 
 def g(x):
-	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
+	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval, eps)
 	r = coeffs(params, output=output)
 	return r
 
@@ -56,7 +57,7 @@ fi['results_1.0'] = results
 omega = 5.
 
 def h(x):
-	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval)
+	params = (omega, w, tW, x, x, N2, tolr, tola, maxEval, eps)
 	r = coeffs(params, output=output)
 	return r
 

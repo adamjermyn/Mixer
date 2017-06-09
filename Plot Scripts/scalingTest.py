@@ -16,6 +16,7 @@ tP = np.pi/4
 w = 0
 tW = np.pi/2
 N2 = -1
+eps = 1e-20
 tolr = 1e-10
 tola = 1e-10
 maxEval = 100000
@@ -31,13 +32,13 @@ output[3,2] = 1
 
 omega = 1000
 
-params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
+params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 r = coeffs(params, output=output)
 print(r)
 
 omega = 900
 
-params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval)
+params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 r = coeffs(params, output=output)
 print(r)
 
