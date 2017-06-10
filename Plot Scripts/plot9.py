@@ -16,16 +16,18 @@ fi.close()
 fig = plt.figure(figsize=(4,3.5))
 ax = fig.add_subplot(1,1,1)
 
-x, y = B, r[...,3,5,0]
-y = np.log10(np.abs(y))
+x, y, yerr = B, r[...,3,5,0], r[...,3,5,1]
+y = np.abs(y)
 ax.plot(x,y,label='$v_r v_\phi$')
-x, y = B, r[...,3,2,0]
-y = np.log10(np.abs(y))
-ax.plot(x,y,label='$v_r r_\phi$')
+x, y, yerr = B, r[...,3,3,0], r[...,3,3,1]
+y = np.abs(y)
+ax.plot(x,y,label='$v_r v_r$')
+
 ax.set_xscale('log')
+ax.set_yscale('log')
 plt.xlabel('$\\frac{B}{\Omega l \mu_0 \sqrt{\\rho}}}$')
 plt.ylabel('(Mixing Units)')
-plt.legend(loc='upper right')
+plt.legend(loc='lower right')
 
 plt.tight_layout()
 plt.savefig('Plots/Plot9.pdf')
