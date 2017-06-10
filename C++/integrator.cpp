@@ -42,12 +42,19 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		k = 1;
 		tK = x[0];
 		pK = x[1];
-		pref = -sin(tK)*fourierCoeff/powN;
+		pref = -sin(tK)*fourierCoeff/powN1;
 	} else if (ndim == 3) {
 		tK = x[1];
 		pK = x[2];
 		k = f.computeKfromKA(x[0]);
-		pref = -sin(tK)*fourierCoeff/powN;
+		pref = -sin(tK)*fourierCoeff;
+		
+		if (k <= f.transK) { 
+			pref /= powN1;
+		} else { 
+			pref /= powN2;
+		} 
+
 	}
 
 	// Compute physics

@@ -27,7 +27,9 @@ const double pi = 3.141592653589;
 // Spectral indices (v ~ k^(-n))
 
 const double nKolmogorov = 11./6;
-const double powN = 3-2*nKolmogorov;
+const double nMHD = 8./3;
+const double powN1 = 3-2*nKolmogorov;
+const double powN2 = 3-2*nMHD;
 
 // -------------------------------------
 // Adiabatic constant

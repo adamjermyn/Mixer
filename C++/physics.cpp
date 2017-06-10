@@ -55,6 +55,14 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	m(0,2) = 1;
 	m(1,3) = 1;
+
+	// Compute transition wavenumber
+	double compFactor = max(abs(wmag),sqrt(abs(N2))); 
+	transK = max(1.0,compFactor / sqrt(dot(va,va)+eps)); 
+ 
+	if (transK > compFactor/(2*eps)) { 
+		transK = inf; 
+	} 	
 }
 
 void flmatrix::set_M() {
@@ -168,7 +176,11 @@ void flmatrix::compute_correlator() {
 }
 
 double flmatrix::computeKfromKA(double ka) {
-	return pow(ka,1/powN);
+	double kk = pow(ka,1/powN1); 
+	if (kk > transK) { 
+		kk = transK*pow(ka/pow(transK,powN1),1/powN2); 
+	} 
+	return kk;
 }
 
 // Set wavevector in spherical coordinates
