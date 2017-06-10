@@ -10,37 +10,38 @@ sys.path.append(d + '/Python/')
 import numpy as np
 from pyTurb import correlator
 
-omega = 0.1
 tS = np.pi/2
-tP = np.pi/2
-w = 0.000001
-tW = np.pi/4
-N2 = 1.
+tP = 0
+tW = np.pi/2
+omega = 1.
+w = -3./2
+N2 = 0
+eps = 1e-20
 
-#tRan = np.linspace(0, np.pi, num=400, endpoint=True)
-#pRan = np.linspace(0, 2*np.pi, num=400, endpoint=True)
-
-print(correlator(1, 1.564, 3.232, 0, 0, 0, omega, w, tW, tS, tP, N2))
-print('')
-print(correlator(1, 1.564, 3.3, 0, 0, 0, omega, w, tW, tS, tP, N2))
-print('')
-#exit()
-
-tRan = np.linspace(1.54,1.575, num=200, endpoint=True)
-pRan = np.linspace(3.14, 3.32, num=200, endpoint=True)
+tRan = np.linspace(0, np.pi, num=100, endpoint=True)
+pRan = np.linspace(0, 2*np.pi, num=100, endpoint=True)
 
 correl = np.zeros((len(tRan), len(pRan), 4, 4))
 for i,t in enumerate(tRan):
 	for j,p in enumerate(pRan):
-		correl[i,j] = correlator(1, t, p, 0, 0, 0, omega, w, tW, tS, tP, N2)
+		correl[i,j] = correlator(0.5, t, p, 0, 0, 0, omega, w, tW, tS, tP, N2)
 
-#correl[np.abs(correl) < 1e-12] = 0
+correl[np.abs(correl) < 1e-12] = 0
 
 import matplotlib.pyplot as plt
-#plt.subplot(211)
-#plt.imshow(np.log10(np.abs(correl[...,3,2])), origin='lower', extent=[0,2*np.pi,0,np.pi])
-plt.imshow(np.log10(np.abs(correl[...,3,3])), origin='lower', extent=[3.14,3.32,1.54,1.575])
+plt.subplot(221)
+plt.imshow(np.log10(np.abs(correl[...,2,2])), origin='lower', extent=[0,2*np.pi,0,np.pi])
 plt.colorbar()
+plt.subplot(222)
+plt.imshow(np.log10(np.abs(correl[...,2,3])), origin='lower', extent=[0,2*np.pi,0,np.pi])
+plt.colorbar()
+plt.subplot(223)
+plt.imshow(np.log10(np.abs(correl[...,3,2])), origin='lower', extent=[0,2*np.pi,0,np.pi])
+plt.colorbar()
+plt.subplot(224)
+plt.imshow(np.log10(np.abs(correl[...,3,3])), origin='lower', extent=[0,2*np.pi,0,np.pi])
+plt.colorbar()
+#plt.imshow(np.log10(np.abs(correl[...,3,3])), origin='lower', extent=[3.14,3.32,1.54,1.575])
 
 #plt.subplot(212)
 #plt.imshow(np.log10(np.abs(correl[...,2,1])), origin='lower', extent=[0,2*np.pi,0,np.pi])
