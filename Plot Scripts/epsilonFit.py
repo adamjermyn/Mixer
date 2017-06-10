@@ -20,9 +20,9 @@ tW = np.pi/4
 N2 = 1.
 omega = 0.1
 w = 1e-4
-tolr = 1e-5
+tolr = 1e-3
 tola = 1e-14
-maxEval = 100000000
+maxEval = 50000000
 
 output = np.zeros((6,6))
 output[4,3] = 1
@@ -30,7 +30,7 @@ output[1,3] = 1
 output[5,3] = 1
 output[2,3] = 1
 
-eps = 10**np.linspace(-10, 1, num=60, endpoint=True)
+eps = 10**np.linspace(-9, 1, num=40, endpoint=True)
 fi['eps'] = eps
 
 def f(x):
