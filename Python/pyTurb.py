@@ -242,9 +242,9 @@ def coeffs(params, output=None):
 		est = sum([c.mean*c.volume for c in t.nonzero])
 		vol = sum([c.volume for c in t.nonzero])
 
-		print('VOL:',vol/(2*np.pi*np.pi),'NUM:',len(t.nonzero))
+		print('VOL:',vol/(2*np.pi*np.pi),'EST:',est,'NUM:',len(t.nonzero))
 
-		if vol/(2*np.pi*np.pi) > 0.1:
+		if vol/(2*np.pi*np.pi) > 0.99:
 			params3 = [mins, maxs] + params2
 			r = co(params3)
 		else:
@@ -252,7 +252,7 @@ def coeffs(params, output=None):
 				params3 = [c.mins, c.maxs] + params2
 	#			params3[-1] = 10 + int(params3[-1] * c.volume/vol)
 				params3[-2] = 10 + int(params3[-2] * c.mean*c.volume/est)
-				print(c.mean, c.volume, est, params3[-2])
+	#			print(c.mean, c.volume, est, params3[-2])
 				res = co(params3)
 				r += res
 
