@@ -67,7 +67,7 @@ int F(unsigned ndim, const double *x, void *fdata, unsigned fdim, double *fval) 
 		transform(1,j) = f.ba.b[j];
 		transform(2,3+j) = f.ba.a[j];
 		transform(3,3+j) = f.ba.b[j];
-		transform(1,3+j) = f.ba.c[j]*f.wmag*f.omega*f.ba.kHat[1]; // The velocity has this additional term due to the sheared coordinate system.
+		transform(1,3+j) = f.ba.c[j]*f.wmag*f.ba.kHat[1]; // The velocity has this additional term due to the sheared coordinate system.
 	}
 
 	MatrixCorrReg transformT = transform.transpose();

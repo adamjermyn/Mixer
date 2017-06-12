@@ -95,24 +95,25 @@ Matrix1 flmatrix::derivative(int i) {
 	if (i == 0) {
 		// Special case handling because of magnetic fields.
 		ret = ret + m;
+	} else {
+		ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
+		ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
+
+		ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
+
+		ret(3,1) = 0;
+		for (int j=0;j<=i;j++) {
+			int k = i - j;
+			ret(3,1) -= nCr(i, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
+			ret(3,1) -= nCr(i, j) * N2*dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
+		}
+
+		ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
+		ret(3,2) = -ret(2,3);
+
+		ret *= pow(-wmag*ba.kHat[1], i);
 	}
 
-	ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
-	ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
-
-	ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
-
-	ret(3,1) = 0;
-	for (int j=0;j<=i;j++) {
-		int k = i - j;
-		ret(3,1) -= nCr(i, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
-		ret(3,1) -= nCr(i, j) * N2*dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
-	}
-
-	ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
-	ret(3,2) = -ret(2,3);
-
-	ret *= pow(-wmag*ba.kHat[1], i);
 
 	return ret;
 }
