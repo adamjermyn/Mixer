@@ -15,20 +15,33 @@ fi.close()
 
 plt.figure(figsize=(6,4.3))
 
-plt.subplot(111)
+plt.subplot(121)
 
 print(r)
 
 x, y = omega, r[...,3,4,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\theta$')
-x, y = omega, r[...,3,4,0]
+x, y = omega, r[...,3,1,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r v_\\phi$')
+plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.legend(loc='upper left')
 plt.xlabel('$\Omega/|N|$')
 plt.ylabel('(Mixing Units)')
 plt.tight_layout()
+
+plt.subplot(122)
+
+x, y = omega, r[...,3,4,0]
+y = np.abs(y)
+plt.loglog(x,y, label='$v_r v_\\phi$')
+x, y = omega, r[...,3,2,0]
+y = np.abs(y)
+plt.loglog(x,y, label='$v_r r_\\phi$')
+plt.legend(loc='upper left')
+plt.xlabel('$\Omega/|N|$')
+plt.tight_layout()
+
 
 plt.savefig('Plots/Plot5.pdf')
 
