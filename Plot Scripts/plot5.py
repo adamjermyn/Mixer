@@ -21,9 +21,13 @@ print(r)
 
 x, y = omega, r[...,3,4,0]
 y = np.abs(y)
+y = y[(x>10**(-4.7)) & (x<10**(-1.3))]
+x = x[(x>10**(-4.7)) & (x<10**(-1.3))]
 plt.loglog(x,y, label='$v_r v_\\theta$')
 x, y = omega, r[...,3,1,0]
 y = np.abs(y)
+y = y[(x>10**(-4.7)) & (x<10**(-1.3))]
+x = x[(x>10**(-4.7)) & (x<10**(-1.3))]
 plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.legend(loc='upper left')
 plt.xlabel('$\Omega/|N|$')
@@ -34,9 +38,13 @@ plt.subplot(122)
 
 x, y = omega, r[...,3,5,0]
 y = np.abs(y)
+y = y[(x>10**(-4.7)) & (x<10**(-1.3))]
+x = x[(x>10**(-4.7)) & (x<10**(-1.3))]
 plt.loglog(x,y, label='$v_r v_\\phi$')
 x, y = omega, r[...,3,2,0]
 y = np.abs(y)
+y = y[(x>10**(-4.7)) & (x<10**(-1.3))]
+x = x[(x>10**(-4.7)) & (x<10**(-1.3))]
 plt.loglog(x,y, label='$v_r r_\\phi$')
 plt.legend(loc='upper left')
 plt.xlabel('$\Omega/|N|$')
