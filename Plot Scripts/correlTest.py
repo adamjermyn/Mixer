@@ -10,22 +10,24 @@ sys.path.append(d + '/Python/')
 import numpy as np
 from pyTurb import correlator
 
-tS = np.pi/2
-tP = 0
+omega = 0.001
+w = 1e-2
+tS = np.pi/4
+tP = np.pi/4
 tW = np.pi/2
-omega = 1.
-w = -3./2
-N2 = 0
-eps = 1e-20
+N2 = -1
 
-tRan = np.linspace(0, np.pi, num=100, endpoint=True)
-pRan = np.linspace(0, 2*np.pi, num=100, endpoint=True)
+tRan = np.linspace(0, np.pi, num=50, endpoint=True)
+pRan = np.linspace(0, 2*np.pi, num=50, endpoint=True)
 
 correl = np.zeros((len(tRan), len(pRan), 4, 4))
 for i,t in enumerate(tRan):
 	for j,p in enumerate(pRan):
-		correl[i,j] = correlator(0.5, t, p, 0, 0, 0, omega, w, tW, tS, tP, N2)
+		correl[i,j] = correlator(1., t, p, 0, 0, 0, omega, 2*omega*w, tW, tS, tP, N2)
+		correl[i,j] -= correlator(1., t, p, 0, 0, 0, omega, omega*w, tW, tS, tP, N2)
+#		correl[i,j] = correlator(1., t, p, 0, 0, 0, omega, omega * w, tW, tS, tP, N2)
 
+correl /= (omega * w)
 correl[np.abs(correl) < 1e-12] = 0
 
 import matplotlib.pyplot as plt

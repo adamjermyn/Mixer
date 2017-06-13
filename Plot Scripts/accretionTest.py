@@ -22,18 +22,19 @@ N2 = 0
 eps = 1e-20
 tolr = 1e-6
 tola = 1e-10
-maxEval = 300000000
+maxEval = 3000000
 
-B = 0.015
+B = 1e-10
 
-output = np.zeros((6,6))
+output = np.ones((6,6))
 output[3,5] = 1
-output[3,3] = 0
+output[3,3] = 1
 
 
 
-params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+#params = (B, tB, pB, omega, w, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 r = coeffs(params, output=output)
 
 print(r)
-print(np.abs(r[...,0]/r[...,1]))
+print(r[...,0])
