@@ -40,7 +40,7 @@ ax.set_xscale('log')
 ax.set_yscale('log')
 plt.xlabel('$\\frac{B}{\Omega l \mu_0 \sqrt{\\rho}}}$')
 plt.ylabel('(Mixing Units)')
-plt.legend(loc='lower right')
+plt.legend(loc='upper left')
 
 plt.tight_layout()
 plt.savefig('Plots/Plot9.pdf')

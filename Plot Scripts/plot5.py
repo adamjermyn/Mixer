@@ -32,7 +32,7 @@ plt.tight_layout()
 
 plt.subplot(122)
 
-x, y = omega, r[...,3,4,0]
+x, y = omega, r[...,3,5,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\phi$')
 x, y = omega, r[...,3,2,0]

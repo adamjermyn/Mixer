@@ -158,7 +158,7 @@ void flmatrix::compute_correlator() {
 	for (int i=0;i<eigvecs.cols();i++) {
 
 		temp = eigvecs.col(i);
-		temp = normalizeV(temp, ba.kHat[1], wmag, eps);
+		temp = normalizeV(temp, ba.kHat[1], wmag, dot(ba.kHat, ba.wHat), eps);
 
 		double g = 0;
 

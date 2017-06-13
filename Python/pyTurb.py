@@ -244,7 +244,7 @@ def coeffs(params, output=None):
 
 		print('VOL:',vol/(2*np.pi*np.pi),'EST:',est,'NUM:',len(t.nonzero))
 
-		if vol/(2*np.pi*np.pi) > 0.99:
+		if vol/(2*np.pi*np.pi) > 0.1:
 			params3 = [mins, maxs] + params2
 			r = co(params3)
 		else:

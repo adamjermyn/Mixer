@@ -53,7 +53,7 @@ void sphericalToCartesian(double r, double t, double p, double ret[3]) {
 	ret[2] = r*cos(t);
 }
 
-VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
+VectorC normalizeV(VectorC v, double kPhi, double w, double kw, double eps) {
 	/*
 	This method returns a normalized version of the given state vector,
 	such that the velocity is unity. The velocity is taken to reside
@@ -61,11 +61,13 @@ VectorC normalizeV(VectorC v, double kPhi, double w, double eps) {
 
 	The normalization is computed as
 
-	|v|^2 = |v[dim - 2]|^2 + |v[dim - 1]|^2  + |v[1]|^2 * k_phi^2 w^2
+	|v|^2 = |v[dim - 2]|^2 + |v[dim - 1]|^2  + |v[1]|^2 * k_phi^2 w^2 + 2*Real[v[1]*v[dim-1]*kPhi*w*kw]
+
+	where the final term arises because b-hat is not perpendicular to c-hat.
 
 	*/
 
-	double net = pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2);
+	double net = pow(abs(v(dim - 2)), 2) + pow(abs(v(dim - 1)), 2) + pow(abs(v(1)), 2)*pow(kPhi*w, 2) + 2*(v(dim - 1)*v(1)*kPhi*w*kw).real();
 	net = sqrt(eps + net);
 	VectorC ret(v);
 	ret /= net;

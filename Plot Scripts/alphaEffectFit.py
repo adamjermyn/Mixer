@@ -12,7 +12,7 @@ from pyTurb import coeffs
 from multiprocessing import Pool
 
 
-omega = 10**np.linspace(-3.2, -0.5, endpoint=True, num=24) 
+omega = 10**np.linspace(-5, -1, endpoint=True, num=12) 
 
 fi = h5py.File('Data/alpha_results.dat','w')
 fi['omega'] = omega
@@ -22,9 +22,9 @@ tP = np.pi/4
 tW = np.pi/2
 N2 = -1
 eps = 1e-20
-tolr = 1e-10
-tola = 1e-10
-maxEval = 200000000
+tolr = 1e-15
+tola = 1e-15
+maxEval = 3000000
 
 output = np.zeros((6,6))
 output[3,4] = 1
@@ -33,14 +33,14 @@ output[3,5] = 1
 output[3,2] = 1
 
 def g(x):
-	params = (x, -1e-4*x, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+	params = (x, 1e-2*x, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 	r0 = coeffs(params, output=output)
-	params = (x, 1e-4*x, tW, tS, tP, N2, tolr, tola, maxEval, eps)
+	params = (x, 2e-2*x, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 	r1 = coeffs(params, output=output)
 	print(x)
 	print(r0)
 	print(r1)
-	return (r1 - r0) / (2*1e-4)
+	return (r1 - r0) / (1e-2)
 
 pool = Pool(processes=4)
 results = np.array(pool.map(g, omega))
