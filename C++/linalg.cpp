@@ -33,7 +33,7 @@ double dot(const double a[3], const double b[3]) {
 }
 
 void rotY(double theta, double v[3]) {
-	// Rotates the specified vector an angle theta about the middle axis
+	// Rotates the specified vector an angle minus theta about the middle axis
 	double x, y;
 	x = v[0]*cos(theta) + v[2]*sin(theta);
 	y = -v[0]*sin(theta) + v[2]*cos(theta);
