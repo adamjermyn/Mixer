@@ -78,10 +78,12 @@ void flmatrix::set_M() {
 	m(2,0) = -N2*dot(ba.a, entHat)*dot(ba.a, presHat) - kva*kva;
 	m(2,1) = -N2*dot(ba.b, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.d)*ba.kHat[1] + ba.a[0]*dot(ba.b,ba.wHat));
 	m(3,0) = -N2*dot(ba.a, entHat)*dot(ba.b, presHat);
-	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*wmag*ba.b[0]*dot(ba.b,ba.wHat);
+	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*wmag*(dot(ba.b,ba.d)*ba.kHat[1] + ba.b[0]*dot(ba.b,ba.wHat));
 
 	m(2,3) = -2*omega*dot(ba.a,ba.e);
 	m(3,2) = -m(2,3);
+
+	m(3,3) = -2*wmag*ba.kHat[1]*dot(ba.kHat,ba.wHat);
 
 }
 
@@ -101,7 +103,7 @@ Matrix1 flmatrix::derivative(int i) {
 
 		ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
 
-		ret(3,1) = 0;
+		ret(3,1) = -2*omega*wmag*dot(ba.db[i], ba.d)*ba.kHat[1];
 		for (int j=0;j<=i;j++) {
 			int k = i - j;
 			ret(3,1) -= nCr(i, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
@@ -110,6 +112,8 @@ Matrix1 flmatrix::derivative(int i) {
 
 		ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
 		ret(3,2) = -ret(2,3);
+
+		ret(3,3) = -2*wmag*ba.kHat[1]*dot(ba.dk[i],ba.wHat);
 
 		ret *= pow(-wmag*ba.kHat[1], i);
 	}
