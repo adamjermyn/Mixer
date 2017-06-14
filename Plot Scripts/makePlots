@@ -8,11 +8,5 @@ python plot6.py
 python plot7.py
 python plot8.py
 python plot9.py
-
-python fig8.py
-python fig9.py
-python fig11.py
-python fig12.py
-
-python scalingPlot.py
-
+python plot10.py
+python epsPlot.py
