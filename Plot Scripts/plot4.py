@@ -25,25 +25,29 @@ plt.figure(figsize=(6,4.3))
 plt.subplot(121)
 
 x, y = w/omega, r[...,3,4,0]
-plt.plot(x,abs(y), label='$v_r v_\\theta$')
+plt.plot(x,y, label='$v_r v_\\theta$')
+plt.fill_between(x, y - r[...,3,4,1], y + r[...,3,4,1], alpha=0.5)
 x, y = w/omega, r[...,3,1,0]
-plt.plot(x,abs(y), label='$v_r r_\\theta$')
+plt.plot(x,y, label='$v_r r_\\theta$')
+plt.fill_between(x, y - r[...,3,1,1], y + r[...,3,1,1], alpha=0.5)
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.ylabel('(Mixing Units)')
-plt.yscale('log')
+#plt.yscale('log')
 plt.tight_layout()
 
 plt.subplot(122)
 
 x, y = w/omega, r[...,3,5,0]
-plt.plot(x,np.abs(y), label='$v_r v_\\phi$')
+plt.plot(x,y, label='$v_r v_\\phi$')
+plt.fill_between(x, y - r[...,3,5,1], y + r[...,3,5,1], alpha=0.5)
 x, y = w/omega, r[...,3,2,0]
-plt.plot(x,np.abs(y), label='$v_r r_\\phi$')
-plt.plot(x,np.abs(paperOne(w, omega)/100), label='$v_r v_\phi$ (*)')
+plt.plot(x,y, label='$v_r r_\\phi$')
+plt.fill_between(x, y - r[...,3,2,1], y + r[...,3,2,1], alpha=0.5)
+plt.plot(x,paperOne(w, omega)/100, label='$v_r v_\phi$ (*)')
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
-plt.yscale('log')
+#plt.yscale('log')
 plt.tight_layout()
 
 

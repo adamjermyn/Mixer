@@ -37,6 +37,7 @@ plt.tight_layout()
 plt.subplot(122)
 
 x, y = omega, r[...,3,5,0]
+print(y)
 y = np.abs(y)
 y = y[(x>10**(-4.7)) & (x<10**(-1.3))]
 x = x[(x>10**(-4.7)) & (x<10**(-1.3))]
