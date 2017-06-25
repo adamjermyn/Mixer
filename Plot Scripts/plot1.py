@@ -3,6 +3,8 @@ from os.path import dirname, abspath
 d = dirname(dirname(abspath(__file__)))
 os.chdir(d)
 
+from KRflux import flux
+
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
@@ -21,6 +23,9 @@ plt.plot(x,y,label='$v_r v_r$')
 plt.xlim([0,1])
 x, y = omega[omega<=2], r[omega<=2][...,0,3,0]
 plt.plot(x,y,label='$v_r r_r$')
+# KR comparison
+plt.plot(x, x*flux(np.pi/4, x, '14', 'Sr'), label='$v_r r_r$ *')
+
 plt.xlim([0,1])
 plt.xlabel('$ \Omega/|N|$')
 plt.ylabel('(Mixing Units)')
