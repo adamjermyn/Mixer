@@ -1,6 +1,7 @@
 from numpy import arctan
 from numpy import sin
 from numpy import cos
+import numpy as np
 
 # KR theory
 aKR=2. # Anisotropy parameter
@@ -33,6 +34,7 @@ def phi1(o):
 # Fluxes
 def flux(tt,om,tag,mode):
     ost=2.*om
+    ff = np.zeros(om.shape)
     if tag=='13':
         if mode=='Omr':
             ff=psi0(ost)+cos(tt)**2*psi1(ost)
@@ -40,24 +42,24 @@ def flux(tt,om,tag,mode):
             ff=-sin(tt)*cos(tt)*psi1(ost)
         if mode=='zero':
             ff=-V0(ost)+cos(tt)**2*H1(ost)
-    if tag=='23':
+    elif tag=='23':
         if mode=='Omr':
             ff=-sin(tt)*cos(tt)*psi1(ost)
         if mode=='Omt':
             ff=psi0(ost)+sin(tt)**2*psi1(ost)
         if mode=='zero':
             ff=-cos(tt)*sin(tt)*H1(ost)
-    if tag=='14':
+    elif tag=='14':
         if mode=='Sr':
             ff=phi0(ost)+phi1(ost)*cos(tt)**2
         if mode=='St':
             ff=-cos(tt)*sin(tt)*phi1(ost)
-    if tag=='24':
+    elif tag=='24':
         if mode=='St':
             ff=phi0(ost)+phi1(ost)*sin(tt)**2
         if mode=='Sr':
             ff=-cos(tt)*sin(tt)*phi1(ost)            
-    if (tag[1]=='4'):
+    if tag[1]=='4':
         ff=-1./12.*ff
     else:
         ff=-1./15.*ff
