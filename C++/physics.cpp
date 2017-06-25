@@ -67,7 +67,7 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 void flmatrix::set_M() {
 	// Reset matrix
-	m = 0;
+	m *= 0;
 
 	// Buoyant term
 		// We're defining N2 to just be the product of the magnitudes of the
