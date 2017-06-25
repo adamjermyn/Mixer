@@ -64,10 +64,6 @@ void flmatrix::set_M() {
 	// Reset matrix
 	m *= 0;
 
-	// Trivial matrix elements
-	m(0,2) = 1;
-	m(1,3) = 1;
-
 	// Buoyant term
 		// We're defining N2 to just be the product of the magnitudes of the
 		// pressure and entropy gradients (with appropriate factors of density).
@@ -79,6 +75,10 @@ void flmatrix::set_M() {
 	m(3,0) -= dot(ba.a, entHat)*dot(ba.b, presHat);
 	m(3,1) -= dot(ba.b, entHat)*dot(ba.b, presHat);
 	m *= N2;
+
+	// Trivial matrix elements
+	m(0,2) = 1;
+	m(1,3) = 1;
 
 	// Magnetic term
 	kva = dot(va,ba.kHat)*kmag;
