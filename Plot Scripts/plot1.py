@@ -23,6 +23,7 @@ plt.plot(x,y,label='$v_r v_r$')
 plt.xlim([0,1])
 x, y = omega[omega<=2], r[omega<=2][...,0,3,0]
 plt.plot(x,y,label='$v_r r_r$')
+
 # KR comparison
 plt.plot(x, x*flux(np.pi/4, x, '14', 'Sr'), label='$v_r r_r$ *')
 

@@ -78,4 +78,3 @@ def flux(tt,om,tag,mode):
 # tag combines correlations between vr-1, vtheta-2, vphi-3, or r_r-4.
 # entHat_r and _t are the r theta components of your entHat entropy
 # gradient unit vector.
-
