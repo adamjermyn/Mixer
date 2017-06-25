@@ -51,11 +51,6 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	eps =  epss;
 
-	// Set known matrix elements
-
-	m(0,2) = 1;
-	m(1,3) = 1;
-
 	// Compute transition wavenumber
 	double compFactor = max(abs(wmag),sqrt(abs(N2))); 
 	transK = max(1.0,compFactor / sqrt(dot(va,va)+eps)); 
@@ -68,6 +63,10 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 void flmatrix::set_M() {
 	// Reset matrix
 	m *= 0;
+
+	// Trivial matrix elements
+	m(0,2) = 1;
+	m(1,3) = 1;
 
 	// Buoyant term
 		// We're defining N2 to just be the product of the magnitudes of the
