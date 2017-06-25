@@ -66,24 +66,47 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 }
 
 void flmatrix::set_M() {
+	// Reset matrix
+	m = 0;
 
+	// Buoyant term
+		// We're defining N2 to just be the product of the magnitudes of the
+		// pressure and entropy gradients (with appropriate factors of density).
+		// This means that there is no need to divide by dot(gradS,gradP).
+		// This is the more natural definition which retains the gradient magnitudes
+		// and does not require them to blow up when their directions are misaligned.
+	m(2,0) -= dot(ba.a, entHat)*dot(ba.a, presHat);
+	m(2,1) -= dot(ba.b, entHat)*dot(ba.a, presHat);
+	m(3,0) -= dot(ba.a, entHat)*dot(ba.b, presHat);
+	m(3,1) -= dot(ba.b, entHat)*dot(ba.b, presHat);
+	m *= N2;
+
+	// Magnetic term
 	kva = dot(va,ba.kHat)*kmag;
+	m(2,0) -= pow(kva,2);
+	m(3,1) -= pow(kva,2);
 
-	// We're defining N2 to just be the product of the magnitudes of the
-	// pressure and entropy gradients (with appropriate factors of density).
-	// This means that there is no need to divide by dot(gradS,gradP).
-	// This is the more natural definition which retains the gradient magnitudes
-	// and does not require them to blow up when their directions are misaligned.
+	// Coriolis terms
+		// These are just associated with the a-hat and b-hat components of v
+	m(2,3) -= 2*omega*dot(ba.a,ba.e);
+	m(3,2) -= m(2,3);
+		// These are associated with the c-hat component of v. Note that ba.d = zHat x cHat.
+	m(2,1) -= 2*omega*wmag*ba.kHat[1]*dot(ba.a,ba.d);
+	m(3,1) -= 2*omega*wmag*ba.kHat[1]*dot(ba.b,ba.d);
 
-	m(2,0) = -N2*dot(ba.a, entHat)*dot(ba.a, presHat) - kva*kva;
-	m(2,1) = -N2*dot(ba.b, entHat)*dot(ba.a, presHat) - 2*omega*wmag*(dot(ba.a,ba.d)*ba.kHat[1] + ba.a[0]*dot(ba.b,ba.wHat));
-	m(3,0) = -N2*dot(ba.a, entHat)*dot(ba.b, presHat);
-	m(3,1) = -N2*dot(ba.b, entHat)*dot(ba.b, presHat) -kva*kva - 2*omega*wmag*(dot(ba.b,ba.d)*ba.kHat[1] + ba.b[0]*dot(ba.b,ba.wHat));
+	// Centrifugal/epicyclic term. We don't have any in (2,0) or (3,0) because those are zero,
+	// being proportional to dot(ba.a, ba.wHat) = 0. Furthermore note that these do not acquire
+	// factors of ba.kHat[1], as they do not arise from the rotating coordinate system.
+	m(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.b,ba.wHat);
+	m(3,1) -= 2*omega*wmag*ba.b[0]*dot(ba.b,ba.wHat);
 
-	m(2,3) = -2*omega*dot(ba.a,ba.e);
-	m(3,2) = -m(2,3);
-
-	m(3,3) = -2*wmag*ba.kHat[1]*dot(ba.kHat,ba.wHat);
+	// Rotating coordinate system terms
+		// First order. These are just db/dt.
+	m(2,3) -= 2*wmag*ba.kHat[1]*dot(ba.a, ba.db[1]);
+	m(3,3) -= 2*wmag*ba.kHat[1]*dot(ba.b, ba.db[1]);
+		// Second order	
+	m(2,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.a, ba.db[2]);
+	m(3,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.b, ba.db[2]); 
 
 }
 
@@ -98,23 +121,49 @@ Matrix1 flmatrix::derivative(int i) {
 		// Special case handling because of magnetic fields.
 		ret = ret + m;
 	} else {
-		ret(2,1) = -N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
-		ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
-
+		// Buoyant term
+			// the (2,0) term vanishes because a-hat is time-independent.
+		ret(2,1) -= N2*dot(ba.db[i], entHat) * dot(ba.a, presHat);
 		ret(3,0) -= N2*dot(ba.a, entHat)*dot(ba.db[i], presHat);
-
-		ret(3,1) = -2*omega*wmag*dot(ba.db[i], ba.d)*ba.kHat[1];
-		for (int j=0;j<=i;j++) {
+		for (int j=0; j<=i; j++) {
 			int k = i - j;
-			ret(3,1) -= nCr(i, j) * 2*omega*wmag*ba.db[j][0]*dot(ba.db[k], ba.wHat);
-			ret(3,1) -= nCr(i, j) * N2*dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
+			ret(3,1) -= nCr(i, j) * N2 * dot(ba.db[j], entHat)*dot(ba.db[k], presHat);
 		}
 
+		// Magnetic term
+			// This is zero because of the ideal MHD approximation.
+
+		// Coriolis term
+			// These are just associated with the a-hat and b-hat components of v
 		ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
 		ret(3,2) = -ret(2,3);
+			// These are associated with the c-hat component of v. Note that ba.d = zHat x cHat.
+			// ret(2,1) doesn't gain a contribution because the contribution is proportional to derivatives of a-hat
+			// d-hat = z-hat x c-hat = z-hat x (w-hat x a-hat). Both derivatives vanish and so this term vanishes.
+		ret(3,1) -= 2*omega*wmag*ba.kHat[1]*dot(ba.db[i],ba.d);
 
-		ret(3,3) = -2*wmag*ba.kHat[1]*dot(ba.dk[i],ba.wHat);
+		// Centrifugal/epicyclic term
+		ret(2,1) -= 2*omega*wmag*ba.a[0]*dot(ba.db[i],ba.wHat);
+		for (int j=0; j<=i; j++) {
+			int k = i - j;
+			ret(3,1) -= nCr(i, j)*2*omega*wmag*ba.db[j][0]*dot(ba.db[k],ba.wHat);
+		}
 
+		// Rotating coordinate system terms
+			// First order. These are just db/dt.
+		ret(2,3) -= 2*wmag*ba.kHat[1]*dot(ba.a, ba.db[1 + i]);
+		for (int j=0; j<=i; j++) {
+			int k = i - j;
+			ret(3,3) -= nCr(i,j)*2*wmag*ba.kHat[1]*dot(ba.db[j], ba.db[1 + k]);
+		}
+				// Second order
+		ret(2,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.a, ba.db[2 + i]);
+		for (int j=0; j<=i; j++) {
+			int k = i - j;
+			ret(3,1) -= nCr(i,j)*pow(wmag*ba.kHat[1],2)*dot(ba.db[j], ba.db[2 + k]); 
+		}
+
+		// Correction for derivative order
 		ret *= pow(-wmag*ba.kHat[1], i);
 	}
 
