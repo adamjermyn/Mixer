@@ -1,3 +1,7 @@
+from numpy import arctan
+from numpy import sin
+from numpy import cos
+
 # KR theory
 aKR=2. # Anisotropy parameter
 
