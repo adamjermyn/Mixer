@@ -29,10 +29,10 @@ y = np.abs(y)
 plt.loglog(x,y,label='$v_r r_\phi$')
 
 # KR comparison
-plt.plot(x[x<1], x[x<1]*flux(np.pi/4, x[x<1], '13', 'zero'), label='$v_r r_r$ *')
+plt.plot(x[x<1], -x[x<1]*flux(np.pi/4, x[x<1], '13', 'zero'), label='$v_r r_r$ *')
 
 
-plt.loglog(x[x<1], np.abs(paperOne(x[x<1])), label='$v_r v_\phi$ (*)')
+plt.loglog(x[x<1], np.abs(paperOne(x[x<1])), label='$v_r v_\phi$ **')
 plt.xlabel('$ \Omega/|N|$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper right')

@@ -34,7 +34,7 @@ plt.plot(x,y, label='$v_r v_r$')
 x, y = delta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
 print(flux(np.pi/2,1e-5,'14','Sr'))
-plt.plot(x, (1./3)*(flux(np.pi/2, 1e-4, '14', 'Sr')*np.cos(x) + np.sin(x)*flux(np.pi/2, 1e-4, '14', 'St')), label='$v_r r_r$ *')
+plt.plot(x, -(1./3)*(flux(np.pi/2, 1e-4, '14', 'Sr')*np.cos(x) + np.sin(x)*flux(np.pi/2, 1e-4, '14', 'St')), label='$v_r r_r$ *')
 plt.xlabel('$\delta$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
