@@ -29,12 +29,12 @@ def H1(o):
 def phi0(o):
     return 3./4./o**2*(1.+(o**2-1.)/o*arctan(o))
 def phi1(o):
-    return 3./4./o**2*(-3.+(o**2+1.)/o*arctan(o))
+    return 3./4./o**2*(-3.+(o**2+3.)/o*arctan(o))
 
 # Fluxes
 def flux(tt,om,tag,mode):
     ost=2.*om
-    ff = np.zeros(om.shape)
+    ff = 0
     if tag=='13':
         if mode=='Omr':
             ff=psi0(ost)+cos(tt)**2*psi1(ost)
