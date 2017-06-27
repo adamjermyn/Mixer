@@ -35,7 +35,7 @@ plt.plot(x[x<1], -x[x<1]*flux(np.pi/4, x[x<1], '13', 'zero'), label='$v_r r_r$ *
 plt.loglog(x[x<1], np.abs(paperOne(x[x<1])), label='$v_r v_\phi$ **')
 plt.xlabel('$ \Omega/|N|$')
 plt.ylabel('(Mixing Units)')
-plt.legend(loc='upper right')
+plt.legend(loc='lower left')
 
 plt.tight_layout()
 plt.savefig('Plots/Plot3.pdf')
