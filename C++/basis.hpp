@@ -24,10 +24,9 @@ by the spherical polar angle, as well as k-hat, which
 is specified by both the polar angle and the azimuthal
 one.
 
-The additional vectors d-hat and e-hat are defined as
+The additional vector e-hat is defined as
 
 e-hat = z-hat x b-hat
-d-hat = z-hat x db
 
 These are not unit vectors!
 
@@ -38,7 +37,6 @@ dk = (1/|R Grad Omega|) d k-hat/dt
 and likewise
 
 db = (1/|R Grad Omega|) d b-hat/dt,
-dd = (1/|R Grad Omega|) d d-hat/dt
 de = (1/|R Grad Omega|) d e-hat/dt
 
 Note that a-hat is a constant in time so da is
@@ -67,14 +65,12 @@ public:
 	double b[3];
 	double c[3];
 
-	double d[3];
 	double e[3];
 
-	double dk[maxOrder + 1][3];
-	double db[maxOrder + 1][3];
-	double de[maxOrder + 1][3];
+	double dk[maxOrder + 3][3];
+	double db[maxOrder + 3][3];
+	double de[maxOrder + 3][3];
 
-	double dd[maxOrder][3];
 
 	double tW;
 
