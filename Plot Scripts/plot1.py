@@ -26,7 +26,7 @@ x, y = omega[omega<=2], r[omega<=2][...,0,3,0]
 plt.plot(x,y,label='$v_r r_r$')
 print(y[0])
 # KR comparison
-plt.plot(x, (1./3)*flux(np.pi/4, x, '14', 'Sr'), label='$v_r r_r$ *')
+plt.plot(x, -(1./3)*flux(np.pi/4, x, '14', 'Sr'), label='$v_r r_r$ *')
 
 plt.xlim([0,1])
 plt.xlabel('$ \Omega/|N|$')
