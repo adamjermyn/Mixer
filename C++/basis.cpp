@@ -100,12 +100,14 @@ void basis::set_k(double kT, double kP) {
 	cross(wHat,a,c);
 
 	// Helper vectors
-	cross(zhat,c,d);
 	cross(zhat,b,e);
+	cross(zHat, db[1], d);
 
 	// Now we can just use the definitions of these vectors.
 	for(int i=0;i<maxOrder + 1;i++) {
 		cross(zhat, db[i], de[i]);
+	for(int i=0;i<maxOrder;i++) {
+		cross(zhat, db[i + 1], dd[i]);
 	}
 
 }

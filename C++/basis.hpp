@@ -15,7 +15,7 @@
 
 A basis object provides access to the basis
 elements a-hat, b-hat, and c-hat as detailed
-in our paper [insert citation]. These are provided
+in Jermyn et al 2017. These are provided
 as normalised unit vectors.
 
 
@@ -26,8 +26,8 @@ one.
 
 The additional vectors d-hat and e-hat are defined as
 
-d-hat = z-hat x c-hat
 e-hat = z-hat x b-hat
+d-hat = z-hat x db
 
 These are not unit vectors!
 
@@ -38,7 +38,6 @@ dk = (1/|R Grad Omega|) d k-hat/dt
 and likewise
 
 db = (1/|R Grad Omega|) d b-hat/dt,
-dc = (1/|R Grad Omega|) d c-hat/dt
 dd = (1/|R Grad Omega|) d d-hat/dt
 de = (1/|R Grad Omega|) d e-hat/dt
 
@@ -74,6 +73,8 @@ public:
 	double dk[maxOrder + 1][3];
 	double db[maxOrder + 1][3];
 	double de[maxOrder + 1][3];
+
+	double dd[maxOrder][3];
 
 	double tW;
 
