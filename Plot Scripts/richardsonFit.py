@@ -26,7 +26,7 @@ N2 = 1.
 eps = 1e-8
 tolr = 1e-5
 tola = 1e-16
-maxEval = 10000000000
+maxEval = 300000000
 
 output = np.zeros((6,6))
 output[4,3] = 1

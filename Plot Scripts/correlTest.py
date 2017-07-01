@@ -10,12 +10,12 @@ sys.path.append(d + '/Python/')
 import numpy as np
 from pyTurb import correlator
 
-omega = 0.001
-w = 1e-2
-tS = np.pi/4
-tP = np.pi/4
+tS = 0
+tP = 0
 tW = np.pi/2
-N2 = -1
+omega = 1.
+w = -3./2
+N2 = 1
 
 tRan = np.linspace(0, np.pi, num=50, endpoint=True)
 pRan = np.linspace(0, 2*np.pi, num=50, endpoint=True)

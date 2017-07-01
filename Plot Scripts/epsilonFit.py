@@ -21,8 +21,8 @@ N2 = 1.
 omega = 0.1
 w = 1e-4
 tolr = 1e-10
-tola = 1e-14
-maxEval = 300000000
+tola = 1e-20
+maxEval = 100000000
 
 output = np.zeros((6,6))
 output[4,3] = 1
@@ -30,7 +30,7 @@ output[1,3] = 1
 output[5,3] = 1
 output[2,3] = 1
 
-eps = 10**np.linspace(-7, -2, num=15, endpoint=True)
+eps = 10**np.linspace(-6, -1, num=12, endpoint=True)
 fi['eps'] = eps
 
 def f(x):
@@ -40,7 +40,7 @@ def f(x):
 	print(r)
 	return r
 
-pool = Pool(processes=3)
+pool = Pool(processes=1)
 results = np.array(pool.map(f, eps))
 #results = np.array(map(f, eps))
 
