@@ -211,16 +211,66 @@ void flmatrix::compute_correlator() {
 
 	for (int i=0;i<eigvecs.cols();i++) {
 
+		// The eigenvector
 		temp = eigvecs.col(i);
-		temp = normalizeV(temp, ba.kHat[1], wmag, dot(ba.kHat, ba.wHat), eps);
+
+		/*
+		The velocity is given by
+
+		velocity = a-hat temp(2) + b-hat temp(3) + db/dt temp(1)
+
+		where
+
+		db/dt = db[1] * (-kHat.phi * w)
+		*/
+
+		cdouble velocity[3];
+		for (int j=0;j<3;j++) {	
+			velocity[j] = temp(2) * ba.a[j] + temp(3) * ba.b[j] + temp(1) * (-ba.kHat[1] * wmag) * ba.db[1][j];
+		}
+
+		double vMag = abs(dot(velocity, velocity));
+
+		/*
+		Now we compute the growth rate. This is given by
+
+		g = Re[velocity.acceleration]/|v|^2.
+
+		To compute the acceleration let
+
+		temp2 = m * temp
+
+		then
+
+		acceleration = a-hat temp2(2) + b-hat temp2(3) + 2 db/dt temp(3) + d^2 b / dt^2 temp(1)
+
+		where
+
+		d^2 b / dt^2 = db[2] * (-kHat.phi * w) ^ 2
+		*/
 
 		double g = 0;
 
 		temp2 = m * temp;
-		g = (temp2(2)*conj(temp(2)) + temp2(3)*conj(temp(3))).real();
 
+		cdouble acceleration[3];
+		for (int j=0;j<3;j++) {
+			acceleration[j] = temp2(2) * ba.a[j] + temp2(3) * ba.b[j] + 2 * (-ba.kHat[1] * wmag) * ba.db[1][j] * temp(3) + pow(-ba.kHat[1] * wmag, 2) * ba.db[2][j] * temp(1);
+		}
+		
+		g = dot(velocity, acceleration).real() / (vMag + eps);
 
+		/*
+		Finally we normalise the vector such that |v|^2 == 1 and compute the contribution
+		to the correlation functions. In the process though we will encounter modes with
+		|v|^2 very nearly zero (pre-normalisation). To rectify this we impose a lower cutoff
+		on the effective magnitude used in computing the normalisation. As the eigenvectors
+		are initially normalised to have total magnitude 1, |r|^2 is close to 1, so our cutoff
+		is really an upper bound on the position correlation functions.
+		*/
+		
 		if (g > 0) {
+			temp /= sqrt(vMag + eps);
 			temp = g*temp;
 			ret += temp*temp.adjoint();
 		}
