@@ -136,9 +136,8 @@ Matrix1 flmatrix::derivative(int i) {
 			// These are just associated with the a-hat and b-hat components of v
 		ret(2,3) = -2*omega*dot(ba.a, ba.de[i]);
 		ret(3,2) = -ret(2,3);
-			// These are associated with the c-hat component of v. Note that ba.d = zHat x cHat.
-			// ret(2,1) doesn't gain a contribution because the contribution is proportional to derivatives of a-hat
-			// d-hat = z-hat x c-hat = z-hat x (w-hat x a-hat). Both derivatives vanish and so this term vanishes.
+			// These are associated with the db/dt component of v.
+		m(2,1) += 2*omega*wmag*ba.kHat[1]*dot(ba.a,ba.de[i + 1]);
 		for (int j=0; j<=i; j++) {
 			int k = i - j;
 			ret(3,1) += nCr(i, j)*2*omega*wmag*ba.kHat[1]*dot(ba.db[j], ba.de[k+1]);
