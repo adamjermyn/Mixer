@@ -18,11 +18,11 @@ tS = np.pi/2
 tP = np.pi/2
 tW = np.pi/4
 N2 = 1.
-omega = 0.1
-w = 1e-4
+omega = 1e-4
+w = 0.1
 tolr = 1e-10
 tola = 1e-20
-maxEval = 100000000
+maxEval = 50000000
 
 output = np.zeros((6,6))
 output[4,3] = 1
@@ -30,7 +30,7 @@ output[1,3] = 1
 output[5,3] = 1
 output[2,3] = 1
 
-eps = 10**np.linspace(-6, -1, num=12, endpoint=True)
+eps = 10**np.linspace(-24, -14, num=16, endpoint=True)
 fi['eps'] = eps
 
 def f(x):
@@ -40,7 +40,7 @@ def f(x):
 	print(r)
 	return r
 
-pool = Pool(processes=1)
+pool = Pool(processes=4)
 results = np.array(pool.map(f, eps))
 #results = np.array(map(f, eps))
 

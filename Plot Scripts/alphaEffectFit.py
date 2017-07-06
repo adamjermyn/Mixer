@@ -12,7 +12,7 @@ from pyTurb import coeffs
 from multiprocessing import Pool
 
 
-omega = 10**np.linspace(-5, -1, endpoint=True, num=12) 
+omega = 10**np.linspace(-4.7, -2, endpoint=True, num=12) 
 
 fi = h5py.File('Data/alpha_results.dat','w')
 fi['omega'] = omega

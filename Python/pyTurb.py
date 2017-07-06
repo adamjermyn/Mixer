@@ -35,7 +35,7 @@ _turb.coeffs3sphericalSpecificBox.restype = ctypes.POINTER(ctypes.c_double)
 _turb.correlator.argtypes = [ctypes.c_double for _ in range(13)]
 _turb.correlator.restype = ctypes.POINTER(ctypes.c_double)
 
-def correlator(k, kT, kP, B, tB, pB, omega, w, tW, tS, tP, N2, eps=1e-10):
+def correlator(k, kT, kP, B, tB, pB, omega, w, tW, tS, tP, N2, eps=1e-20):
 	global _turb
 
 	res = _turb.correlator(ctypes.c_double(k),ctypes.c_double(kT),ctypes.c_double(kP),\

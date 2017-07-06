@@ -18,6 +18,12 @@ plt.figure(figsize=(6,4.3))
 
 print(w/omega)
 
+
+x, y = w/omega, r[...,3,3,0]
+y = np.abs(y)
+print(y)
+plt.loglog(x,y, label='$v_r v_r$')
+
 x, y = w/omega, r[...,4,3,0]
 y = np.abs(y)
 print(y)

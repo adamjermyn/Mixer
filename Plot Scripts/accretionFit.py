@@ -24,7 +24,7 @@ N2 = 1
 eps = 1e-20
 tolr = 1e-4
 tola = 1e-7
-maxEval = 100000000
+maxEval = 10000000
 
 
 fi = h5py.File('Data/accretion_results.dat','w')

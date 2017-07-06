@@ -24,28 +24,26 @@ print(r[...,3,4,0])
 
 plt.figure(figsize=(6,4.3))
 
-plt.subplot(121)
+plt.subplot(211)
 
 x, y = w/omega, r[...,3,4,0]
 plt.plot(x,y, label='$v_r v_\\theta$')
-plt.fill_between(x, y - r[...,3,4,1], y + r[...,3,4,1], alpha=0.5)
 x, y = w/omega, r[...,3,1,0]
 plt.plot(x,y, label='$v_r r_\\theta$')
-plt.fill_between(x, y - r[...,3,1,1], y + r[...,3,1,1], alpha=0.5)
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.ylabel('(Mixing Units)')
+plt.xscale('symlog',linthreshx=1e-2)
 #plt.yscale('log')
 plt.tight_layout()
 
-plt.subplot(122)
+plt.subplot(212)
 
 x, y = w/omega, r[...,3,5,0]
 plt.plot(x,y, label='$v_r v_\\phi$')
-plt.fill_between(x, y - r[...,3,5,1], y + r[...,3,5,1], alpha=0.5)
 x, y = w/omega, r[...,3,2,0]
+print(y)
 plt.plot(x,y, label='$v_r r_\\phi$')
-plt.fill_between(x, y - r[...,3,2,1], y + r[...,3,2,1], alpha=0.5)
 
 plt.plot(x, flux(np.pi/4,1.,'13','Omr') * (x/np.sqrt(2)) \
 			+ flux(np.pi/4,1.,'13','Omt') * (x/np.sqrt(2)) \
@@ -55,6 +53,7 @@ plt.plot(x,paperOne(w, omega)/100, label='$v_r v_\phi$ **')
 
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
+plt.xscale('symlog',linthreshx=1e-2)
 #plt.yscale('log')
 plt.tight_layout()
 

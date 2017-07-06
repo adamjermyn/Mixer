@@ -17,10 +17,10 @@ plt.figure(figsize=(6,4.3))
 
 plt.subplot(121)
 
-x, y = 1/eps, r[...,4,3,0]
+x, y = 1/eps**0.5, r[...,4,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\\theta$')
-x, y = 1/eps, r[...,1,3,0]
+x, y = 1/eps**0.5, r[...,1,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\\theta$')
 plt.xlabel('$L (h)$')
@@ -30,10 +30,12 @@ plt.tight_layout()
 
 plt.subplot(122)
 
-x, y = 1/eps, r[...,5,3,0]
+x, y = 1/eps**0.5, r[...,5,3,0]
+print(y)
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\phi$')
-x, y = 1/eps, r[...,2,3,0]
+x, y = 1/eps**0.5, r[...,2,3,0]
+print(y)
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r r_\phi$')
 plt.xlabel('$L (h)$')

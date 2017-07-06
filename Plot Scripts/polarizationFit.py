@@ -11,7 +11,7 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-B = 10**np.linspace(-2,2,num=50,endpoint=True)
+B = 10**np.linspace(-2,1,num=30,endpoint=True)
 
 fi = h5py.File('Data/polar_results.dat','w')
 fi['B'] = B
@@ -26,9 +26,9 @@ omega = 0.1
 w = 0
 N2 = -1.
 eps = 1e-20
-tolr = 1e-35
-tola = 1e-35
-maxEval = 100000000
+tolr = 1e-8
+tola = 1e-8
+maxEval = 10000000
 
 output = np.zeros((6,6))
 output[3,3] = 1

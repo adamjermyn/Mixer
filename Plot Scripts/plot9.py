@@ -17,25 +17,20 @@ fig = plt.figure(figsize=(4,3.5))
 ax = fig.add_subplot(1,1,1)
 
 x, y, yerr = B, r[...,3,5,0], r[...,3,5,1]
-y = np.abs(y)
 ax.plot(x,y,label='$v_r v_\phi$')
 ax.fill_between(x, y - yerr, y + yerr, alpha=0.5)
 x, y, yerr = B, r[...,3,3,0], r[...,3,3,1]
-y = np.abs(y)
 ax.plot(x,y,label='$v_r v_r$')
 ax.fill_between(x, y - yerr, y + yerr, alpha=0.5)
 x, y, yerr = B, r[...,3,4,0], r[...,3,4,1]
-print(y)
-y = np.abs(y)
 ax.plot(x,y,label='$v_r v_\\theta$')
 ax.fill_between(x, y - yerr, y + yerr, alpha=0.5)
 x, y, yerr = B, r[...,4,5,0], r[...,4,5,1]
-y = np.abs(y)
 ax.plot(x,y,label='$v_\phi v_\\theta$')
 ax.fill_between(x, y - yerr, y + yerr, alpha=0.5)
 
 ax.set_xscale('log')
-ax.set_yscale('log')
+ax.set_yscale('symlog', linthreshy=1e-2)
 plt.xlabel('$\\frac{B}{\Omega l \mu_0 \sqrt{\\rho}}}$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
