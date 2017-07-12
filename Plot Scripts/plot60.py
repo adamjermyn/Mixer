@@ -8,14 +8,11 @@ import h5py
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
-fi = h5py.File('Data/richardson_results.dat','r')
+fi = h5py.File('Data/richardson_results_0.dat','r')
 w = np.array(fi['w'])
 omega = np.array(fi['omega'])
 r = np.array(fi['results'])
 fi.close()
-
-r = r[w/omega < 10**(-1.5)]
-w = w[w/omega < 10**(-1.5)]
 
 plt.figure(figsize=(6,4.3))
 
@@ -56,4 +53,4 @@ plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.legend(loc='upper left')
 plt.tight_layout()
 
-plt.savefig('Plots/Plot6.pdf')
+plt.savefig('Plots/Plot60.pdf')

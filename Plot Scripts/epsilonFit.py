@@ -22,7 +22,7 @@ omega = 1e-4
 w = 0.1
 tolr = 1e-10
 tola = 1e-20
-maxEval = 50000000
+maxEval = 30000000
 
 output = np.zeros((6,6))
 output[4,3] = 1
@@ -30,7 +30,7 @@ output[1,3] = 1
 output[5,3] = 1
 output[2,3] = 1
 
-eps = 10**np.linspace(-24, -14, num=16, endpoint=True)
+eps = 10**np.linspace(-20, -2, num=12, endpoint=True)
 fi['eps'] = eps
 
 def f(x):

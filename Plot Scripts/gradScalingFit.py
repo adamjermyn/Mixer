@@ -11,8 +11,8 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-omega = 1.0
-w = omega * np.concatenate((10**np.linspace(-4,-2,num=10,endpoint=False), np.linspace(0.01,1.0 ,num=20,endpoint=True)))
+omega = 0.1
+w = omega * np.linspace(0.01,1.0 ,num=20,endpoint=True)
 
 fi = h5py.File('Data/scale_grad_results.dat','w')
 fi['omega'] = omega

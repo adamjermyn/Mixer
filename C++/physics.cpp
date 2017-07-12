@@ -105,7 +105,7 @@ void flmatrix::set_M() {
 	m(3,3) += 2*wmag*ba.kHat[1]*dot(ba.b, ba.db[1]);
 		// Second order	
 	m(2,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.a, ba.db[2]);
-	m(3,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.b, ba.db[2]); 
+	m(3,1) -= pow(wmag*ba.kHat[1],2)*dot(ba.b, ba.db[2]);
 
 }
 

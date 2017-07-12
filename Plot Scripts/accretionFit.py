@@ -11,9 +11,9 @@ import h5py
 from pyTurb import coeffs
 from multiprocessing import Pool
 
-B = 10**np.linspace(-5,1.7,num=80,endpoint=True)
+B = 10**np.linspace(-3,1.7,num=40,endpoint=True)
 
-tB = np.pi/4
+tB = 0
 pB = 0
 tS = 0
 tP = 0
@@ -24,7 +24,7 @@ N2 = 1
 eps = 1e-20
 tolr = 1e-4
 tola = 1e-7
-maxEval = 10000000
+maxEval = 30000000
 
 
 fi = h5py.File('Data/accretion_results.dat','w')
@@ -43,7 +43,7 @@ def f(x):
 	print(r)
 	return r
 
-pool = Pool(processes=4)
+pool = Pool(processes=2)
 results = np.array(pool.map(f, B))
 
 fi['results'] = results

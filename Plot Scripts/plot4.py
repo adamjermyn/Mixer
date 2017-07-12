@@ -24,7 +24,7 @@ print(r[...,3,4,0])
 
 plt.figure(figsize=(6,4.3))
 
-plt.subplot(211)
+plt.subplot(121)
 
 x, y = w/omega, r[...,3,4,0]
 plt.plot(x,y, label='$v_r v_\\theta$')
@@ -33,11 +33,9 @@ plt.plot(x,y, label='$v_r r_\\theta$')
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.ylabel('(Mixing Units)')
-plt.xscale('symlog',linthreshx=1e-2)
-#plt.yscale('log')
 plt.tight_layout()
 
-plt.subplot(212)
+plt.subplot(122)
 
 x, y = w/omega, r[...,3,5,0]
 plt.plot(x,y, label='$v_r v_\\phi$')
@@ -49,12 +47,10 @@ plt.plot(x, flux(np.pi/4,1.,'13','Omr') * (x/np.sqrt(2)) \
 			+ flux(np.pi/4,1.,'13','Omt') * (x/np.sqrt(2)) \
 			+ flux(np.pi/4,1.,'13','zero'), label='$v_r v_\phi$ *')
 
-plt.plot(x,paperOne(w, omega)/100, label='$v_r v_\phi$ **')
+plt.plot(x,paperOne(w, omega)/4, label='$v_r v_\phi$ **')
 
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
-plt.xscale('symlog',linthreshx=1e-2)
-#plt.yscale('log')
 plt.tight_layout()
 
 

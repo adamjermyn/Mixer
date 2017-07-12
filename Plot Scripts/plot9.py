@@ -30,7 +30,7 @@ ax.plot(x,y,label='$v_\phi v_\\theta$')
 ax.fill_between(x, y - yerr, y + yerr, alpha=0.5)
 
 ax.set_xscale('log')
-ax.set_yscale('symlog', linthreshy=1e-2)
+ax.set_yscale('symlog', linthreshy=1e-3)
 plt.xlabel('$\\frac{B}{\Omega l \mu_0 \sqrt{\\rho}}}$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')

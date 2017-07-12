@@ -23,7 +23,7 @@ x, y = theta, r[...,3,3,0]
 plt.plot(x,y, label='$v_r v_r$')
 x, y = theta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
-plt.plot(x, (1./3)*flux(x, 0.2, '14', 'Sr'), label='$v_r r_r$ *')
+plt.plot(x, -(1./3)*flux(x, 0.2, '14', 'Sr'), label='$v_r r_r$ *')
 plt.xlabel('$\\theta$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
@@ -49,7 +49,7 @@ x, y = theta, r[...,3,3,0]
 plt.plot(x,y, label='$v_r v_r$')
 x, y = theta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
-plt.plot(x, (1./3)*flux(x, 1.0, '14', 'Sr'), label='$v_r r_r$ *')
+plt.plot(x, -(1./3)*flux(x, 1.0, '14', 'Sr'), label='$v_r r_r$ *')
 plt.xlabel('$\\theta$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
@@ -75,7 +75,7 @@ x, y = theta, r[...,3,3,0]
 plt.plot(x,y, label='$v_r v_r$')
 x, y = theta, r[...,0,3,0]
 plt.plot(x,y, label='$v_r r_r$')
-plt.plot(x, (1./3)*flux(x, 5.0, '14', 'Sr'), label='$v_r r_r$ *')
+plt.plot(x, -(1./3)*flux(x, 5.0, '14', 'Sr'), label='$v_r r_r$ *')
 plt.xlabel('$\\theta$')
 plt.ylabel('(Mixing Units)')
 plt.legend(loc='upper left')
