@@ -63,7 +63,7 @@ def flux(tt,om,tag,mode):
         ff=-1./12.*ff
     else:
         ff=-1./15.*ff
-    return ff
+    return 9*ff
 
 # theta is co-latitude. Omega is rotation period.
 # Two usage examples:
