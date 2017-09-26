@@ -22,32 +22,32 @@ print(w/omega)
 x, y = w/omega, r[...,3,3,0]
 y = np.abs(y)
 print(y)
-plt.loglog(x,y, label='$v_r v_r$')
+plt.loglog(x,y, label='$v_r v_r (L_0^2 |N|^2)$')
 
 x, y = w/omega, r[...,4,4,0]
 y = np.abs(y)
 print(y)
-plt.loglog(x,y, label='$v_\\theta v_\\theta$')
+plt.loglog(x,y, label='$v_\\theta v_\\theta (L_0^2 |N|^2)$')
 
 x, y = w/omega, r[...,5,5,0]
 y = np.abs(y)
 print(y)
-plt.loglog(x,y, label='$v_\phi v_\phi$')
+plt.loglog(x,y, label='$v_\phi v_\phi (L_0^2 |N|^2)$')
 
 x, y = w/omega, r[...,4,5,0]
 y = np.abs(y)
 print(y)
-plt.loglog(x,y, label='$v_\\theta v_\phi$')
+plt.loglog(x,y, label='$v_\\theta v_\phi (L_0^2 |N|^2)$')
 
 
 x, y = w/omega, r[...,4,3,0]
 y = np.abs(y)
 print(y)
-plt.loglog(x,y, label='$v_r v_\\theta$')
+plt.loglog(x,y, label='$v_r v_\\theta (L_0^2 |N|^2)$')
 
 x, y = w/omega, r[...,5,3,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r v_\phi$')
+plt.loglog(x,y, label='$v_r v_\phi (L_0^2 |N|^2)$')
 
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.legend(loc='upper left')

@@ -23,18 +23,16 @@ plt.figure(figsize=(4,3.5))
 
 x, y = omega, r[...,3,5,0]
 y = np.abs(y)
-plt.loglog(x,y,label='$v_r v_\phi$')
+plt.loglog(x,y,label='$v_r v_\phi (L_0^2 |N|^2)$')
 x, y = omega, r[...,3,2,0]
 y = np.abs(y)
-plt.loglog(x,y,label='$v_r r_\phi$')
+plt.loglog(x,y,label='$v_r r_\phi (L_0^2 |N|)$')
 
 # KR comparison
-plt.plot(x[x<1], -x[x<1]*flux(np.pi/4, x[x<1], '13', 'zero'), label='$v_r r_r$ *')
+plt.plot(x, -x*flux(np.pi/4, x, '13', 'zero'), '--', label='$v_r r_r (L_0^2 |N|)$ *')
 
-
-plt.loglog(x[x<1], np.abs(paperOne(x[x<1])) / 4, label='$v_r v_\phi$ **')
+plt.loglog(x[x<1], np.abs(paperOne(x[x<1])) / 4, ':', label='$v_r v_\phi (L_0^2 |N|^2)$ **')
 plt.xlabel('$ \Omega/|N|$')
-plt.ylabel('(Mixing Units)')
 plt.legend(loc='lower left')
 
 plt.tight_layout()

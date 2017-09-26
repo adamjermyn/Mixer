@@ -19,12 +19,11 @@ ax = plt.subplot(121)
 
 x, y = 1/eps**0.5, r[...,4,3,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r v_\\theta$')
+plt.loglog(x,y, label='$v_r v_\\theta (L_0^2 |N|^2)$')
 x, y = 1/eps**0.5, r[...,1,3,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r r_\\theta$')
-plt.xlabel('$L (h)$')
-plt.ylabel('(Mixing Units)')
+plt.loglog(x,y, label='$v_r r_\\theta (L_0^2 |N|)$')
+plt.xlabel('$d (h)$')
 ax.set_xticks([1e1, 1e4, 1e7, 1e10])
 plt.legend(loc='lower right')
 plt.tight_layout()
@@ -33,11 +32,11 @@ ax = plt.subplot(122)
 
 x, y = 1/eps**0.5, r[...,5,3,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r v_\phi$')
+plt.loglog(x,y, label='$v_r v_\phi (L_0^2 |N|^2)$')
 x, y = 1/eps**0.5, r[...,2,3,0]
 y = np.abs(y)
-plt.loglog(x,y, label='$v_r r_\phi$')
-plt.xlabel('$L (h)$')
+plt.loglog(x,y, label='$v_r r_\phi (L_0^2 |N|)$')
+plt.xlabel('$d (h)$')
 ax.set_xticks([1e1, 1e4, 1e7, 1e10])
 plt.legend(loc='lower right')
 plt.tight_layout()

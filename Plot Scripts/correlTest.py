@@ -31,12 +31,13 @@ for i,t in enumerate(tRan):
 correl = np.sum(np.sum(np.abs(correl[...,2:,2:])**2, axis=-1), axis=-1)**0.5
 correl[np.abs(correl) < 1e-20] = 0
 
+import matplotlib
 import matplotlib.pyplot as plt
-plt.imshow(np.log10(np.abs(correl)), origin='lower', extent=[0,2*np.pi,0,np.pi])
+plt.imshow(np.abs(correl), origin='lower', extent=[0,2*np.pi,0,np.pi], norm=matplotlib.colors.LogNorm())
 plt.xlabel('$\phi(q)$')
 plt.ylabel('$\\theta(q)$')
 cbar = plt.colorbar()
-cbar.set_label('Squared Growth Rate')
+cbar.set_label('Square of the Growth Rate ($|N|^2$)')
 plt.show()
 
 exit()
