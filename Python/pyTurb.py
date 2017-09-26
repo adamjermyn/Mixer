@@ -234,7 +234,7 @@ def coeffs(params, output=None):
 
 		t = tree(mins, maxs, f)
 		t.allSplit(3000)
-		print(len(t.nonzero))
+#		print(len(t.nonzero))
 
 		r = np.zeros((6,6,2))
 
@@ -242,7 +242,7 @@ def coeffs(params, output=None):
 		est = sum([c.mean*c.volume for c in t.nonzero])
 		vol = sum([c.volume for c in t.nonzero])
 
-		print('VOL:',vol/(2*np.pi*np.pi),'EST:',est,'NUM:',len(t.nonzero))
+#		print('VOL:',vol/(2*np.pi*np.pi),'EST:',est,'NUM:',len(t.nonzero))
 
 		if vol/(2*np.pi*np.pi) > 0.1:
 			params3 = [mins, maxs] + params2
