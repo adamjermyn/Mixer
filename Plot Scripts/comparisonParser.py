@@ -83,26 +83,30 @@ for line in fi:
 
 	# Need to rescale. They have d=1 (box size) and h=1./6 (they have 5h in the convective region and 1h in the stable region
 	# at the boundary). We're only plotting ratios so that's fine.
-	# To fix omega note that Co = Omega * d / v_rm = 6 Omega / v_rm (in units of the scale height). We can scale this to our
-	# model by substituting our v_rm, so Omega = (v_rm / 6) * Co. Unlike Kapyla they don't use the non-rotating v_rm though,
-	# so we need to calculate our v_rm to scale it.
 
+	# We're defining the Coriolis number as Omega * h / v_rms(omega=0). They define it as 6 Omega / v_rms(omega).
+	# This means we have to recalculate it ourselves. Note that they use two different fluxes so we have to
+	# grab the appropriate non-rotating v_rms accordingly.
+
+	if ChanTable1[counter][0] == 1.0:
+		v_rms = ChanTable1[26][3]
+		print(v_rms)
+	else:
+		v_rms = ChanTable1[0][3]
+
+	co = ChanTable1[counter][1] * (1./6) / v_rms
+
+	# Finally we fix the latitutde.
 	line[2] *= np.pi # Get back into radians
 	line[2] = 90 - (180 / np.pi) * line[2] # Now turn into degrees of latitude
-	# Iterate to find Omega
-	omega = findOmega(line[2], ChanTable1[counter][5])
 
 	# Rearrange into the same format as Kapyla 2004
-	line = [omega, line[2], line[0], line[1], 0, 0, (line[3]**2+line[4]**2+line[5]**2)**0.5, line[3], line[4], line[5], 0, 0]
+	line = [co, line[2], line[0], line[1], 0, 0, (line[3]**2+line[4]**2+line[5]**2)**0.5, line[3], line[4], line[5], 0, 0]
 
 	ChanTable2.append(line)
 	counter += 1
 
 ChanTable2 = np.array(ChanTable2)
-# Average inferred rotation rates for cases which nominally have the same rotation
-nominalRots = list(set(ChanTable2[:,3]))
-for r in nominalRots:
-	ChanTable2[ChanTable2[:,3] == r, 0] = np.average(ChanTable2[ChanTable2[:,3] == r, 0])
 
 np.savetxt('Data/chan2parsed.dat', ChanTable2)
 
@@ -122,29 +126,37 @@ for line in fi:
 
 	# Need to rescale. They have d=1 (box size) and h=1./6 (they have 5h in the convective region and 1h in the stable region
 	# at the boundary). We're only plotting ratios so that's fine.
-	# To fix omega note that Co = Omega * d / v_rm = 6 Omega / v_rm (in units of the scale height). We can scale this to our
-	# model by substituting our v_rm, so Omega = (v_rm / 6) * Co. Unlike Kapyla they don't use the non-rotating v_rm though,
-	# so we need to calculate our v_rm to scale it.
 
+	# We're defining the Coriolis number as Omega * h / v_rms(omega=0). They define it as 6 Omega / v_rms(omega).
+	# This means we have to recalculate it ourselves. Note that they use two different fluxes so we have to
+	# grab the appropriate non-rotating v_rms accordingly.
+
+	if ChanTable1[counter][0] == 1.0:
+		v_rms = ChanTable1[26][3]
+		print(v_rms)
+	else:
+		v_rms = ChanTable1[0][3]
+
+	co = ChanTable1[counter][1] * (1./6) / v_rms
+
+	# Finally we fix the latitutde.
 	line[2] *= np.pi # Get back into radians
 	line[2] = 90 - (180 / np.pi) * line[2] # Now turn into degrees of latitude
-	# Iterate to find Omega
-	omega = findOmega(line[2], ChanTable1[counter][5])
 
 	# Rearrange into the same format as Kapyla 2004
-	line = [line[1], omega, line[2], line[5], line[4], line[3], ChanTable1[counter][3]]
+	line = [co, line[2], line[5], line[4], line[3], ChanTable1[counter][3]]
 
 	# Now we need to multiply by the RMS value of the relevant pair of velocities.
 	# These are in Table 2.
 
-	line[3] *= ChanTable2[counter][7]*ChanTable2[counter][9]
-	line[4] *= ChanTable2[counter][8]*ChanTable2[counter][9]
-	line[5] *= ChanTable2[counter][7]*ChanTable2[counter][8]
+	line[2] *= ChanTable2[counter][7]*ChanTable2[counter][9]
+	line[3] *= ChanTable2[counter][8]*ChanTable2[counter][9]
+	line[4] *= ChanTable2[counter][7]*ChanTable2[counter][8]
 
 	# Next we divide by the total RMS velocity.
+	line[2] /= line[-1]**2
 	line[3] /= line[-1]**2
 	line[4] /= line[-1]**2
-	line[5] /= line[-1]**2
 
 	# Finally we eliminate the last entry.
 	line = line[:-1]
@@ -153,11 +165,6 @@ for line in fi:
 	counter += 1
 
 ChanTable3 = np.array(ChanTable3)
-# Average inferred rotation rates for cases which nominally have the same rotation
-nominalRots = list(set(ChanTable3[:,0]))
-for r in nominalRots:
-	ChanTable3[ChanTable3[:,0] == r, 1] = np.average(ChanTable3[ChanTable3[:,0] == r, 1])
-ChanTable3 = ChanTable3[:,1:]
 
 np.savetxt('Data/chan3parsed.dat', ChanTable3)
 
@@ -187,9 +194,11 @@ for line in fi:
 			co = 7.0
 		elif 'Co10' in line[0]:
 			co = 10.0
-		line[0] = str(0.125*co) 	# This 0.125 is actually 0.45/2/sqrt(2) and comes from their scale height (0.45),
-									# their definition of the coriolis number,
-									# and the non-rotating RMS velocity in our model Sqrt[0.25]/0.9.
+
+		# They define the Coriolis number as 2*Omega*d/v_rms(omega=0). To convert this to ours we multiply by h/d=0.45
+		# (giving 2*Omega*h/v_rms(omega=0)) and then divide by 2. Thus we multiply by 0.45/2.
+
+		line[0] = str(0.45*co/2)
 		line = [float(num(l)) for l in line]
 		KapylaTable1.append(line)
 
@@ -211,9 +220,10 @@ for line in fi:
 			co = 1.0
 		elif 'Co10' in line[0]:
 			co = 10.0
-		line[0] = str(0.125*co) 	# This 0.125 is actually 0.45/2/sqrt(2) and comes from their scale height (0.45),
-									# their definition of the coriolis number,
-									# and the non-rotating RMS velocity in our model Sqrt[0.25]/0.9.
+		# They define the Coriolis number as 2*Omega*d/v_rms(omega=0). To convert this to ours we multiply by h/d=0.45
+		# (giving 2*Omega*h/v_rms(omega=0)) and then divide by 2. Thus we multiply by 0.45/2.
+
+		line[0] = str(0.45*co/2)
 		line = [float(num(l)) for l in line]
 		KapylaTable3.append(line)
 

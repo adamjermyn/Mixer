@@ -22,14 +22,14 @@ fi.close()
 
 print(r[...,3,4,0])
 
-plt.figure(figsize=(6,4.3))
+plt.figure(figsize=(6,5))
 
 plt.subplot(121)
 
 x, y = w/omega, r[...,3,4,0]
-plt.plot(x,y, label='$v_r v_\\theta (L_0^2 |N|^2)$')
+plt.plot(x,y, label='$v_r v_\\theta / L_0^2 |N|^2$')
 x, y = w/omega, r[...,3,1,0]
-plt.plot(x,y, label='$v_r r_\\theta (L_0^2 |N|)$')
+plt.plot(x,y, label='$v_r r_\\theta / L_0^2 |N|$')
 plt.legend(loc='upper right')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.tight_layout()
@@ -37,21 +37,21 @@ plt.tight_layout()
 plt.subplot(122)
 
 x, y = w/omega, r[...,3,5,0]
-plt.plot(x,y, label='$v_r v_\\phi (L_0^2 |N|^2)$')
+plt.plot(x,y, label='$v_r v_\\phi / L_0^2 |N|^2$')
 x, y = w/omega, r[...,3,2,0]
 print(y)
-plt.plot(x,y, label='$v_r r_\\phi (L_0^2 |N|)$')
+plt.plot(x,y, label='$v_r r_\\phi / L_0^2 |N|$')
 
 plt.plot(x, flux(np.pi/4,1.,'13','Omr') * (x/np.sqrt(2)) \
 			+ flux(np.pi/4,1.,'13','Omt') * (x/np.sqrt(2)) \
-			+ flux(np.pi/4,1.,'13','zero'), '--', label='$v_r v_\phi (L_0^2 |N|^2)$ *')
+			+ flux(np.pi/4,1.,'13','zero'), '--', label='$v_r v_\phi / L_0^2 |N|^2$ *')
 
-plt.plot(x,paperOne(w, omega)/4, ':', label='$v_r v_\phi (L_0^2 |N|^2)$ **')
+plt.plot(x,paperOne(w, omega)/4, ':', label='$v_r v_\phi / L_0^2 |N|^2$ **')
 
-plt.legend(loc='center right')
+plt.legend(loc='lower left')
 plt.xlabel('$|R\\nabla \ln \Omega |$')
 plt.tight_layout()
 
 
-plt.savefig('Plots/Plot4.pdf')
+plt.savefig('Plots/Plot4.pdf', bbox_inches='tight')
 

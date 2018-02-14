@@ -21,12 +21,13 @@ fi['w'] = w
 
 tS = np.pi/2
 tP = np.pi/2
-tW = np.pi/4
+tW = np.pi/2
+#tW = np.pi/4
 N2 = 1.
 eps = 1e-20
 tolr = 1e-5
 tola = 1e-16
-maxEval = 300000
+maxEval = 10000000
 
 output = np.zeros((6,6))
 output[3,3] = 1

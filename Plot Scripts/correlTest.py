@@ -29,16 +29,18 @@ for i,t in enumerate(tRan):
 #correl /= (w*omega)
 
 correl = np.sum(np.sum(np.abs(correl[...,2:,2:])**2, axis=-1), axis=-1)**0.5
-correl[np.abs(correl) < 1e-20] = 0
+correl[np.abs(correl) < 1e-16] = 0
 
 import matplotlib
 import matplotlib.pyplot as plt
-plt.imshow(np.abs(correl), origin='lower', extent=[0,2*np.pi,0,np.pi], norm=matplotlib.colors.LogNorm())
-plt.xlabel('$\phi(q)$')
-plt.ylabel('$\\theta(q)$')
-cbar = plt.colorbar()
-cbar.set_label('Square of the Growth Rate ($|N|^2$)')
-plt.show()
+from matplotlib import ticker
+fig, ax = plt.subplots(figsize=(4,4))
+im = ax.imshow(np.abs(correl), origin='lower', extent=[0,2*np.pi,0,np.pi], norm=matplotlib.colors.LogNorm(), aspect=2)
+ax.set_xlabel('$\phi(q)$')
+ax.set_ylabel('$\\theta(q)$')
+cbar = fig.colorbar(im, ax=ax)
+cbar.set_label('Growth Rate Squared/$|N|^2$')
+plt.savefig('Plots/growth.pdf', bbox_inches='tight')
 
 exit()
 

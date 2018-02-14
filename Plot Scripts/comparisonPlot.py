@@ -31,11 +31,24 @@ output[4,5] = 1
 output[5,3] = 1
 output[4,3] = 1
 
-def f(latitude, rotation):
+def g(latitude, rotation):
 	latitude = np.pi/2 - np.pi*latitude/180
 	params = (rotation, w, tW, latitude, latitude, N2, tolr, tola, maxEval, eps)
 	r = coeffs(params, output=output)
-	return r
+#	r = np.zeros((6,6,1))
+	return r	
+
+ret = g(0, 0)
+v_rms0 = (ret[3,3,0] + ret[4,4,0] + ret[5,5,0])**0.5
+
+def f(latitude, coriolis):
+	# This method takes as input the coriolis number, defined as
+	# Co = Omega * h / v_rms(omega=0).
+	# Therefore (using h = 1)
+	# Omega * v_rms(omega=0) * Co
+
+	rotation = v_rms0 * coriolis
+	return g(latitude, rotation)
 
 # Parse data
 
@@ -51,27 +64,29 @@ KapylaTable3 = np.loadtxt('Data/kapyla3parsed.dat')
 # These do not contain our model, just the data.
 # This contains the following panels:
 
-# Kapyla Omega = 0.013 vs. Chan - Omega = 0.000 (diagonal)
-# Kapyla Omega = 0.063 vs. Chan - Omega = 0.073 (diagonal)
-# Kapyla Omega = 0.125 vs. Chan - Omega = 0.111 (diagonal)
-# Kapyla Omega = 0.250 vs. Chan - Omega = 0.214 (diagonal)
-# Kapyla Omega = 0.500 vs. Chan - Omega = 0.486 (diagonal)
-# Kapyla Omega = 0.125 vs. Chan - Omega = 0.111 (off-diagonal)
-# Kapyla Omega = 0.125 vs. Chan - Omega = 0.214 (off-diagonal)
-# Kapyla Omega = 0.486 vs. Chan - Omega = 1.250 (off-diagonal)
+# Kapyla - Chan - Type
+# 0.022 - 0.000 - diagonal
+# 0.113 - 0.130 - diagonal
+# 0.225 - 0.260 - diagonal
+# 0.450 - 0.524 - diagonal
+# 0.900 - 1.048 - diagonal
+# 0.225 - 0.260 - off-diagonal
+# 0.225 - 0.524 - off-diagonal
+# 2.250 - 1.048 - off-diagonal
 
-compareKdiag = [0.013,0.063,0.125,0.250,0.500]
-compareCdiag = [0.000, 0.073, 0.111, 0.214, 0.486]
-compareKoffdiag = [0.125,0.125,1.250]
-compareCoffdiag = [0.111, 0.214, 0.486]
+compareKdiag = [0.022, 0.113, 0.225, 0.450, 0.900]
+compareCdiag = [0.000, 0.130, 0.260, 0.524, 1.048]
+compareKoffdiag = [0.225, 0.225, 2.250]
+compareCoffdiag = [0.260, 0.524, 1.048]
 
-fig, axes = plt.subplots(len(compareKdiag) + len(compareKoffdiag), 1, figsize=(9,24))
+fig, axes = plt.subplots(len(compareKdiag) + len(compareKoffdiag), 1, figsize=(5,12))
 
 
 latranK = np.linspace(-90,0,num=10,endpoint=True)
 latranC = np.linspace(0,90,num=10,endpoint=True)
 
 for i in range(1, len(compareKdiag) + 1):
+	print(i)
 	dataSelectedK = KapylaTable1[np.abs(KapylaTable1[:,0] - compareKdiag[i-1]) < 0.03]
 	dataSelectedC = ChanTable2[np.abs(ChanTable2[:,0] - compareCdiag[i-1]) < 0.03]
 
@@ -98,15 +113,14 @@ for i in range(1, len(compareKdiag) + 1):
 
 	axes[i-1].axvline(x=0.5, ymin=0, ymax=1, c='k')
 
-	legend = axes[i-1].legend(ncol=3, loc='upper center')
-
-	axes[i-1].text(0.02,0.05,'$\Omega/|N|$ = '+str(round(compareKdiag[i-1], 3)), transform=axes[i-1].transAxes)
-	axes[i-1].text(0.52,0.05,'$\Omega/|N|$ = '+str(round(compareCdiag[i-1], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.02,0.05,'$\mathrm{Co}$ = '+str(round(compareKdiag[i-1], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.52,0.05,'$\mathrm{Co}$ = '+str(round(compareCdiag[i-1], 3)), transform=axes[i-1].transAxes)
 	axes[i-1].grid(False)
 	axes[i-1].xaxis.set_visible(False)
 
-	axes[i-1].set_ylim([0.3,1.2])
+	axes[i-1].set_ylim([-0.1,1.1])
 	axes[i-1].set_xlim([-100,100])
+	axes[i-1].locator_params(axis='y', nbins=4)
 
 for i in range(len(compareKdiag) + 1, len(compareKdiag) + len(compareKoffdiag) + 1):
 	dataSelectedK = KapylaTable3[np.abs(KapylaTable3[:,0] - compareKoffdiag[i-1-len(compareKdiag)]) < 0.03]
@@ -142,20 +156,27 @@ for i in range(len(compareKdiag) + 1, len(compareKdiag) + len(compareKoffdiag) +
 
 	axes[i-1].axvline(x=0.5, ymin=0, ymax=1, c='k')
 
-	legend = axes[i-1].legend(ncol=3, loc='upper center')
-
-	axes[i-1].text(0.02,0.05,'$\Omega/|N|$ = '+str(round(compareKoffdiag[i-1-len(compareKdiag)], 3)), transform=axes[i-1].transAxes)
-	axes[i-1].text(0.52,0.05,'$\Omega/|N|$ = '+str(round(compareCoffdiag[i-1-len(compareKdiag)], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.02,0.05,'$\mathrm{Co}$ = '+str(round(compareKoffdiag[i-1-len(compareKdiag)], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.52,0.05,'$\mathrm{Co}$ = '+str(round(compareCoffdiag[i-1-len(compareKdiag)], 3)), transform=axes[i-1].transAxes)
 	axes[i-1].grid(False)
 
-	if i < len(compareKoffdiag):
-		axes[i-1].xaxis.set_visible(False)
+	axes[i-1].xaxis.set_visible(False)
 
-	axes[i-1].set_ylim([-0.09,0.13])
+	axes[i-1].set_ylim([-0.23,0.23])
 	axes[i-1].set_xlim([-100,100])
+	axes[i-1].locator_params(axis='y', nbins=4)
 
-axes[len(axes) - 1].set_xlabel('Latitude (degrees)')
-fig.subplots_adjust(wspace=0, hspace=0.15)
+axes[-1].xaxis.set_visible(True)
+axes[-1].set_xlabel('Latitude (degrees)')
+
+h, l = axes[-1].get_legend_handles_labels()
+# Interleave correctly
+h = [h[2*i] for i in range(3)] + [h[2*i+1] for i in range(3)]
+l = [l[2*i] for i in range(3)] + [l[2*i+1] for i in range(3)]
+legend = fig.legend(h, l, ncol=2, bbox_to_anchor=[0.91, 0.095])
+
+fig.subplots_adjust(wspace=0, hspace=0, bottom=0.13)
+
 plt.savefig('Plots/DataComparison.pdf',bbox_inches='tight')
 
 # The second plot compares <v_i^2>/<v^2> between our model and both simulations.
@@ -169,7 +190,9 @@ rots.sort()
 
 latran = np.linspace(-90, 90, num=15, endpoint=True)
 
-fig, axes = plt.subplots(len(rots), 1, figsize=(5,15))
+fig, axes = plt.subplots(len(rots)//2, 2, figsize=(10,12))
+ 
+axes = [b for a in axes for b in a]
 
 for i in range(1,len(rots) + 1):
 	dataSelected = data[np.abs(data[:,0] - rots[i-1]) < 1e-3]
@@ -187,19 +210,23 @@ for i in range(1,len(rots) + 1):
 	a1, = axes[i-1].plot(latran, (res[:,5,5,0]/netV)**0.5, label='$v_\phi/v$')
 	axes[i-1].scatter(dataSelected[:,1], dataSelected[:,8]/dataSelected[:,6], c=a1.get_color())
 
-	axes[i-1].text(0.02,0.05,'$\Omega/|N|$ = '+str(round(rots[i-1], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.02,0.05,'$\mathrm{Co}$ = '+str(round(rots[i-1], 3)), transform=axes[i-1].transAxes)
 	axes[i-1].grid(False)
 
-	if i < len(rots):
+	if i < len(rots) - 1:
 		axes[i-1].xaxis.set_visible(False)
-	if i == 1:
-		axes[i-1].legend(loc='upper left')
-	axes[i-1].set_ylim([0,1])
+	axes[i-1].set_ylim([-0.07,1.07])
 	axes[i-1].set_xlim([-100,100])
+	axes[i-1].locator_params(axis='y', nbins=4)
+	axes[i-1].spines['top'].set_visible(False)
 
-axes[len(rots) - 1].set_xlabel('Latitude (degrees)')
+axes[-1].set_xlabel('Latitude (degrees)')
+axes[-2].set_xlabel('Latitude (degrees)')
 
-fig.subplots_adjust(wspace=0, hspace=0.15)
+h, l = axes[-1].get_legend_handles_labels()
+legend = fig.legend(h, l, ncol=3, loc='lower center')
+
+fig.subplots_adjust(wspace=0.12, hspace=0, bottom=0.09)
 plt.savefig('Plots/DiagonalComparison.pdf',bbox_inches='tight')
 
 # The third plot compares <v_i v_j> / <v^2> for i != j between our model and both simulations.
@@ -210,7 +237,7 @@ data = np.array(list(KapylaTable3) + list(ChanTable3))
 rots = list(set(data[:,0]))
 rots.sort()
 
-fig, axes = plt.subplots(len(rots), 1, figsize=(5,15))
+fig, axes = plt.subplots(len(rots), 1, figsize=(5,12))
 
 latran = np.linspace(-90, 90, num=15, endpoint=True)
 
@@ -229,19 +256,23 @@ for i in range(1,len(rots)+1):
 	a1, = axes[i-1].plot(latran, res[:,4,5,0]/netV, label='$v_\\theta v_\phi / v^2 $')
 	axes[i-1].scatter(dataSelected[:,1], dataSelected[:,2], c=a1.get_color())
 
-	axes[i-1].text(0.02,0.05,'$\Omega/|N|$ = '+str(round(rots[i-1], 3)), transform=axes[i-1].transAxes)
+	axes[i-1].text(0.02,0.05,'$\mathrm{Co}$ = '+str(round(rots[i-1], 3)), transform=axes[i-1].transAxes)
 	axes[i-1].grid(False)
 
 	axes[i-1].set_xlim([-100,100])
-	axes[i-1].set_ylim([-0.2,0.2])
+	axes[i-1].set_ylim([-0.23,0.23])
+
+	axes[i-1].locator_params(axis='y', nbins=5)
+	axes[i-1].spines['top'].set_visible(False)
 
 	if i == 1:
 		axes[i-1].legend(loc='upper left')
 	if i < len(rots):
+		axes[i-1].spines['bottom'].set_visible(False)
 		axes[i-1].xaxis.set_visible(False)
 
 axes[len(rots) - 1].set_xlabel('Latitude (degrees)')
-fig.subplots_adjust(wspace=0, hspace=0.15)
+fig.subplots_adjust(wspace=0, hspace=0.0  )
 plt.savefig('Plots/OffDiagonalComparison.pdf',bbox_inches='tight')
 
 
