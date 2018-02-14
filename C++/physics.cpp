@@ -194,6 +194,7 @@ void flmatrix::compute_eigensystem() {
 	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
 
 	Matrix1 a = m + q;
+//	Matrix1 a = m; // For computing without perturbative corrections.
 
 	es.compute(a);
 	eigvecs = 1.*es.eigenvectors();
