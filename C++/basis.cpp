@@ -69,7 +69,7 @@ void basis::set_k(double kT, double kP) {
 
 	// And finally we counter-rotate
 	rotY(-tW, a);
-	for (int i=0;i<maxOrder + 1;i++) {
+	for (int i=0;i<=maxOrder + 2;i++) {
 		rotY(-tW, dk[i]);
 		rotY(-tW, db[i]);
 	}
@@ -84,7 +84,7 @@ void basis::set_k(double kT, double kP) {
 	cross(zhat,b,e);
 
 	// Now we can just use the definitions of these vectors.
-	for(int i=0;i<maxOrder + 2;i++) {
+	for(int i=0;i<=maxOrder + 2;i++) {
 		cross(zhat, db[i], de[i]);
 	}
 
