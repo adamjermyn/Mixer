@@ -31,14 +31,13 @@ then interpreted as (R,0,z), which is correct.
 */
 
 flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double omegaa, double epss) {
+		, double N22, double omegaa, double epss, int ord) {
 	// tB, pB, tW, tS, tP are all dimensionless
 	// omegaa amd w have units of rad/s
 	// N22 has units of 1/s^2
 	// B has units of 1/s/(k_mix)
 	// Put vectors in cartesian coordinates with x-hat = R-hat, y-hat = phi-hat, and z-hat = z-hat
-		
-
+	
 	sphericalToCartesian(B,tB,pB,va);
 	sphericalToCartesian(1,tS,0,entHat);
 	sphericalToCartesian(1,tP,0,presHat);
@@ -179,22 +178,21 @@ void flmatrix::compute_eigensystem() {
 
 	Matrix1 tempPow = Matrix1::Identity();
 
-	for (int i=maxOrder - 1;i>=0;i--) {
-		RHS += nCr(maxOrder - 1, i) * derivative(i) * tempPow;
+	for (int i=order - 1;i>=0;i--) {
+		RHS += nCr(order - 1, i) * derivative(i) * tempPow;
 		tempPow = tempPow * m;
 	}
 
 	tempPow = Matrix1::Identity();
 
-	for (int i=maxOrder;i>=0;i--) {
-		LHS += (nCr(maxOrder, i) - nCr(maxOrder - 1, i)) * derivative(i) * tempPow;
+	for (int i=order;i>=0;i--) {
+		LHS += (nCr(order, i) - nCr(order - 1, i)) * derivative(i) * tempPow;
 		tempPow = tempPow * m;
 	}
 
 	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
 
 	Matrix1 a = m + q;
-//	Matrix1 a = m; // For computing without perturbative corrections.
 
 	es.compute(a);
 	eigvecs = 1.*es.eigenvectors();
