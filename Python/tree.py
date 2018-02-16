@@ -1,6 +1,6 @@
 import itertools as it
 import numpy as np
-from Queue import PriorityQueue
+#from Queue import PriorityQueue
 
 
 class cube:
