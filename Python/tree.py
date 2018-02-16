@@ -1,7 +1,7 @@
 import itertools as it
 import numpy as np
 #from Queue import PriorityQueue
-
+from queue import PriorityQueue
 
 class cube:
 	def __init__(self, mins, maxs, func, vals):
