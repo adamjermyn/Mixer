@@ -197,10 +197,10 @@ void flmatrix::compute_eigensystem() {
 
 	if (order > 0) {
 		q = RHS.colPivHouseholderQr().solve(LHS);
-		a = m + q;
 	} else {
-		a = m;
+		q = Matrix1::Zero();
 	}
+	a = m + q;
 
 	es.compute(a);
 	eigvecs = 1.*es.eigenvectors();
