@@ -23,9 +23,11 @@ N2 = 1.
 
 maxOrder = 16
 
+plt.figure(figsize=(12,12))
+
 for q in range(maxOrder):
-	tRan = np.linspace(0, np.pi, num=100, endpoint=True)
-	pRan = np.linspace(0, 2*np.pi, num=100, endpoint=True)
+	tRan = np.linspace(0, np.pi, num=200, endpoint=True)
+	pRan = np.linspace(0, 2*np.pi, num=200, endpoint=True)
 
 	correl = np.zeros((len(tRan), len(pRan), 4, 4))
 	for i,t in enumerate(tRan):
