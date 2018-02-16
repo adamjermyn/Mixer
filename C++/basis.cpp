@@ -56,6 +56,7 @@ void basis::set_k(double kT, double kP) {
 
 	cross(kTemp, a, db[0]);
 
+	// Derivatives
 	for (int i=1;i<=maxOrder+2;i++) {
 		dk[i][0] = gsl_sf_fact(i) * cos(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
 		dk[i][1] = gsl_sf_fact(i) * sin(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
