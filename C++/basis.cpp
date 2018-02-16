@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <gsl/gsl_sf_legendre.h>
-#include <gsl/gsl_sf_fact.h>
+#include <gsl/gsl_sf_gamma.h>
 
 // -------------------------------------
 
@@ -59,7 +59,7 @@ void basis::set_k(double kT, double kP) {
 	for (int i=1;i<=maxOrder+2;i++) {
 		dk[i][0] = gsl_sf_fact(i) * cos(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
 		dk[i][1] = gsl_sf_fact(i) * sin(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
-		dk[i][2] = gsl_sf_fact(i) * (cos(t) * gsl_sf_legendre_Pl(i, -cos(t)) + gsl_sf_legendrePl(i-1, -cos(t)));
+		dk[i][2] = gsl_sf_fact(i) * (cos(t) * gsl_sf_legendre_Pl(i, -cos(t)) + gsl_sf_legendre_Pl(i-1, -cos(t)));
 
 		db[i][0] = cos(p) * (gsl_sf_legendre_Pl(i-1, -cos(t)) + cos(t) * gsl_sf_legendre_Pl(i, -cos(t)));
 		db[i][1] = sin(p) * (gsl_sf_legendre_Pl(i-1, -cos(t)) + cos(t) * gsl_sf_legendre_Pl(i, -cos(t)));
