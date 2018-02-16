@@ -50,6 +50,8 @@ flmatrix::flmatrix(double B, double tB, double pB, double w, double tW, double t
 
 	eps =  epss;
 
+	order = ord;
+
 	// Compute transition wavenumber
 	double compFactor = max(abs(wmag),sqrt(abs(N2))); 
 	transK = max(1.0,compFactor / sqrt(dot(va,va)+eps)); 
@@ -190,9 +192,15 @@ void flmatrix::compute_eigensystem() {
 		tempPow = tempPow * m;
 	}
 
-	Matrix1 q = RHS.colPivHouseholderQr().solve(LHS);
+	Matrix1 a;
+	Matrix1 q;
 
-	Matrix1 a = m + q;
+	if (order > 0) {
+		q = RHS.colPivHouseholderQr().solve(LHS);
+		a = m + q;
+	} else {
+		a = m;
+	}
 
 	es.compute(a);
 	eigvecs = 1.*es.eigenvectors();
