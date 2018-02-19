@@ -49,7 +49,7 @@ TEST_CASE("MRI Dispersion Relation","[MRI]") {
 		w = -3*omegaa/2;
 
 		// Construct matrix
-		flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa);
+		flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa,1);
 
 		// Align k with z
 		f.set_k(1,0,0);
@@ -98,8 +98,8 @@ TEST_CASE("MRI Dispersion Relation Invariance","[MRI-Invariance]") {
 		w = -3*omegaa/2;
 
 		// Construct matrices
-		flmatrix f1 = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa);
-		flmatrix f2 = flmatrix(B,tB,pB,-w,3*tW,tS,tP,N22,omegaa);
+		flmatrix f1 = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa,1);
+		flmatrix f2 = flmatrix(B,tB,pB,-w,3*tW,tS,tP,N22,omegaa,1);
 
 		// Random k
 		k = 10*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);

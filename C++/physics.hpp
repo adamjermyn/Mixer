@@ -67,6 +67,7 @@ public:
 	double transK;
 
 	// Convergence parameters
+	int order;
 	double eps;
 
 
@@ -85,7 +86,7 @@ public:
 
 	// Constructor
 	flmatrix(double B, double tB, double pB, double w, double tW, double tS, double tP
-		, double N22, double omegaa, double epss);
+		, double N22, double omegaa, double epss, int ord);
 
 	void set_vecs();
 

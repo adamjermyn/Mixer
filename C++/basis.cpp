@@ -8,6 +8,8 @@
 #include "linalg.hpp"
 
 #include <iostream>
+#include <gsl/gsl_sf_legendre.h>
+#include <gsl/gsl_sf_gamma.h>
 
 // -------------------------------------
 
@@ -51,44 +53,24 @@ void basis::set_k(double kT, double kP) {
 	dk[0][0] = kTemp[0];
 	dk[0][1] = kTemp[1];
 	dk[0][2] = kTemp[2];
-	if (maxOrder >= -1) {
-		dk[1][0] = -cos(p)*cos(t)*sin(t);
-		dk[1][1] = -cos(t)*sin(p)*sin(t);
-		dk[1][2] = sin(t)*sin(t);
-	}
-	if (maxOrder >= 0) {
-		dk[2][0] = 0.5*cos(p)*(1+3*cos(2*t))*sin(t);
-		dk[2][1] = 0.5*(1+3*cos(2*t))*sin(p)*sin(t);
-		dk[2][2] = -3*cos(t)*sin(t)*sin(t);
-	}
-	if (maxOrder >= 1) {
-		dk[3][0] = -1.5*cos(p)*cos(t)*(5*cos(2*t) - 1)*sin(t);
-		dk[3][1] = -1.5*cos(t)*(5*cos(2*t) - 1)*sin(p)*sin(t);
-		dk[3][2] = 1.5*(5*cos(2*t) + 3)*sin(t)*sin(t);
-	}
 
 	cross(kTemp, a, db[0]);
 
+	// Derivatives
+	for (int i=1;i<=maxOrder+2;i++) {
+		dk[i][0] = gsl_sf_fact(i) * cos(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
+		dk[i][1] = gsl_sf_fact(i) * sin(p) * gsl_sf_legendre_Pl(i, -cos(t)) * sin(t);
+		dk[i][2] = gsl_sf_fact(i) * (cos(t) * gsl_sf_legendre_Pl(i, -cos(t)) + gsl_sf_legendre_Pl(i-1, -cos(t)));
 
-	if (maxOrder >= -1) {
-		db[1][0] = cos(p)*pow(sin(t),2);
-		db[1][1] = sin(p)*pow(sin(t),2);
-		db[1][2] = cos(t)*sin(t);
+		db[i][0] = cos(p) * (gsl_sf_legendre_Pl(i-1, -cos(t)) + cos(t) * gsl_sf_legendre_Pl(i, -cos(t)));
+		db[i][1] = sin(p) * (gsl_sf_legendre_Pl(i-1, -cos(t)) + cos(t) * gsl_sf_legendre_Pl(i, -cos(t)));
+		db[i][2] = -sin(t) * gsl_sf_legendre_Pl(i, -cos(t));
 	}
-	if (maxOrder >= 0) {
-		db[2][0] = -3*cos(p)*cos(t)*pow(sin(t),2);
-		db[2][1] = -3*sin(p)*cos(t)*pow(sin(t),2);
-		db[2][2] = (1-3*pow(cos(t),2))*sin(t);
-	}
-	if (maxOrder >= 1) {	
-		db[3][0] = 1.5*cos(p)*(3+5*cos(2*t))*pow(sin(t),2);
-		db[3][1] = 1.5*sin(p)*(3+5*cos(2*t))*pow(sin(t),2);
-		db[3][2] = 3*cos(t)*sin(t)*(-3+5*pow(cos(t),2));
-	}
+
 
 	// And finally we counter-rotate
 	rotY(-tW, a);
-	for (int i=0;i<maxOrder + 1;i++) {
+	for (int i=0;i<=maxOrder + 2;i++) {
 		rotY(-tW, dk[i]);
 		rotY(-tW, db[i]);
 	}
@@ -103,7 +85,7 @@ void basis::set_k(double kT, double kP) {
 	cross(zhat,b,e);
 
 	// Now we can just use the definitions of these vectors.
-	for(int i=0;i<maxOrder + 2;i++) {
+	for(int i=0;i<=maxOrder + 2;i++) {
 		cross(zhat, db[i], de[i]);
 	}
 

@@ -46,7 +46,7 @@ int main() {
 		output[i] = 1;
 	}
 	
-	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,omega);
+	flmatrix f(B,tB,pB,w,tW,tS,tP,N2,omega,1);
 	f.theta = 1.57;
 	f.output = output;
 	integral(36,&F,&f,intDim,transform_aa,transform_bb,maxEval, tolr, tola ,ERROR_INDIVIDUAL,

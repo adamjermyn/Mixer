@@ -49,7 +49,7 @@ and the inner product of dk and wHat as dkw.
 
 // -------------------------------------
 
-const int maxOrder = 1;
+const int maxOrder = 20;
 const double zhat[3] = {0,0,1};
 
 // -------------------------------------

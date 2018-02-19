@@ -44,7 +44,7 @@ TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
 	double N22 = 0;
 
 	// Construct matrix
-	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa,1);
 
 	double kappa = 4*pow(omegaa,2) + 2*omegaa*w;
 
@@ -60,7 +60,7 @@ TEST_CASE("Rotational Shear Dispersion Relation","[rot]") {
 	// Anti-Keplerian case
 	w = 3*omegaa/2;
 
-	flmatrix g = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa);
+	flmatrix g = flmatrix(B,tB,pB,w,tW,tS,tP,N22,omegaa,1);
 
 	kappa = 4*pow(omegaa,2) + 2*omegaa*w;
 

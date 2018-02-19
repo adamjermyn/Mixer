@@ -70,7 +70,7 @@ TEST_CASE("Turbulent Matrix Initialisation","[flmatrixInit]") {
 	double chii = 0.01;
 	double omegaa = 1;
 
-	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa,1);
 
 	f.set_k(1,1,1);
 
@@ -181,7 +181,7 @@ TEST_CASE("Turbulent Matrix Crossover Wavevector","[TransK]") {
 	double chii = 0.01;
 	double omegaa = 1;
 
-	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
+	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa,1);
 
 	REQUIRE(abs(f.transK-1) <= tol);
 
@@ -219,58 +219,3 @@ TEST_CASE("Turbulent Matrix Crossover Wavevector","[TransK]") {
 
 }
 
-
-/* TODO: Write this test
-TEST_CASE("Turbulent Matrix Diagonalisation","[TransK]") {
-	double tol = 3*eps;
-
-	double B = 1;
-	double tB = 0;
-	double pB = 0;
-	double tW = 1;
-	double w = 1;
-	double tS = 1;
-	double tP = 1;
-	double N22 = -1;
-	double chii = 0.01;
-	double omegaa = 1;
-
-	flmatrix f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
-
-	REQUIRE(abs(f.transK-1) <= tol);
-
-	for (double k=0.001;k<=1;k+=0.001) {
-		REQUIRE(abs(f.computeKfromKA(k)-pow(k,1/pow2)) < tol*pow(k,1/pow2)/k);
-	}
-
-	B = 10;
-	
-	f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
-
-	REQUIRE(abs(f.transK-1) <= tol);
-
-	for (double k=0.001;k<=1;k+=0.001) {
-		REQUIRE(abs(f.computeKfromKA(k)-pow(k,1/pow2)) < tol*pow(k,1/pow2)/k);
-	}
-
-	for (int i=0;i<100;i++) {
-		B = static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-
-		f = flmatrix(B,tB,pB,w,tW,tS,tP,N22,chii,omegaa);
-
-		REQUIRE(abs(f.transK-1/B) <= 4*pow(B,-3)*tol);
-
-		for (int i=0;i<100;i++) {
-			double x = 1+1000*static_cast <double> (rand()) / static_cast <double> (RAND_MAX);
-			if (x < f.transK) {
-				REQUIRE(abs(f.computeKfromKA(pow(x,pow1))-x) < x*tol);
-			} else {
-				REQUIRE(abs(f.computeKfromKA(pow(f.transK,pow1)*pow(x/f.transK,pow2))-x)<2*f.transK*tol);
-			}
-		}
-
-	}
-	cout << (eigvecs*eigvals*leftvecs).real() - m << endl;
-
-}
-*/
