@@ -3,12 +3,17 @@ import numpy as np
 #from Queue import PriorityQueue
 from queue import PriorityQueue
 
+counter = 0
+
 class cube:
 	def __init__(self, mins, maxs, func, vals):
+		global counter
 		self.mins = mins
 		self.maxs = maxs
 		self.func = func
 		self.vals = vals
+		self.id = counter
+		counter += 1
 
 		self.pts = list(it.product(*[[mins[i], maxs[i]] for i in range(len(mins))]))
 
@@ -82,7 +87,7 @@ class tree:
 		self.toSplit = PriorityQueue()
 
 		self.cubes.append(top)
-		self.toSplit.put((-top.num, -np.product(np.array(maxs)-np.array(mins)), top))
+		self.toSplit.put((-top.num, -np.product(np.array(maxs)-np.array(mins)), top.id, top))
 
 
 	@property
@@ -98,13 +103,13 @@ class tree:
 	    return sum([c.volume for c in self.nonzero])	
 
 	def split(self):
-		_,_,c = self.toSplit.get()
+		_,_,_,c = self.toSplit.get()
 		i = c.whichSplit()
 		c1, c2 = c.split(i)
 		if c1.num < 2**len(c.mins) and c1.volume > self.tol or c1.num == 0:
-			self.toSplit.put((-c1.num, -c1.volume, c1))
+			self.toSplit.put((-c1.num, -c1.volume, c1.id, c1))
 		if c2.num < 2**len(c.mins) and c2.volume > self.tol or c2.num == 0:
-			self.toSplit.put((-c2.num, -c2.volume, c2))
+			self.toSplit.put((-c2.num, -c2.volume, c2.id, c2))
 		self.cubes.remove(c)
 		self.cubes.append(c1)
 		self.cubes.append(c2)
