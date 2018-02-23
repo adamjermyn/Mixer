@@ -38,8 +38,8 @@ void basis::set_k(double kT, double kP) {
 
 	// First we rotate the coordinate system about the middle
 	// axis so that wHat = zHat.
-	rotY(tW, kTemp);
-
+	rotY(-tW, kTemp);
+	
 	// Next we extract the spherical angles of kTemp in this new
 	// coordinate system.
 	double t = acos(kTemp[2]);
@@ -69,10 +69,10 @@ void basis::set_k(double kT, double kP) {
 
 
 	// And finally we counter-rotate
-	rotY(-tW, a);
+	rotY(tW, a);
 	for (int i=0;i<=maxOrder + 2;i++) {
-		rotY(-tW, dk[i]);
-		rotY(-tW, db[i]);
+		rotY(tW, dk[i]);
+		rotY(tW, db[i]);
 	}
 
 	// Now a is orthogonal to both kHat and wHat, so
