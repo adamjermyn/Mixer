@@ -37,17 +37,6 @@ y = np.abs(y)
 print(y)
 plt.loglog(x,y, label='$v_\phi v_\phi / L_0^2 |N|^2$')
 
-x, y = w/omega, r[...,4,5,0]
-y = np.abs(y)
-print(y)
-plt.loglog(x,y, label='$v_\\theta v_\phi / L_0^2 |N|^2$')
-
-
-x, y = w/omega, r[...,4,3,0]
-y = np.abs(y)
-print(y)
-plt.loglog(x,y, label='$v_r v_\\theta / L_0^2 |N|^2$')
-
 x, y = w/omega, r[...,5,3,0]
 y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\phi / L_0^2 |N|^2$')

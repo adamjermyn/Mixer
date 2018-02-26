@@ -40,7 +40,7 @@ x, y = w/omega, r[...,3,5,0]
 plt.plot(x,y, label='$v_r v_\\phi / L_0^2 |N|^2$')
 x, y = w/omega, r[...,3,2,0]
 print(y)
-plt.plot(x,y, label='$v_r r_\\phi / L_0^2 |N|$')
+plt.plot(x,y/10, label='$v_r r_\\phi / 10 L_0^2 |N|$')
 
 plt.plot(x, flux(np.pi/4,1.,'13','Omr') * (x/np.sqrt(2)) \
 			+ flux(np.pi/4,1.,'13','Omt') * (x/np.sqrt(2)) \
