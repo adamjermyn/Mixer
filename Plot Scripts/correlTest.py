@@ -23,7 +23,7 @@ pRan = np.linspace(0, 2*np.pi, num=400, endpoint=True)
 correl = np.zeros((len(tRan), len(pRan), 4, 4))
 for i,t in enumerate(tRan):
 	for j,p in enumerate(pRan):
-		correl[i,j] = correlator(1., t, p, 0, 0, 0, omega, w, tW, tS, tP, N2, eps=1e-20, order=0)
+		correl[i,j] = correlator(1., t, p, 0, 0, 0, omega, w, tW, tS, tP, N2, eps=1e-20, order=1)
 #		correl[i,j] -= correlator(1., t, p, 0, 0, 0, omega, w, tW, tS, tP, N2, eps=1e-20)
 
 #correl /= (w*omega)
@@ -40,7 +40,7 @@ ax.set_xlabel('$\phi(q)$')
 ax.set_ylabel('$\\theta(q)$')
 cbar = fig.colorbar(im, ax=ax)
 cbar.set_label('Growth Rate Squared/$|N|^2$')
-plt.savefig('Plots/growth.pdf', bbox_inches='tight')
+plt.savefig('Plots/growth_1.pdf', bbox_inches='tight')
 
 exit()
 
