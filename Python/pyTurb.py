@@ -233,7 +233,7 @@ def coeffs(params, output=None, order=1):
 
 
 		t = tree(mins, maxs, f)
-		t.allSplit(3000)
+		t.allSplit(1000)
 
 		r = np.zeros((6,6,2))
 
