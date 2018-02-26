@@ -3,17 +3,17 @@ import numpy as np
 #from Queue import PriorityQueue
 from queue import PriorityQueue
 
-counter = 0
+id_counter = 0
 
 class cube:
 	def __init__(self, mins, maxs, func, vals):
-		global counter
+		global id_counter
 		self.mins = mins
 		self.maxs = maxs
 		self.func = func
 		self.vals = vals
-		self.id = counter
-		counter += 1
+		self.id = id_counter
+		id_counter += 1
 
 		self.pts = list(it.product(*[[mins[i], maxs[i]] for i in range(len(mins))]))
 
