@@ -22,7 +22,7 @@ omega = 1e-4
 w = 0.1
 tolr = 1e-10
 tola = 1e-20
-maxEval = 30000000
+maxEval = 3000000
 
 output = np.zeros((6,6))
 output[4,3] = 1
@@ -30,13 +30,13 @@ output[1,3] = 1
 output[5,3] = 1
 output[2,3] = 1
 
-eps = 10**np.linspace(-20, -2, num=12, endpoint=True)
+eps = 10**np.linspace(-20, -2, num=40, endpoint=True)
 fi['eps'] = eps
 
 def f(x):
-	print(x)
 	params = (omega, w, tW, tS, tP, N2, tolr, tola, maxEval, x)
 	r = coeffs(params, output=output)
+	print(x)
 	print(r)
 	return r
 

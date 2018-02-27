@@ -123,3 +123,4 @@ class tree:
 		while not self.toSplit.empty() and counter < maxSplits:
 			self.split()
 			counter += 1
+

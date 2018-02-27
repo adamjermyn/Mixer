@@ -24,22 +24,22 @@ tP = np.pi/2
 tW = np.pi/4
 N2 = 1.
 eps = 1e-20
-tolr = 1e-5
-tola = 1e-16
-maxEval = 10000000
+tolr = 1e-8
+tola = 1e-20
+maxEval = 30000000
 
 output = np.zeros((6,6))
 output[3,3] = 1
 output[4,4] = 1
 output[5,5] = 1
-output[4,3] = 1
 output[5,3] = 1
+output[4,3] = 1
 output[4,5] = 1
 
 def f(x):
-	print(x)
 	params = (omega, x, tW, tS, tP, N2, tolr, tola, maxEval, eps)
 	r = coeffs(params, output=output)
+	print(x)
 	print(r)
 	return r
 

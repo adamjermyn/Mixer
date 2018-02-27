@@ -190,8 +190,14 @@ def coeffs(params, output=None, order=1):
 		if len(params) == 9:
 			params = [params[4]] + list(params)
 			r = coeffs2spherical(*params, order=order)
+		elif len(params) == 10:
+			params = list(params)
+			r = coeffs2spherical(*params, order=order)
 		elif len(params) == 12:
 			params = [params[7]] + list(params)
+			r = coeffs3spherical(*params, order=order)
+		elif len(params) == 13:
+			params = list(params)
 			r = coeffs3spherical(*params, order=order)
 		else:
 			raise NotImplementedError('Number of parameters does not match any known specification.')
@@ -207,8 +213,18 @@ def coeffs(params, output=None, order=1):
 			mins = [0.,0.]
 			maxs = [np.pi,2*np.pi]
 			co = lambda x: coeffs2sphericalSpecificBox(*x, order=order)
+		elif len(params) == 11:
+			params2 = [output2] + list(params)
+			mins = [0.,0.]
+			maxs = [np.pi,2*np.pi]
+			co = lambda x: coeffs2sphericalSpecificBox(*x, order=order)
 		elif len(params) == 13:
 			params2 = [output2, params[7]] + list(params)
+			mins = [0.,0.,0.]
+			maxs = [1.,np.pi,2*np.pi]
+			co = lambda x: coeffs3sphericalSpecificBox(*x, order=order)
+		elif len(params) == 14:
+			params2 = [output2] + list(params)
 			mins = [0.,0.,0.]
 			maxs = [1.,np.pi,2*np.pi]
 			co = lambda x: coeffs3sphericalSpecificBox(*x, order=order)
@@ -218,9 +234,9 @@ def coeffs(params, output=None, order=1):
 
 		def f(x):
 			c = None
-			if len(params) == 10:
+			if len(params) == 10 or len(params) == 11:
 				c = correlator(1., x[0], x[1], 0, 0, 0, params[0], params[1], params[2], params[3], params[4], params[5], params[6], order=order)
-			elif len(params) == 13:
+			elif len(params) == 13 or len(params) == 14:
 				c = correlator(x[0], x[1], x[2], params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9], order=order)
 			else:
 				raise NotImplementedError('Number of parameters does not match any known specification.')
@@ -240,6 +256,8 @@ def coeffs(params, output=None, order=1):
 		# For determining the number of evals
 		est = sum([c.mean*c.volume for c in t.nonzero])
 		vol = sum([c.volume for c in t.nonzero])
+
+		print(vol/(2*np.pi*np.pi))
 
 		if vol/(2*np.pi*np.pi) > 0.1:
 			params3 = [mins, maxs] + params2
