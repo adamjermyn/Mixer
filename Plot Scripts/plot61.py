@@ -49,7 +49,7 @@ y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_\phi / L_0^2 |N|^2$')
 
 plt.xlabel('$|R\\nabla \ln \Omega |$')
-plt.legend(loc='lower right')
+plt.legend(loc='upper left')
 plt.tight_layout()
 
 plt.savefig('Plots/Plot61.pdf', bbox_inches='tight')

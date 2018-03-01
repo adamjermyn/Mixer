@@ -12,7 +12,7 @@ from pyTurb import coeffs
 from multiprocessing import Pool
 
 
-omega = 10**np.linspace(-3,3,num=20,endpoint=True)
+omega = 10**np.linspace(-3,3,num=200,endpoint=True)
 w = 0.1
 
 fi = h5py.File('Data/richardson_results_2.dat','w')
@@ -27,7 +27,7 @@ N2 = 1.
 eps = 1e-20
 tolr = 1e-7
 tola = 1e-25
-maxEval = 300000
+maxEval = 100000000
 
 output = np.zeros((6,6))
 output[3,3] = 1

@@ -1,10 +1,14 @@
 #/bin/bash
+python alphaEffectFit.py
 python baroFit.py
 python scalingFit.py
 python gradScalingFit.py
-python accretionFit.py
-python alphaEffectFit.py
-python polarizationFit.py
 python richardsonFit.py
+python richardsonFit_0.py
+python richardsonFit_1.py
+python richardsonFit_2.py
 python latitudeFit.py
 python epsilonFit.py
+python polarizationFit.py
+python accretionFit.py
+

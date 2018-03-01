@@ -18,18 +18,18 @@ plt.figure(figsize=(5,5))
 
 
 x, y = omega, r[...,3,3,0]
-y = np.abs(y)
 print(y)
+y = np.abs(y)
 plt.loglog(x,y, label='$v_r v_r / L_0^2 |N|^2$')
 
 x, y = omega, r[...,4,4,0]
-y = np.abs(y)
 print(y)
+y = np.abs(y)
 plt.loglog(x,y, label='$v_\\theta v_\\theta / L_0^2 |N|^2$')
 
 x, y = omega, r[...,5,5,0]
-y = np.abs(y)
 print(y)
+y = np.abs(y)
 plt.loglog(x,y, label='$v_\phi v_\phi / L_0^2 |N|^2$')
 
 x, y = omega, r[...,5,3,0]
